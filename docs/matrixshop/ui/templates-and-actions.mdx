@@ -1,0 +1,155 @@
+---
+title: UI 模板与动作
+sidebar_position: 1
+description: layout、icons、template、商品槽位和动作语法。
+---
+
+# UI 模板与动作
+
+MatrixShop 的大多数菜单都由 YAML UI 文件驱动。
+
+## 1. 基础结构
+
+```yml
+title: '&8示例菜单'
+
+layout:
+  - '#########'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '##P#X#N##'
+
+icons:
+  '#':
+    material: 'minecraft:gray_stained_glass_pane'
+    name: ' '
+  'P':
+    material: 'minecraft:arrow'
+    name: '&a上一页'
+    actions:
+      - 'page pre'
+  'N':
+    material: 'minecraft:arrow'
+    name: '&a下一页'
+    actions:
+      - 'page next'
+  'X':
+    material: 'minecraft:barrier'
+    name: '&c关闭'
+    actions:
+      - 'menu close'
+
+template:
+  name: '{name}'
+  lore:
+    - '&7售价: &f{price} {currency_name}'
+    - '&7余额: &f{balance} {currency_name}'
+    - '{lore}'
+```
+
+## 2. `layout`
+
+每一行最多 9 个字符。  
+不同字符映射到不同图标或商品槽。
+
+常见商品槽写法：
+
+- `@`
+- `g`
+- `G`
+- `goods-slot: true`
+
+## 3. `icons`
+
+每个字符都可以定义为一个按钮：
+
+```yml
+'P':
+  material: 'minecraft:arrow'
+  name: '&a上一页'
+  lore:
+    - '&7查看上一页内容'
+  actions:
+    - 'page pre'
+```
+
+支持：
+
+- `material`
+- `name`
+- `lore`
+- `actions`
+- `goods-slot`
+
+## 4. 点击动作
+
+### 通用动作列表示例
+
+```yml
+actions:
+  - 'page next'
+  - 'menu close'
+```
+
+### 分点击类型动作
+
+```yml
+actions:
+  left:
+    - 'page next'
+  right:
+    - 'page pre'
+  shift_left:
+    - 'menu close'
+```
+
+支持点击键：
+
+- `left`
+- `right`
+- `shift_left`
+- `shift_right`
+- `middle`
+- `any`
+
+## 5. Kether 与快捷动作
+
+动作支持：
+
+- `matrixshop ...`
+- `mshop ...`
+- `page next`
+- `page pre`
+- `menu close`
+- `menu back`
+- `tell "..."`
+- `command ...`
+- `console ...`
+
+## 6. `template`
+
+商品模板会作用在商品显示物品上：
+
+```yml
+template:
+  name: '{name}'
+  lore:
+    - '&7售价: &f{price} {currency_name}'
+    - '&7余额: &f{balance} {currency_name}'
+    - '&7货币类型: &f{currency_type}'
+    - '{lore}'
+```
+
+其中：
+
+- `{name}` 是商品名
+- `{lore}` 会展开原始 Lore
+- `{price}`、`{balance}`、`{currency_name}` 等是运行时占位符
+
+## 7. 当前建议
+
+- 系统商店列表页尽量留白，不要把功能按钮和商品区挤在一起
+- 常用功能按钮放到底部一行
+- 商品模板里统一补货币显示，避免只看到数字不知道单位

@@ -1,0 +1,168 @@
+---
+title: 模块目录结构
+sidebar_position: 5
+description: MatrixShop 的模块目录、module.yml 和目录迁移规则。
+---
+
+# 模块目录结构
+
+MatrixShop 当前使用“模块目录 + 模块配置”的结构。  
+模块 ID 仍然是短横线风格，但实际目录已经改成驼峰：
+
+| 模块 ID | 默认目录 |
+| --- | --- |
+| `system-shop` | `systemShop/` |
+| `player-shop` | `playerShop/` |
+| `auction` | `auction/` |
+| `global-market` | `globalMarket/` |
+| `chest-shop` | `chestShop/` |
+| `player-trade` | `playerTrade/` |
+| `cart` | `cart/` |
+| `mailbox` | `mailbox/` |
+
+## 1. `module.yml` 的作用
+
+每个模块目录下都可以有一个 `module.yml`。  
+它主要决定三件事：
+
+- 子目录路径
+- 模块模式归属
+- 模块自身额外设置
+
+## 2. 通用结构
+
+常见模块结构如下：
+
+```text
+plugins/MatrixShop/playerShop/
+├─ module.yml
+├─ shop/
+└─ ui/
+```
+
+系统商店多两个目录：
+
+```text
+plugins/MatrixShop/systemShop/
+├─ module.yml
+├─ goods/
+├─ recycle/
+├─ shop/
+└─ ui/
+```
+
+## 3. 通用 `paths`
+
+大部分模块支持这些路径键：
+
+```yml
+paths:
+  shop: shop
+  ui: ui
+  goods: goods
+  recycle: recycle
+```
+
+注意：
+
+- 不是每个模块都支持全部目录
+- `goods` 和 `recycle` 目前只有系统商店模块会实际使用
+
+## 4. `modes`
+
+部分模块会在 `module.yml` 中声明自己负责的模式：
+
+```yml
+modes:
+  - player
+```
+
+当前默认归属大致是：
+
+- `system-shop`：`normal`、`limit_time`、`recycle`、`recycle_shop`、`recycle_exchange`
+- `player-shop`：`player`
+- `auction`：`auction`
+- `global-market`：`global_market`
+
+`chest-shop`、`player-trade`、`cart`、`mailbox` 不依赖商店 `mode` 路由。
+
+## 5. 典型模块配置案例
+
+### 玩家商店
+
+```yml
+id: player-shop
+name: 玩家商店
+
+paths:
+  shop: shop
+  ui: ui
+
+modes:
+  - player
+```
+
+### 箱子商店
+
+```yml
+id: chest-shop
+name: 箱子商店
+
+paths:
+  ui: ui
+
+economy:
+  default: vault
+  supported:
+    - vault
+
+settings:
+  interact-trigger:
+    create: shift_left
+    manage: shift_left
+```
+
+### 玩家交易
+
+```yml
+id: player-trade
+name: 玩家交易
+
+paths:
+  ui: ui
+
+economy:
+  supported:
+    - vault
+
+settings:
+  request-timeout-seconds: 30
+  session-timeout-seconds: 300
+  max-trade-distance: 8.0
+```
+
+## 6. 共享 UI
+
+根目录下的 `ui/` 当前主要用于共享菜单，例如：
+
+- `transaction.yml`
+
+各业务模块自己的菜单应放在对应模块目录里，而不是继续往根 `ui/` 堆。
+
+## 7. 迁移建议
+
+如果你是从旧目录迁移：
+
+- 直接让插件先启动一次，自动完成基础迁移
+- 然后手动检查路径是否符合你的预期
+- 最后统一把配置整理到驼峰目录中
+
+推荐最终交付结构始终使用：
+
+- `systemShop`
+- `playerShop`
+- `globalMarket`
+- `chestShop`
+- `playerTrade`
+
+而不是旧的短横线目录。

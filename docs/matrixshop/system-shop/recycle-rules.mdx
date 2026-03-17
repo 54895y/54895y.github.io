@@ -1,0 +1,84 @@
+---
+title: 回收规则
+sidebar_position: 3
+description: systemShop/recycle/*.yml 的写法与回收规则案例。
+---
+
+# 回收规则
+
+回收规则定义放在：
+
+```text
+plugins/MatrixShop/systemShop/recycle/
+```
+
+它们既可服务系统回收商店，也可复用为玩家商店上架过滤。
+
+## 基础示例
+
+```yml
+diamond_rule:
+  name: '&b钻石回收'
+  match:
+    material: DIAMOND
+  reward:
+    currency:
+      vault: 100
+```
+
+## 常见结构
+
+### `match`
+
+定义如何匹配物品，例如：
+
+```yml
+match:
+  material: DIAMOND
+```
+
+```yml
+match:
+  contains_name: '稀有'
+```
+
+```yml
+match:
+  or:
+    - material: DIAMOND
+    - material: EMERALD
+```
+
+### `reward`
+
+当前常见奖励：
+
+- 货币
+- 物品
+
+示例：
+
+```yml
+reward:
+  currency:
+    vault: 100
+  items:
+    - source: 'minecraft:diamond'
+      amount: 1
+```
+
+## 限制与窗口
+
+回收也可以设置限额和时间窗口，但如果你做生产服，建议先用简单规则跑稳，再逐步增加窗口限制。
+
+## 推荐用途
+
+- 系统回收站
+- 指定素材兑换
+- 玩家商店白名单 / 黑名单检测
+
+## 建议
+
+- 先从 `material` 规则开始
+- 再逐步增加 `or` / `and`
+- 最后再考虑更复杂的名称、Lore、附魔判断

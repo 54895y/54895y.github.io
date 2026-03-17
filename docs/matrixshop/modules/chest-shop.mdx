@@ -1,0 +1,109 @@
+---
+title: 箱子商店
+sidebar_position: 5
+description: 箱子商店模块、交互方式、货币限制与数据包前置。
+---
+
+# 箱子商店
+
+箱子商店适合偏原版交互风格的服务器。  
+玩家直接面向箱子创建、管理和交易。
+
+## 目录
+
+```text
+plugins/MatrixShop/chestShop/
+├─ module.yml
+└─ ui/
+```
+
+## 模块配置示例
+
+```yml
+id: chest-shop
+name: 箱子商店
+
+paths:
+  ui: ui
+
+economy:
+  default: vault
+  supported:
+    - vault
+    - points
+
+settings:
+  require-packet-frontend: true
+  default-mode: sell
+  default-trade-amount: 1
+
+  interact-trigger:
+    create: shift_left
+    manage: shift_left
+
+  max-shops-per-player: 20
+
+  virtual-display:
+    enable: true
+    mode: actionbar
+    interval-ticks: 10
+    height: 1.1
+    range: 24
+```
+
+## 1. 货币限制
+
+箱子商店的可用货币单独由模块控制：
+
+```yml
+economy:
+  default: vault
+  supported:
+    - vault
+    - points
+```
+
+玩家创建或管理箱子商店时，只能在 `supported` 列表中切换。
+
+## 2. 交互触发
+
+当前支持：
+
+- `shift_left`
+- `shift_right`
+
+示例：
+
+```yml
+settings:
+  interact-trigger:
+    create: shift_left
+    manage: shift_left
+```
+
+推荐默认值仍然是 `shift_left`，这样不会影响玩家把方块放到箱子上方。
+
+## 3. 数据包前置
+
+当前优先级：
+
+1. `TabooLib NMS`
+2. `ProtocolLib`
+3. `PacketEvents`
+
+如果 `require-packet-frontend: true` 且三者都不可用，箱子商店模块不会启用。
+
+## 4. 默认流程
+
+- 潜行交互空箱子：打开创建菜单
+- 潜行交互自己的箱子商店：打开管理菜单
+- 普通右键已有箱子商店：打开交易菜单
+
+## 5. 适用场景
+
+适合：
+
+- 生存服
+- 地皮服
+- 偏原版商贸玩法
+- 需要“实体箱子就是店”的交互风格

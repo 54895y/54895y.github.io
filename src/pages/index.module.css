@@ -1,0 +1,372 @@
+﻿.heroBanner {
+  padding: 6rem 0 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.heroContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  flex-direction: column;
+}
+
+.heroLogo {
+  margin-bottom: 1.5rem;
+}
+
+.heroLogo img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroText {
+  max-width: 600px;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  min-width: 140px;
+}
+
+.button--secondary {
+  background: #fff;
+  border: 2px solid #667eea;
+  color: #667eea;
+  font-weight: 700;
+}
+
+.button--secondary:hover {
+  background: #4c51bf;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  border-color: #4c51bf;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.button--primary {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 81, 191, 0.6);
+  background: linear-gradient(135deg, #434190 0%, #553c9a 100%) !important;
+  color: #fff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 4rem 0 2rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+/* Plugins Section */
+.pluginsSection {
+  padding: 5rem 0;
+  background: #f9fafb;
+}
+
+.pluginsTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pluginsTitle h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.pluginsTitle p {
+  font-size: 1.1rem;
+  color: #718096;
+}
+
+.pluginsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.pluginCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pluginCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+}
+
+.pluginCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pluginIcon {
+  font-size: 2.5rem;
+}
+
+.pluginName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.pluginDescription {
+  font-size: 1rem;
+  color: #718096;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.pluginFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.featureTag {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Tech Stack Section */
+.techSection {
+  padding: 5rem 0;
+  background: #fff;
+}
+
+.techTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.techTitle h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.techTitle p {
+  font-size: 1.1rem;
+  color: #718096;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.techCard {
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.techCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.techCardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.techCardDesc {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+/* Quick Start Section */
+.quickStartSection {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.quickStartContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.quickStartText h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.quickStartText p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.quickStartButtons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quickStartCode {
+  background: #1e1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+}
+
+.codeHeader {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #2d2d2d;
+  border-bottom: 1px solid #404040;
+}
+
+.codeDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.codeBlock {
+  padding: 1.5rem;
+  margin: 0;
+  overflow-x: auto;
+  background: #1e1e1e;
+}
+
+.codeBlock code {
+  color: #d4d4d4;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+@media screen and (max-width: 996px) {
+  .pluginsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .techGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quickStartContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .quickStartText {
+    text-align: center;
+  }
+
+  .quickStartButtons {
+    justify-content: center;
+  }
+}

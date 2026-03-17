@@ -1,0 +1,85 @@
+﻿---
+title: MatrixShop 文档
+sidebar_position: 1
+description: MatrixShop 当前版本的完整中文配置文档与功能索引。
+---
+
+# MatrixShop 文档
+
+## 插件定位
+
+MatrixShop 是一个基于 TabooLib 的模块化商店插件，当前已经包含这些主要模块：
+
+- 系统商店
+- 玩家商店
+- 拍卖行
+- 全球市场
+- 箱子商店
+- 玩家面对面交易
+- 购物车
+- 邮箱
+- 交易记录
+
+## 兼容信息
+
+| 项目 | 说明 |
+| --- | --- |
+| 运行兼容版本 | `1.12.2+` |
+| 推荐测试版本 | `1.20.4 - 1.21.x` |
+| Java 版本 | `Java 8+` |
+| 推荐核心 | `Paper`、`Purpur`、`Folia` |
+| 混合核心 | `Mohist`、`CatServer`、`Youer`、`Arclight`、`Magma`、`Banner` |
+| 数据包前置 | `TabooLib NMS`、`ProtocolLib`、`PacketEvents` |
+| 数据库 | `SQLite`、`MySQL`、`Redis` |
+| 经济前置 | `Vault`、`PlayerPoints`、`PlaceholderAPI` |
+
+## 文档覆盖范围
+
+本文档覆盖当前插件真正会读取、会生效的内容：
+
+- `config.yml`
+- `currency.yml`
+- 各模块目录下的 `module.yml`
+- `systemShop/goods/*.yml`
+- `systemShop/shop/*.yml`
+- `systemShop/recycle/*.yml`
+- 各模块的 `ui/*.yml`
+
+## 文档结构
+
+- [快速开始](./quick-start.mdx)
+- [核心配置](./core-config.mdx)
+- [货币配置](./currency.mdx)
+- [模块目录结构](./module-layout.mdx)
+- [命令与绑定指令](./commands-and-bindings.mdx)
+- [占位符与价格显示](./placeholders-and-price-display.mdx)
+- [系统商店商品](./system-shop/goods.mdx)
+- [系统商店与模式](./system-shop/shops-and-modes.mdx)
+- [回收规则](./system-shop/recycle-rules.mdx)
+- [玩家商店](./modules/player-shop.mdx)
+- [拍卖行](./modules/auction.mdx)
+- [全球市场](./modules/global-market.mdx)
+- [箱子商店](./modules/chest-shop.mdx)
+- [玩家交易](./modules/player-trade.mdx)
+- [购物车 / 邮箱 / 交易记录](./modules/cart-mailbox-transaction.mdx)
+- [UI 模板与动作](./ui/templates-and-actions.mdx)
+- [内置 UI 索引](./ui/builtin-ui-index.mdx)
+- [语言 / 物品源 / 仓库](./advanced/language-item-source-and-repo.mdx)
+- [兼容与最佳实践](./advanced/compatibility-and-best-practices.mdx)
+- [常见问题与排错](./advanced/faq-and-troubleshooting.mdx)
+
+## 使用建议
+
+如果你是第一次部署：
+
+1. 先看 [快速开始](./quick-start.mdx)
+2. 再看 [核心配置](./core-config.mdx)
+3. 然后看 [命令与绑定指令](./commands-and-bindings.mdx)
+4. 最后按你的玩法选择模块页
+
+如果你是在维护旧配置：
+
+1. 先看 [模块目录结构](./module-layout.mdx)
+2. 再看 [兼容与最佳实践](./advanced/compatibility-and-best-practices.mdx)
+3. 然后看 [常见问题与排错](./advanced/faq-and-troubleshooting.mdx)
+4. 最后逐模块迁移

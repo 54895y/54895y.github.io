@@ -1,0 +1,192 @@
+---
+title: 命令与绑定指令
+sidebar_position: 5
+description: MatrixShop 常用玩家命令、管理命令，以及商店 bindings.commands 的写法。
+---
+
+# 命令与绑定指令
+
+这页分三部分：
+
+- 玩家直接使用的命令
+- 管理员命令
+- 商店配置里的 `bindings.commands`
+
+## 1. 玩家常用命令
+
+### 系统商店
+
+```text
+/ms open <shop>
+/ms search <关键词>
+/ms compare <商品ID>
+/ms price <商品ID>
+```
+
+用途：
+
+- `open`：打开指定商店
+- `search`：搜索当前允许被搜索的商品
+- `compare`：比较同一商品在不同商店的价格
+- `price`：查看单个商品的价格信息
+
+## 2. 玩家商店
+
+```text
+/ms open playerShop
+/ms pshop open
+/ms pshop browse [page]
+/ms pshop listing [page]
+/ms pshop upload
+/ms pshop settings
+```
+
+说明：
+
+- `open`：打开玩家商店主界面
+- `browse`：浏览其他玩家上架内容
+- `listing`：查看自己的上架内容
+- `upload`：上架主手物品
+- `settings`：打开卖家设置菜单
+
+如果你在商店配置里启用了 `bindings.commands`，也可以通过绑定指令进入这些入口。
+
+## 3. 拍卖行
+
+```text
+/ms open auction
+/ms auction open
+/ms auction browse [page]
+/ms auction my [page]
+/ms auction upload
+```
+
+## 4. 全球市场
+
+```text
+/ms open globalMarket
+/ms gmarket open
+/ms gmarket browse [page]
+/ms gmarket upload
+```
+
+## 5. 箱子商店
+
+```text
+/ms chestshop
+/ms chestshop help
+```
+
+同时支持配置触发创建/管理：
+
+- `shift_left`
+- `shift_right`
+
+触发方式在 `chestShop/module.yml` 里设置：
+
+```yml
+settings:
+  interact-trigger:
+    create: shift_left
+    manage: shift_left
+```
+
+## 6. 玩家交易
+
+```text
+/ms trade <player>
+/ms trade accept [player]
+/ms trade deny [player]
+/ms trade help
+```
+
+如果开启了模块触发器，还可以使用“潜行右键玩家”发送交易请求。
+
+## 7. 管理员命令
+
+### 模块开关
+
+```text
+/msa module list
+/msa module enable <模块ID>
+/msa module disable <模块ID>
+/msa module toggle <模块ID>
+```
+
+也支持中文子命令：
+
+```text
+/msa module 列表
+/msa module 启用 <模块>
+/msa module 禁用 <模块>
+/msa module 切换 <模块>
+```
+
+常用模块 ID：
+
+- `system-shop`
+- `player-shop`
+- `auction`
+- `global-market`
+- `chest-shop`
+- `player-trade`
+- `cart`
+- `mailbox`
+
+### 商品辅助命令
+
+```text
+/msa goods add <商品ID> <货币> <buyPrice> <sellPrice>
+/msa goods add_to_shop <商店ID> <商品ID> <货币> <buyPrice> <sellPrice>
+```
+
+这两个命令会基于主手物品保存商品。
+
+保存顺序是：
+
+1. 先识别是否为外部物品源物品
+2. 再识别是否为 mod 物品
+3. 最后才回退为 `repo:`
+
+## 8. 绑定指令 `bindings.commands`
+
+每个商店都可以在配置里声明自己的绑定指令：
+
+```yml
+bindings:
+  commands:
+    - shop
+    - store
+```
+
+绑定后，玩家可以通过：
+
+```text
+/shop help
+/shop open
+/shop browse
+```
+
+具体可用子命令取决于商店模式。
+
+## 9. `help` 的建议写法
+
+建议每个启用了 `bindings.commands` 的商店都提供 `help` 入口，并在文案里明确告诉玩家：
+
+- 这个商店支持哪些子命令
+- 每个子命令做什么
+- 是否支持页码参数
+
+例如玩家商店：
+
+```text
+open | browse [page] | listing [page] | upload | settings
+```
+
+## 10. 推荐做法
+
+- 玩家入口统一使用 `/ms`
+- 管理入口统一使用 `/msa`
+- 绑定指令只保留短别名，不要和其他插件冲突
+- 模块命令帮助里始终保留 `help`
+- 对外开放前先实际点击一次 `help`，确认文案和配置一致

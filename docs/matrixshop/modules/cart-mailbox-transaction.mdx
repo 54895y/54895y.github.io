@@ -1,0 +1,91 @@
+---
+title: 购物车、邮箱与交易记录
+sidebar_position: 4
+description: 三个辅助模块的实际作用、配置位置与使用方式。
+---
+
+# 购物车、邮箱与交易记录
+
+这三部分都是辅助能力，但在实际服里非常常用。
+
+## 1. 购物车
+
+目录：
+
+```text
+plugins/MatrixShop/cart/
+├─ module.yml
+└─ ui/
+   └─ cart.yml
+```
+
+主要能力：
+
+- 把系统商店商品加入购物车
+- 批量结算
+- 移除单项
+- 清空购物车
+
+常用命令：
+
+```text
+/ms cart list
+/ms cart add <shopId> <goodsId> [amount]
+/ms cart remove <index>
+/ms cart clear
+/ms cart checkout
+```
+
+## 2. 邮箱
+
+目录：
+
+```text
+plugins/MatrixShop/mailbox/
+├─ module.yml
+└─ ui/
+   └─ mailbox.yml
+```
+
+邮箱主要用于这些场景：
+
+- 背包满时接收商品
+- 礼物发放失败的兜底
+- 玩家交易溢出返还
+- 系统补偿或后台发放
+
+邮件条目会异步写库，玩家上线后可提示未领取数量。
+
+## 3. 交易记录
+
+共享 UI：
+
+```text
+plugins/MatrixShop/ui/transaction.yml
+```
+
+主配置：
+
+```yml
+transaction:
+  enable: true
+  retention-days: 30
+  cleanup-interval-minutes: 60
+```
+
+它记录的是通用交易流水，包括：
+
+- 系统商店购买
+- 玩家商店成交
+- 拍卖行成交
+- 全球市场成交
+- 箱子商店成交
+- 玩家交易中的货币流向
+
+## 4. 三者的关系
+
+- 购物车负责“批量购买”
+- 邮箱负责“兜底发放”
+- 交易记录负责“审计与查询”
+
+如果你做正式经济服，这三项建议全部开启。

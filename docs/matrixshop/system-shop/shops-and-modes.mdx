@@ -1,0 +1,187 @@
+---
+title: 系统商店与模式
+sidebar_position: 2
+description: 商店文件结构、通用字段、Open/Close、绑定命令与模式说明。
+---
+
+# 系统商店与模式
+
+系统商店文件放在：
+
+```text
+plugins/MatrixShop/systemShop/shop/
+```
+
+## 1. 基础示例
+
+```yml
+id: example
+mode: normal
+enable: true
+title: '&6示例商店'
+currency: vault
+
+settings:
+  open-requirement: 'true'
+  search-enabled: true
+
+goods:
+  diamond_sword: 'diamond_sword'
+  golden_apple: 'golden_apple'
+
+layout:
+  - '#########'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '##P#X#N##'
+```
+
+## 2. 通用字段
+
+### `id`
+
+商店唯一 ID。
+
+### `mode`
+
+当前常见模式：
+
+- `normal`
+- `limit_time`
+- `recycle`
+- `player`
+- `auction`
+- `global_market`
+
+### `enable`
+
+是否启用。
+
+### `title`
+
+菜单标题。
+
+### `currency`
+
+商店默认货币。
+
+### `settings`
+
+```yml
+settings:
+  open-requirement: 'has permission "shop.vip"'
+  search-enabled: true
+```
+
+说明：
+
+- `open-requirement`：Kether 判断是否允许打开
+- `search-enabled`：是否允许该商店参与搜索/比价
+
+兼容旧键：
+
+- `open-condition`
+
+### `goods`
+
+支持两种写法：
+
+```yml
+goods:
+  diamond_sword: 'diamond_sword'
+```
+
+```yml
+goods:
+  diamond_sword:
+    buy-price: 100
+    rules:
+      - priority: 100
+        condition: |-
+          has permission "shop.vip"
+        buy-price: 80
+```
+
+### `layout`
+
+决定菜单布局。  
+商品槽位可用：
+
+- `@`
+- `g`
+- `G`
+- 或 `goods-slot: true`
+
+## 3. Open / Close
+
+商店节点支持打开/关闭动作：
+
+```yml
+Open:
+  - 'tell "&a已打开商店 {shop_id}"'
+
+Close:
+  - 'tell "&e已关闭商店 {shop_id}"'
+```
+
+兼容别名包括：
+
+- `Open`
+- `Close`
+- `Events.Open`
+- `Events.Close`
+- `on_open`
+- `on_close`
+
+这些动作兼容 Kether 和插件内置快捷动作。
+
+## 4. 绑定命令
+
+商店可以设置自己的绑定命令：
+
+```yml
+bindings:
+  commands:
+    - shop
+    - market
+```
+
+同时建议给每个绑定命令都提供 `help` 路由和帮助文案。
+
+## 5. 限购与动态价格
+
+商品层和商店层都可以写：
+
+- `item-count-limit`
+- `trade-amount-limit`
+- `dynamic-price`
+
+当前实际成交时会按“已解析商品 -> 条件价格 -> 动态价格”的顺序执行。
+
+## 6. 各模式用途
+
+### `normal`
+
+普通系统商店。
+
+### `limit_time`
+
+限时开放商店，通常结合时间窗口字段使用。
+
+### `recycle`
+
+回收商店模式，用回收规则驱动。
+
+### `player`
+
+玩家寄售商店，由玩家挂单驱动。
+
+### `auction`
+
+拍卖行。
+
+### `global_market`
+
+全服市场。

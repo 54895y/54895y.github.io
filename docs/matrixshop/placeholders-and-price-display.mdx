@@ -1,0 +1,165 @@
+---
+title: 占位符与价格显示
+sidebar_position: 6
+description: 商品、货币、折扣、解锁价格等常用占位符说明。
+---
+
+# 占位符与价格显示
+
+MatrixShop 的默认菜单已经把常用占位符接进去了。  
+你改 UI 时，最常用的就是这几组：
+
+- 商品价格
+- 余额与货币名称
+- 条件优惠过程
+- 玩家商店槽位解锁价格
+
+## 1. 商品价格占位符
+
+这些占位符主要用于系统商店、确认菜单、搜索和比价：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{price}` | 当前最终价格 |
+| `{price_base}` | 优惠前基础价格 |
+| `{price_saved}` | 一共减掉的金额 |
+| `{price_discount_names}` | 命中的优惠名称列表 |
+| `{price_discount_process}` | 减价或折扣过程说明 |
+
+示例：
+
+```text
+&7售价：&e{price} &7{currency_name}
+&7原价：&f{price_base}
+&7优惠：&a{price_saved}
+&7活动：&f{price_discount_names}
+&7过程：&f{price_discount_process}
+```
+
+## 2. 货币与余额占位符
+
+货币占位符由 `CurrencyManager` 统一提供：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{currency}` | 货币 ID |
+| `{currency_id}` | 货币 ID |
+| `{currency_type}` | 货币类型，例如 `vault`、`playerpoints`、`papi` |
+| `{currency_name}` | 货币显示名 |
+| `{currency_display}` | 货币显示名 |
+| `{balance}` | 当前玩家该货币余额 |
+| `{has_currency}` | 当前玩家该货币余额 |
+
+默认推荐写法：
+
+```text
+&7售价：&e{price} &7{currency_name}
+&7余额：&f{balance} &7{currency_name}
+```
+
+如果你想把“类型”也展示出来：
+
+```text
+&7货币：&f{currency_name} &8({currency_type})
+```
+
+## 3. 玩家商店解锁占位符
+
+玩家商店设置菜单和解锁确认菜单支持：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{unlock_next_price}` | 下一槽位最终解锁价格 |
+| `{unlock_price_base}` | 解锁基础价格 |
+| `{unlock_price_saved}` | 解锁节省金额 |
+| `{unlock_discount_names}` | 命中的优惠名称 |
+| `{unlock_discount_process}` | 解锁价格计算过程 |
+| `{unlock_slots_used}` | 当前已使用槽位 |
+| `{unlock_slots_total}` | 当前总可用槽位 |
+| `{unlock_slots_next}` | 解锁后可用槽位 |
+
+示例：
+
+```text
+&7当前槽位：&f{unlock_slots_used}&7/&f{unlock_slots_total}
+&7下一槽位价格：&e{unlock_next_price}
+&7原价：&f{unlock_price_base}
+&7优惠：&a{unlock_price_saved}
+&7过程：&f{unlock_discount_process}
+```
+
+## 4. 动态价格占位符
+
+如果商品启用了动态价格，还可以在模板里展示：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{dynamic_price_enable}` | 是否启用动态价格 |
+| `{dynamic_price_base}` | 动态价格基础值 |
+| `{dynamic_price_min}` | 动态价格最小值 |
+| `{dynamic_price_max}` | 动态价格最大值 |
+| `{dynamic_price_current}` | 当前动态单价 |
+
+## 5. 商品与商店常用占位符
+
+不同菜单会补充自己的上下文，但这些是最常用的：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{shop}` / `{shop_id}` | 商店 ID |
+| `{goods}` / `{goods_id}` | 商品 ID |
+| `{page}` | 当前页码 |
+| `{player}` | 玩家名称 |
+| `{amount}` | 当前购买数量 |
+
+## 6. 条件价格示例
+
+商品写法：
+
+```yml
+buy-price:
+  base: 220
+  mode: discount
+  entries:
+    - name: '会员九折'
+      condition: |-
+        has permission "shop.vip"
+      discount: 0.9
+    - name: '活动九五折'
+      condition: |-
+        papi "%server_event%" == "spring"
+      discount: 0.95
+```
+
+对应显示：
+
+```text
+&7售价：&e{price} &7{currency_name}
+&7原价：&f{price_base}
+&7优惠活动：&a{price_discount_names}
+&7折扣过程：&f{price_discount_process}
+```
+
+## 7. 推荐排版
+
+为了界面不拥挤，推荐：
+
+- 第一行只放最终价格
+- 第二行放余额
+- 第三行再放优惠名称或过程
+- 详细过程只放在确认菜单，不要所有列表都堆满
+
+例如：
+
+```text
+&7售价：&e{price} &7{currency_name}
+&7余额：&f{balance} &7{currency_name}
+&7优惠：&a{price_discount_names}
+```
+
+## 8. 使用建议
+
+- 列表菜单优先展示 `{price}` 和 `{balance}`
+- 确认菜单再展示 `{price_base}`、`{price_saved}`、`{price_discount_process}`
+- 解锁菜单统一使用 `unlock_*` 占位符
+- 不要把 `currency_type` 当作显示名，它更适合调试或辅助说明

@@ -1,0 +1,123 @@
+---
+title: 语言、物品源与仓库
+sidebar_position: 1
+description: lang、repo、外部物品源、头颅源和主手保存商品的当前规则。
+---
+
+# 语言、物品源与仓库
+
+## 1. 语言文件
+
+语言文件位置：
+
+```text
+plugins/MatrixShop/lang/
+├─ zh_CN.yml
+└─ en_US.yml
+```
+
+主配置：
+
+```yml
+language:
+  default: zh_CN
+  follow-client: false
+```
+
+推荐中文服直接固定 `zh_CN`。
+
+## 2. 仓库物品 `repo`
+
+仓库物品是插件自己的物品保存层。  
+常见来源：
+
+- `/msa item save <id>`
+- `/msa goods add`
+- `/msa goods add_to_shop`
+
+当前保存顺序已经调整为：
+
+1. 先尝试识别外部物品源
+2. 再尝试识别 mod 物品
+3. 都不是时，才回退为 `repo:<id>`
+
+## 3. 外部物品源
+
+当前兼容的常见来源包括：
+
+- `CraftEngine`
+- `Oraxen`
+- `ItemsAdder`
+- `Zaphkiel`
+- `SXItem`
+- `MMOItems`
+- `NeigeItems`
+- `Nexo`
+- `HeadDatabase`
+- `Skulls`
+- 以及其他已接入的 TRMenu 风格来源
+
+### 示例
+
+```yml
+display:
+  material: 'source:CRAFTENGINE:namespace:item_id'
+```
+
+```yml
+give:
+  mode: source
+  source: 'source:MMOITEMS:SWORD:example_id'
+```
+
+## 4. 头颅源
+
+当前支持：
+
+- 玩家名头颅
+- UUID 头颅
+- 纹理值头颅
+- 第三方头颅源
+
+### 示例
+
+```yml
+display:
+  material: 'head:Notch'
+```
+
+```yml
+display:
+  material: 'head:HDB:123'
+```
+
+```yml
+display:
+  material: 'headsource:SKULLS:1'
+```
+
+## 5. 物品材质写法
+
+当前兼容：
+
+- 原版材质
+- `minecraft:xxx`
+- `repo:xxx`
+- `source:...`
+- `mod:...`
+- `head:...`
+- 原始 JSON
+- `legacy` 数据值写法
+
+并支持这些后缀元数据：
+
+- `{data-value}`
+- `{model-data}`
+- `{dye}`
+- `{banner}`
+
+## 6. 建议
+
+- 能直接用外部物品源时，不要先手动存进 `repo`
+- 只把真正的服务器本地自定义物品落进 `repo`
+- 头颅优先用明确来源，不要混用多种写法

@@ -1,0 +1,164 @@
+---
+title: 玩家商店
+sidebar_position: 1
+description: 玩家商店模块、挂单限制、解锁槽位与界面配置。
+---
+
+# 玩家商店
+
+玩家商店是 `mode: player` 的商店模式。  
+它的浏览内容来自数据库挂单，不是静态 `goods` 列表。
+
+## 目录
+
+```text
+plugins/MatrixShop/playerShop/
+├─ module.yml
+├─ shop/
+│  └─ playerShop.yml
+└─ ui/
+   ├─ browsePlayerShops.yml
+   ├─ confirmPlayerShop.yml
+   ├─ editGoods.yml
+   ├─ playerShopItem.yml
+   ├─ playerShopSettings.yml
+   ├─ playerShopUnlock.yml
+   └─ uploadShop.yml
+```
+
+## 1. 商店配置示例
+
+```yml
+id: playerShop
+mode: player
+enable: true
+title: '&6玩家商店'
+currency: vault
+
+unlock:
+  enable: true
+  base-slots: 3
+  max-slots: 12
+  currency: vault
+  fee:
+    base: 1000
+    mode: discount
+    entries:
+      - name: '会员九折'
+        condition: |-
+          has permission "shop.vip"
+        discount: 0.9
+
+layout:
+  - '#########'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '#@@@@@@@#'
+  - '##P#X#N##'
+```
+
+## 2. 关键字段
+
+### `mode`
+
+```yml
+mode: player
+```
+
+这是识别玩家商店的关键字段。
+
+### `currency`
+
+玩家商店挂单默认使用该商店的货币。  
+如果解锁槽位没有单独指定 `unlock.currency`，也会回退到这里。
+
+### `limit.create.limit`
+
+```yml
+limit:
+  create:
+    limit: 10
+```
+
+它仍然有效，但在启用槽位解锁后，会作为最终硬上限参与裁剪。
+
+### `white_list` / `black_list`
+
+玩家商店上架过滤复用回收检测器语法，例如：
+
+```yml
+white_list:
+  or:
+    - material: DIAMOND
+    - material: IRON_INGOT
+
+black_list:
+  contains_name: '绑定'
+```
+
+## 3. 槽位解锁
+
+当前版本已支持付费解锁玩家商店槽位。
+
+```yml
+unlock:
+  enable: true
+  base-slots: 3
+  max-slots: 12
+  currency: vault
+  fee:
+    base: 1000
+    mode: discount
+    entries:
+      - name: '会员九折'
+        condition: |-
+          has permission "shop.vip"
+        discount: 0.9
+      - name: '活动立减'
+        condition: |-
+          papi "%server_event%" == "spring"
+        reduce: 100
+```
+
+支持三种模式：
+
+- `single`：按顺序命中第一条，用 `price`
+- `reduce`：匹配到的条目全部累加减价，用 `reduce`
+- `discount`：匹配到的条目全部叠乘折扣，用 `discount`
+
+## 4. 卖家设置菜单
+
+当前版本玩家商店已内置卖家设置菜单，默认包含：
+
+- 我的挂单
+- 上架主手物品
+- 槽位信息
+- 解锁下一槽位
+- 返回 / 关闭
+
+绑定命令帮助也已经接上：
+
+```text
+open | browse [page] | listing [page] | upload | settings
+```
+
+## 5. 运行逻辑说明
+
+- 公开浏览页展示的是数据库中的挂单
+- 卖家管理页展示的是自己的挂单
+- 上架时会保存物品本体和库存数量
+- 购买成交后会写入交易记录
+- 物品发放优先给背包，必要时可走邮箱
+
+## 6. 推荐 UI 文件
+
+| 文件 | 作用 |
+| --- | --- |
+| `browsePlayerShops.yml` | 公共浏览页 |
+| `playerShopItem.yml` | 挂单模板 |
+| `confirmPlayerShop.yml` | 玩家购买确认页 |
+| `editGoods.yml` | 我的挂单管理页 |
+| `uploadShop.yml` | 上架页面 |
+| `playerShopSettings.yml` | 卖家设置页 |
+| `playerShopUnlock.yml` | 解锁确认页 |
