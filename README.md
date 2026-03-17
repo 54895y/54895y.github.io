@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MatrixShop 文档网站
 
 这是 MatrixShop 插件的官方文档网站，基于 Docusaurus 构建。
@@ -52,3 +53,6 @@ matrixshop-docs/
 ├── sidebars.ts       # 侧边栏配置
 └── package.json      # 项目配置
 ```
+=======
+# -54895y.github.io
+>>>>>>> 7f52a0fddbc3bc603e262a606d0b4ed07517bcbd
