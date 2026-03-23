@@ -2,27 +2,27 @@
 title: 插件 Wiki
 ---
 
-这里是 Matrix 系列插件的统一文档站。
+这里是 Matrix 系列插件的统一文档站点。
 
-当前已收录：
+当前已经收录：
 
-- [MatrixAuth](./matrixauth/overview.md)
-- [MatrixShop](./matrixshop/index.mdx)
+- [MatrixAuth](/docs/matrixauth/overview)
+- [MatrixCook](/docs/matrixcook/overview)
+- [MatrixShop](/docs/matrixshop)
 
-当前文档约定：
+## 文档约定
 
-- 每个插件放在 `docs/{plugin}/` 目录下。
-- 每个插件至少维护概览、部署、配置、命令和常见问题等基础页面。
-- 文档以当前源码和默认配置为准，不沿用旧交接文档中的过时命令或路径。
-- 首页只保留总入口，具体内容落到对应插件章节。
+- 每个插件单独放在 `docs/{plugin}/` 目录下。
+- 文档内容以当前源码、默认配置和默认资源文件为准。
+- 如果代码已经和旧文档分叉，以代码行为为准，并在对应页面里注明迁移差异。
+- 首页只做索引，具体使用说明放到插件各自章节。
 
-MatrixAuth 入口：
+## 推荐阅读顺序
 
-- [概览](./matrixauth/overview.md)
-- [部署指南](./matrixauth/installation.md)
-- [配置说明](./matrixauth/configuration.md)
-- [命令说明](./matrixauth/commands.md)
-- [PlaceholderAPI](./matrixauth/placeholders.md)
-- [EasyBot 对接](./matrixauth/easybot.md)
-- [开发说明](./matrixauth/development.md)
-- [常见问题](./matrixauth/faq.md)
+首次接触某个插件时，建议按这个顺序阅读：
+
+1. 概览
+2. 安装 / 快速开始
+3. 配置结构
+4. 命令与权限
+5. 常见问题

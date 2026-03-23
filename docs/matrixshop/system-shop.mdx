@@ -1,0 +1,100 @@
+---
+title: SystemShop
+description: SystemShop 的分类、商品内联配置与确认流程。
+---
+
+# SystemShop
+
+## 入口文件
+
+SystemShop 的主要文件是：
+
+- `SystemShop/settings.yml`
+- `SystemShop/shops/*.yml`
+- `SystemShop/ui/shop.yml`
+- `SystemShop/ui/confirm.yml`
+
+默认主分类来自顶层 `config.yml`：
+
+```yaml
+system-shop:
+  default-category: weapon
+```
+
+## 分类与 `shopId`
+
+当前默认示例有：
+
+- `SystemShop/shops/weapon.yml`
+- `SystemShop/shops/food.yml`
+- `SystemShop/shops/material.yml`
+
+这里的文件名就是可打开的分类 ID，例如：
+
+```text
+/ms system open weapon
+/ms open systemshop:weapon
+```
+
+## 商品定义
+
+当前 SystemShop 不是单独的 `goods/*.yml` 结构，而是直接把商品写在 `shops/*.yml` 里：
+
+```yaml
+goods:
+  iron_sword:
+    material: 'IRON_SWORD'
+    amount: 1
+    price: 120
+    currency: 'vault'
+    buy-max: 16
+    name: '&f铁剑'
+```
+
+每个商品至少要明确：
+
+- `material`
+- `amount`
+- `price`
+- `currency`
+- `buy-max`
+
+## 菜单渲染规则
+
+入口菜单通常会在 `layout` 里放一个 `mode: goods` 的图标槽位，例如：
+
+```yaml
+icons:
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+```
+
+商品显示名称和 Lore 则来自 `template`：
+
+```yaml
+template:
+  name: '&f{name}'
+  lore:
+    - '&7价格: &e{price} {currency}'
+```
+
+## 购买确认流
+
+当前主流程是：
+
+1. 打开某个分类页面
+2. 点击商品
+3. 进入确认界面
+4. 在确认界面里选择：
+   - 直接购买
+   - 加入购物车
+   - 增减购买数量
+
+对应命令接口在代码里是：
+
+- `/ms system confirm buy`
+- `/ms system confirm cart`
+- `/ms system confirm amount add <number>`
+
+因此如果你要自定义 UI，最好围绕这一条确认流来设计，而不是假定 SystemShop 会直接在第一页完成所有交易。

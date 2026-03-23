@@ -1,0 +1,49 @@
+---
+title: 配置说明
+description: MatrixCook 的全局配置与存储配置。
+---
+
+# 配置说明
+
+`config.yml` 负责全局语言、全息高度、燃料耗尽超时和放置状态存储。
+
+## `config.yml`
+
+| 键 | 默认值 | 说明 |
+| --- | --- | --- |
+| `language.default` | `zh_cn` | 默认语言文件 |
+| `hologram.height` | `1.5` | 全息文字相对锅具的高度 |
+| `cooking.fuel_out_timeout` | `60` | 燃料耗尽后，锅具进入失败判定前的秒数 |
+| `database.type` | `sqlite` | 放置状态存储类型 |
+| `database.flush_interval` | `10` | 异步刷盘间隔，单位秒 |
+| `database.table` | `matrixcook_placed_cookers` | SQL 表名 |
+| `database.sqlite.file` | `data/matrixcook.db` | SQLite 文件路径 |
+| `database.mysql.*` | 见默认配置 | MySQL 连接参数 |
+| `database.redis.*` | 见默认配置 | Redis 键空间与连接参数 |
+
+## 存储类型
+
+当前代码支持 4 种放置状态存储：
+
+| 类型 | 说明 |
+| --- | --- |
+| `sqlite` | 默认选项，单机最省事 |
+| `mysql` | 多服或外部数据库环境可用 |
+| `redis` | 运行态快照写入 Redis key |
+| `yaml` | 兼容旧版 `data/placed_cookers.yml` |
+
+需要注意的是，存储后端只负责“已放置锅具”的运行态数据，不负责锅具、配方、燃料这些静态配置。
+
+## 旧版数据迁移
+
+如果当前配置使用的存储后端还是空的，而 `plugins/MatrixCook/data/placed_cookers.yml` 存在，`ConfigManager` 会尝试把旧 YAML 数据迁移到新的后端，然后把旧文件改名为 `.migrated`。
+
+## 自动保存
+
+放置状态不会每次都同步写盘，而是通过：
+
+- 配置变更后的强制持久化
+- 周期性自动刷盘
+- 服务器关闭前的同步落盘
+
+这也是 `database.flush_interval` 存在的原因。

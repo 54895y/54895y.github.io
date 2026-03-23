@@ -1,0 +1,156 @@
+---
+title: Menu、ChestShop、Transaction、Cart、Record
+description: 交互类模块的职责、命令和边界。
+---
+
+# Menu、ChestShop、Transaction、Cart、Record
+
+## Menu
+
+`Menu` 是站内导航模块，默认示例位于：
+
+- `Menu/settings.yml`
+- `Menu/shops/main.yml`
+
+默认主菜单会把按钮跳转到：
+
+- SystemShop
+- PlayerShop
+- GlobalMarket
+- Auction
+- Transaction
+- Cart
+- Record
+
+如果你想让服务器入口更统一，优先从 `Menu/shops/*.yml` 下手。
+
+## ChestShop
+
+### 主要文件
+
+- `ChestShop/settings.yml`
+- `ChestShop/shops/*.yml`
+- `ChestShop/signs.yml`
+- `ChestShop/ui/*.yml`
+
+### 关键配置
+
+`ChestShop/settings.yml` 当前重点字段：
+
+- `Entry.Open-GUI-On`
+- `Entry.Direct-Trade-On`
+- `Stock.Double-Chest-Mode`
+
+### 常用命令
+
+```text
+/chestshop open
+/chestshop create <buy|sell|dual> <price> [sell-price] [amount]
+/chestshop edit
+/chestshop stock
+/chestshop history
+/chestshop remove
+/chestshop price ...
+/chestshop amount ...
+/chestshop mode ...
+```
+
+## Transaction
+
+`Transaction` 是面对面交易模块，当前文件包括：
+
+- `Transaction/settings.yml`
+- `Transaction/shops/*.yml`
+- `Transaction/ui/request.yml`
+- `Transaction/ui/trade.yml`
+- `Transaction/ui/confirm.yml`
+
+### 关键配置
+
+- `Options.Request.Timeout-Seconds`
+- `Options.Request.Max-Pending`
+- `Options.Session.Max-Distance`
+- `Options.Session.Same-World-Only`
+- `Options.Trade.Allow-Items / Allow-Money / Allow-Exp`
+
+### 常用命令
+
+```text
+/trade request <player>
+/trade accept [player]
+/trade deny [player]
+/trade money <amount>
+/trade exp <amount>
+/trade ready
+/trade confirm
+/trade cancel
+/trade logs
+```
+
+## Cart
+
+购物车相关文件：
+
+- `Cart/settings.yml`
+- `Cart/shops/*.yml`
+- `Cart/ui/cart.yml`
+- `Cart/ui/checkout.yml`
+- `Cart/ui/conflict.yml`
+
+`Cart/settings.yml` 当前重点是可结算来源：
+
+```yaml
+Sources:
+  Checkoutable:
+    - system_shop
+    - player_shop
+    - global_market
+```
+
+也就是说，购物车目前主要服务于：
+
+- 系统商店
+- 玩家商店
+- 全球市场
+
+### 常用命令
+
+```text
+/cart open
+/cart checkout [valid_only]
+/cart checkout confirm [valid_only]
+/cart conflict
+/cart clear
+/cart remove <slot>
+/cart remove_invalid
+/cart amount <slot> <number>
+```
+
+## Record
+
+Record 模块主要负责账本和流水展示。
+
+主要文件：
+
+- `Record/settings.yml`
+- `Record/retention.yml`
+- `Record/shops/*.yml`
+- `Record/ui/*.yml`
+
+### 当前重点
+
+- 可按关键字搜索
+- 可按模块切换过滤
+- 可查看明细、收入、支出统计
+- 支持保留策略文件 `retention.yml`
+
+### 常用命令
+
+```text
+/record open [keyword]
+/record detail <id>
+/record filter [module|all]
+/record income
+/record expense
+/record stats
+```

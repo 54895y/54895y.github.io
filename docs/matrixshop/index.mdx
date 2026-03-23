@@ -1,32 +1,48 @@
 ---
 sidebar_label: MatrixShop 文档
 sidebar_position: 1
-description: MatrixShop 插件使用文档
+description: MatrixShop 当前模块化实现的总览与阅读入口。
 ---
 
 # MatrixShop 文档
 
-MatrixShop 是一个功能强大的 Minecraft 商店插件，提供系统商店、玩家商店、拍卖行、全球市场等多种交易模式。
+MatrixShop 是一个模块化交易插件。当前代码已经围绕统一命令、统一菜单框架、统一权限校验和 JDBC 优先的数据层完成了第一批核心模块。
 
-## 本章内容
+## 当前实现的模块
 
-- **快速开始** - 5 分钟快速上手
-- **核心配置** - 基础配置文件详解
-- **货币配置** - 货币系统设置
-- **模块目录结构** - 插件目录结构说明
-- **命令与绑定** - 命令系统详解
-- **占位符与价格显示** - 占位符使用指南
+- `menu`
+- `system-shop`
+- `player-shop`
+- `global-market`
+- `auction`
+- `chestshop`
+- `transaction`
+- `cart`
+- `record`
 
-## 快速开始
+插件启动时会执行这条主流程：
 
-1. 下载并安装 MatrixShop 插件
-2. 将插件放入服务器的 plugins 目录
-3. 启动服务器，生成配置文件
-4. 修改配置文件，设置插件参数
-5. 重启服务器，开始使用
+1. 释放默认资源文件
+2. 读取 `config.yml`、`module.yml`、`database.yml`
+3. 初始化记录服务
+4. 同步数据库 schema
+5. 导入旧版数据
+6. 加载经济桥接、模块与命令
 
-## 需要帮助？
+## 当前文档覆盖的重点
 
-- 查看快速开始文档
-- 访问 GitHub 仓库
-- 加入我们的 Discord 社区
+- 真实目录结构与文件职责
+- 命令绑定、独立命令与 `shopId` 解析规则
+- SQLite / MySQL / 文件回退行为
+- 各交易模块的当前能力边界
+- UI 配置和动作语法
+
+## 开始阅读
+
+如果你第一次接触 MatrixShop，推荐顺序是：
+
+1. [快速开始](./quick-start)
+2. [配置结构](./configuration-structure)
+3. [命令与权限](./commands-and-permissions)
+4. [数据库与存储](./database-and-storage)
+5. [模块总览](./modules-overview)

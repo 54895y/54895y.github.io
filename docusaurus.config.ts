@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Matrix Wiki',
-  tagline: '统一维护 Matrix 系列插件的部署、配置与开发文档',
+  tagline: '统一维护 Matrix 系列插件的部署、配置与使用文档',
   favicon: 'img/logo.svg',
   future: {
     v4: true,
@@ -57,12 +57,8 @@ const config: Config = {
         },
         {to: '/docs/plugins', label: '插件列表', position: 'left'},
         {to: '/docs/matrixauth/overview', label: 'MatrixAuth', position: 'left'},
-        {to: '/docs/matrixshop/quick-start', label: 'MatrixShop', position: 'left'},
-        {
-          href: 'https://github.com/54895y/MatirxAuth',
-          label: 'MatrixAuth GitHub',
-          position: 'right',
-        },
+        {to: '/docs/matrixcook/overview', label: 'MatrixCook', position: 'left'},
+        {to: '/docs/matrixshop', label: 'MatrixShop', position: 'left'},
         {
           href: 'https://github.com/54895y/54895y.github.io',
           label: 'Wiki GitHub',
@@ -89,18 +85,35 @@ const config: Config = {
               to: '/docs/matrixauth/overview',
             },
             {
+              label: 'MatrixCook',
+              to: '/docs/matrixcook/overview',
+            },
+            {
               label: 'MatrixShop',
-              to: '/docs/matrixshop/quick-start',
+              to: '/docs/matrixshop',
+            },
+          ],
+        },
+        {
+          title: '插件',
+          items: [
+            {
+              label: 'MatrixAuth',
+              to: '/docs/matrixauth/overview',
+            },
+            {
+              label: 'MatrixCook',
+              to: '/docs/matrixcook/overview',
+            },
+            {
+              label: 'MatrixShop',
+              to: '/docs/matrixshop',
             },
           ],
         },
         {
           title: '仓库',
           items: [
-            {
-              label: 'MatrixAuth',
-              href: 'https://github.com/54895y/MatirxAuth',
-            },
             {
               label: 'Wiki',
               href: 'https://github.com/54895y/54895y.github.io',
@@ -111,8 +124,12 @@ const config: Config = {
           title: '入口',
           items: [
             {
-              label: 'MatrixAuth 部署',
+              label: 'MatrixAuth 安装',
               to: '/docs/matrixauth/installation',
+            },
+            {
+              label: 'MatrixCook 安装',
+              to: '/docs/matrixcook/installation',
             },
             {
               label: 'MatrixShop 快速开始',

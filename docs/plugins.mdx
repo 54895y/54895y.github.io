@@ -1,33 +1,49 @@
 ---
 title: 插件列表
 sidebar_position: 0
-description: Matrix 系列插件文档入口
+description: Matrix 系列插件统一文档入口
 ---
 
 # 插件列表
 
-这里是 Matrix 系列插件的统一文档入口。
+这里汇总当前站点已经维护的三款插件文档。所有说明都以当前源码和默认资源文件为准，而不是旧版交接稿或历史目录结构。
 
 ## MatrixAuth
 
-混合登录与玩家档案管理插件，支持：
+MatrixAuth 是混合登录与账号档案管理插件，围绕 `PREMIUM`、`OFFLINE`、`BEDROCK` 三种身份模式工作，支持：
 
-- SQLite / MySQL
-- Folia
-- Geyser / Floodgate 混合端
-- PlaceholderAPI
-- EasyBot 查询
+- SQLite / MySQL 存储
+- Geyser / Floodgate 基岩兼容
+- PlaceholderAPI 扩展
+- EasyBot 查询接口
+- 玩家档案、多账号绑定与管理员强制维护
 
 [进入 MatrixAuth 文档](/docs/matrixauth/overview)
 
+## MatrixCook
+
+MatrixCook 是可配置的烹饪系统插件，围绕锅具、配方、燃料和放置状态工作，支持：
+
+- 自定义锅具、配方、燃料与分类
+- 原版、CraftEngine、ItemsAdder 三种放置来源
+- GUI 菜单、批量烹饪、燃料耗尽失败
+- SQLite / MySQL / Redis / YAML 放置状态存储
+- PlaceholderAPI、DecentHolograms、CMI 等可选集成
+
+[进入 MatrixCook 文档](/docs/matrixcook/overview)
+
 ## MatrixShop
 
-多功能商店插件，覆盖：
+MatrixShop 是模块化交易插件。当前代码已经实现以下模块，并由统一命令和菜单框架驱动：
 
-- 系统商店
-- 玩家商店
-- 拍卖行
-- 全球市场
-- 箱子商店
+- Menu
+- SystemShop
+- PlayerShop
+- GlobalMarket
+- Auction
+- ChestShop
+- Transaction
+- Cart
+- Record
 
-[进入 MatrixShop 文档](/docs/matrixshop/quick-start)
+[进入 MatrixShop 文档](/docs/matrixshop)

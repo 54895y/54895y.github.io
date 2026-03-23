@@ -1,150 +1,100 @@
 ---
 title: 快速开始
-sidebar_position: 2
-description: 首次部署 MatrixShop、生成默认配置并打开第一个商店。
+description: 首次部署 MatrixShop、生成默认配置并验证基本指令。
 ---
 
 # 快速开始
 
-## 1. 首次部署
+## 1. 首次启动
 
-1. 将 `MatrixShop.jar` 放入服务器 `plugins/` 目录。
-2. 启动服务器，让插件生成默认配置。
-3. 关闭服务器，检查 `plugins/MatrixShop/` 目录。
-4. 按你的玩法保留需要的模块目录与示例文件。
-5. 再次启动服务器，用命令验证商店是否能正常打开。
+1. 将 `MatrixShop.jar` 放入服务端 `plugins/` 目录。
+2. 确保服务器安装了可用的 Vault 经济提供者。
+3. 启动一次服务器，让插件生成默认资源文件。
+4. 按需修改 `module.yml` 和 `database.yml`。
+5. 重新启动，或使用管理员命令重载。
 
 ## 2. 默认目录
 
-当前版本默认会生成驼峰目录：
+当前版本的默认目录结构是：
 
 ```text
 plugins/MatrixShop/
 ├─ config.yml
-├─ currency.yml
-├─ data.db
-├─ lang/
-├─ ui/
-│  └─ transaction.yml
-├─ systemShop/
-│  ├─ module.yml
-│  ├─ goods/
-│  ├─ recycle/
-│  ├─ shop/
-│  └─ ui/
-├─ playerShop/
-│  ├─ module.yml
-│  ├─ shop/
-│  └─ ui/
-├─ auction/
-│  ├─ module.yml
-│  ├─ shop/
-│  └─ ui/
-├─ globalMarket/
-│  ├─ module.yml
-│  ├─ shop/
-│  └─ ui/
-├─ chestShop/
-│  ├─ module.yml
-│  └─ ui/
-├─ playerTrade/
-│  ├─ module.yml
-│  └─ ui/
-├─ cart/
-│  ├─ module.yml
-│  └─ ui/
-└─ mailbox/
-   ├─ module.yml
-   └─ ui/
+├─ module.yml
+├─ database.yml
+├─ Menu/
+├─ SystemShop/
+├─ PlayerShop/
+├─ GlobalMarket/
+├─ Auction/
+├─ ChestShop/
+├─ Transaction/
+├─ Cart/
+└─ Record/
 ```
 
-## 3. 旧目录迁移
+每个模块目录下至少会有：
 
-插件启动时会尝试把旧目录迁移到新结构，例如：
+- `settings.yml`
+- `shops/*.yml`
+- `ui/*.yml`
 
-- `system-shop/` -> `systemShop/`
-- `player-shop/` -> `playerShop/`
-- `global-market/` -> `globalMarket/`
-- `chest-shop/` -> `chestShop/`
-- 平铺的 `goods/`、`shop/`、`recycle/`、`ui/` 也会迁移
+`shops/*.yml` 的文件名就是当前实现里的 `shopId`。
 
-注意：
+## 3. 先做的三项检查
 
-- 迁移是“目标文件不存在时复制/移动”
-- 不会无条件覆盖你已经修改过的新文件
+### 检查模块开关
 
-## 4. 模块开关
+`module.yml` 控制九个模块是否启用：
 
-主开关都在 `config.yml`：
-
-```yml
-model:
-  system-shop:
-    enable: true
-  player-shop:
-    enable: true
-  auction:
-    enable: true
-  global-market:
-    enable: true
-  chest-shop:
-    enable: true
-  player-trade:
-    enable: true
-  cart:
-    enable: true
-  mailbox:
-    enable: true
+```yaml
+modules:
+  menu: true
+  system-shop: true
+  player-shop: true
+  global-market: true
+  auction: true
+  chestshop: true
+  transaction: true
+  cart: true
+  record: true
 ```
 
-运行中也可以直接切换：
+### 检查数据库后端
+
+`database.yml` 当前支持：
+
+- `SQLITE`
+- `MYSQL`
+
+如果 JDBC 初始化失败，插件会回退到文件后端，并在 `/matrixshopadmin status` 中显示原因。
+
+### 检查绑定命令
+
+模块命令不是写死的。它们会从各模块 `settings.yml` 和 `shops/*.yml` 里的 `Bindings.Commands` 读取。
+
+例如默认情况下：
+
+- `/menu`
+- `/auction`
+- `/chestshop`
+- `/trade`
+- `/market`
+
+都可能在启动时注册成独立命令。
+
+## 4. 首次验证命令
+
+建议按这个顺序验证：
 
 ```text
-/msa module list
-/msa module enable player-trade
-/msa module disable auction
+/matrixshopadmin status
+/matrixshop
+/menu open
+/ms system open weapon
+/ms open systemshop:weapon
+/auction open
+/market open
 ```
 
-## 5. 打开第一个系统商店
-
-最简单的方式是直接使用默认示例：
-
-```text
-/ms open example
-```
-
-如果你自己新建：
-
-1. 复制 `plugins/MatrixShop/systemShop/shop/example.yml`
-2. 重命名为 `myShop.yml`
-3. 修改 `id`、`title`、`goods`
-4. 保证 `goods` 中引用的商品已经存在于 `systemShop/goods/*.yml`
-
-然后打开：
-
-```text
-/ms open myShop
-```
-
-## 6. 最小检查清单
-
-在你开始正式改配置前，先确认：
-
-- `currency.yml` 里至少有一个可用货币
-- `model.system-shop.enable: true`
-- 商店 `layout` 里存在商品槽位
-- 商店 `goods` 中引用的商品 ID 真实存在
-- 如果你使用外部物品库，对应插件已成功加载
-- 如果你使用 Vault 货币，服务器上已经有实际经济提供者
-
-## 7. 推荐阅读顺序
-
-推荐按这个顺序往下看：
-
-1. [核心配置](./core-config.mdx)
-2. [货币配置](./currency.mdx)
-3. [命令与绑定指令](./commands-and-bindings.mdx)
-4. [占位符与价格显示](./placeholders-and-price-display.mdx)
-5. [模块目录结构](./module-layout.mdx)
-6. [系统商店商品](./system-shop/goods.mdx)
-7. 你实际会启用的模块页
+如果你能正常打开系统商店、拍卖行和市场页面，说明基础配置已经生效。

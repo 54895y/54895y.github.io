@@ -1,0 +1,59 @@
+---
+title: MatrixCook 概览
+description: MatrixCook 的定位、核心能力与默认目录结构。
+---
+
+# MatrixCook 概览
+
+MatrixCook 是一套围绕“锅具、配方、燃料、放置状态”构建的烹饪系统插件。当前代码基于 Bukkit 插件主类和 TabooLib 模块工作，重点放在可配置性，而不是写死一种交互流程。
+
+当前版本已经实现的核心能力：
+
+- 自定义锅具、配方、燃料与分类
+- 原版方块、CraftEngine、ItemsAdder 三种放置来源
+- 锅具 GUI、配方浏览菜单与分类菜单
+- 批量烹饪、燃料耗尽超时失败、成功/失败动作
+- 放置状态持久化，支持 `sqlite`、`mysql`、`redis`、`yaml`
+- PlaceholderAPI、DecentHolograms、CMI 等可选集成
+- Folia / Paper / 混合核心兼容调度
+
+## 当前目录
+
+首次启动后，插件会在 `plugins/MatrixCook/` 下生成这些目录和示例文件：
+
+```text
+plugins/MatrixCook/
+├─ config.yml
+├─ cooker/
+│  └─ iron_pot.yml
+├─ recipe/
+│  └─ basic.yml
+├─ fuel/
+│  └─ fuels.yml
+├─ categories/
+│  └─ example.yml
+├─ ui/
+│  └─ menu.yml
+└─ language/
+   └─ zh_cn.yml
+```
+
+## 数据范围
+
+MatrixCook 的配置分两类：
+
+- 静态配置：锅具、配方、燃料、分类、菜单
+- 运行态数据：玩家放置过的锅具位置、状态、燃料、配方进度、输出槽内容
+
+静态配置来自 YAML 文件；运行态数据由 `ConfigManager` 统一加载并持久化。
+
+## 适用场景
+
+如果你的服务器需要：
+
+- 自定义生存烹饪体系
+- 让不同锅具只允许部分配方
+- 接入 CraftEngine / ItemsAdder 的锅具外观
+- 用 PlaceholderAPI 展示玩家拥有的锅具数量
+
+那么 MatrixCook 的当前实现已经覆盖这些基础场景。

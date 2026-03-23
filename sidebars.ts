@@ -23,79 +23,37 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'MatrixCook',
+      link: {
+        type: 'doc',
+        id: 'matrixcook/overview',
+      },
+      items: [
+        'matrixcook/installation',
+        'matrixcook/configuration',
+        'matrixcook/cookers-and-recipes',
+        'matrixcook/commands-and-placeholders',
+        'matrixcook/faq',
+      ],
+    },
+    {
+      type: 'category',
       label: 'MatrixShop',
       link: {
         type: 'doc',
         id: 'matrixshop/index',
       },
       items: [
-        'matrixshop/intro',
         'matrixshop/quick-start',
-        'matrixshop/core-config',
-        'matrixshop/currency',
-        {
-          type: 'category',
-          label: '配置详解',
-          items: [
-            'matrixshop/module-layout',
-            'matrixshop/commands-and-bindings',
-            'matrixshop/placeholders-and-price-display',
-          ],
-        },
-        {
-          type: 'category',
-          label: '模块功能',
-          link: {
-            type: 'doc',
-            id: 'matrixshop/modules/index',
-          },
-          items: [
-            'matrixshop/modules/player-shop',
-            'matrixshop/modules/auction',
-            'matrixshop/modules/global-market',
-            'matrixshop/modules/chest-shop',
-            'matrixshop/modules/player-trade',
-            'matrixshop/modules/cart-mailbox-transaction',
-          ],
-        },
-        {
-          type: 'category',
-          label: '系统商店',
-          link: {
-            type: 'doc',
-            id: 'matrixshop/system-shop/index',
-          },
-          items: [
-            'matrixshop/system-shop/goods',
-            'matrixshop/system-shop/shops-and-modes',
-            'matrixshop/system-shop/recycle-rules',
-          ],
-        },
-        {
-          type: 'category',
-          label: 'UI 系统',
-          link: {
-            type: 'doc',
-            id: 'matrixshop/ui/index',
-          },
-          items: [
-            'matrixshop/ui/templates-and-actions',
-            'matrixshop/ui/builtin-ui-index',
-          ],
-        },
-        {
-          type: 'category',
-          label: '高级功能',
-          link: {
-            type: 'doc',
-            id: 'matrixshop/advanced/index',
-          },
-          items: [
-            'matrixshop/advanced/language-item-source-and-repo',
-            'matrixshop/advanced/compatibility-and-best-practices',
-            'matrixshop/advanced/faq-and-troubleshooting',
-          ],
-        },
+        'matrixshop/configuration-structure',
+        'matrixshop/commands-and-permissions',
+        'matrixshop/database-and-storage',
+        'matrixshop/modules-overview',
+        'matrixshop/system-shop',
+        'matrixshop/player-economy-modules',
+        'matrixshop/interaction-modules',
+        'matrixshop/bindings-and-ui',
+        'matrixshop/faq',
       ],
     },
   ],

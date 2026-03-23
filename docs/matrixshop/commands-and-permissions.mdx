@@ -1,0 +1,91 @@
+---
+title: 命令与权限
+description: MatrixShop 的玩家指令、管理员指令与权限节点。
+---
+
+# 命令与权限
+
+## 主命令
+
+当前代码注册了两组固定入口：
+
+- `/matrixshop`
+- `/shop`
+- `/ms`
+- `/matrixshopadmin`
+- `/msa`
+
+此外，一部分模块还会根据配置注册独立命令，例如：
+
+- `/menu`
+- `/auction`
+- `/chestshop`
+- `/trade`
+- `/market`
+
+是否注册，取决于模块或具体 `shops/*.yml` 的 `Bindings.Commands.Register`。
+
+## 玩家命令
+
+### 通用入口
+
+| 命令 | 说明 |
+| --- | --- |
+| `/matrixshop` | 打开默认系统商店 |
+| `/ms help` | 查看当前启用模块的帮助 |
+| `/ms open <shop-id\|category>` | 打开某个配置过的入口或系统商店分类 |
+| `/ms open <type:id>` | 用显式前缀打开目标，避免同名冲突 |
+
+显式前缀当前支持：
+
+- `systemshop:<category>`
+- `playershop:<shop-id>`
+- `globalmarket:<shop-id>`
+- `auction:<shop-id>`
+- `transaction:<shop-id>`
+- `menu:<shop-id>`
+- `cart:<shop-id>`
+- `record:<shop-id>`
+- `chestshop:<shop-id>`
+
+### 模块命令
+
+| 模块 | 常用命令 |
+| --- | --- |
+| SystemShop | `/ms system open <category>` |
+| PlayerShop | `/playershop open [player]`、`/playershop edit`、`/playershop upload <price> [amount]` |
+| GlobalMarket | `/market open`、`/market upload <price> [amount]`、`/market manage` |
+| Auction | `/auction open`、`/auction upload <english\|dutch> <start> [buyout\|end] [duration]`、`/auction bid <id> [price]`、`/auction buyout <id>` |
+| ChestShop | `/chestshop create <buy\|sell\|dual> <price> [sell-price] [amount]`、`/chestshop edit`、`/chestshop stock`、`/chestshop history` |
+| Transaction | `/trade request <player>`、`/trade accept`、`/trade money <amount>`、`/trade exp <amount>`、`/trade ready`、`/trade confirm` |
+| Cart | `/cart open`、`/cart checkout [valid_only]`、`/cart clear`、`/cart remove <slot>` |
+| Record | `/record open [keyword]`、`/record detail <id>`、`/record filter [module\|all]`、`/record income`、`/record expense` |
+
+## 管理员命令
+
+管理员入口是 `/matrixshopadmin`：
+
+| 命令 | 权限 | 说明 |
+| --- | --- | --- |
+| `/matrixshopadmin reload` | `matrixshop.admin.reload` | 重载配置、数据库状态和模块 |
+| `/matrixshopadmin sync` | `matrixshop.admin.sync` | 立即执行 schema 同步和旧数据导入 |
+| `/matrixshopadmin status` | `matrixshop.admin.status` | 查看经济、数据库、模块与迁移状态 |
+| `/matrixshopadmin module list` | `matrixshop.admin.module` | 查看模块启用情况 |
+| `/matrixshopadmin module <enable\|disable\|toggle> <id>` | `matrixshop.admin.module` | 切换模块开关 |
+
+## 权限节点
+
+核心权限定义集中在 `Permissions.kt`：
+
+- 总管理：`matrixshop.admin`
+- Menu：`matrixshop.menu.use`
+- SystemShop：`matrixshop.systemshop.use`
+- PlayerShop：`matrixshop.playershop.use` / `sell` / `manage.own`
+- GlobalMarket：`matrixshop.globalmarket.use` / `sell` / `manage.own`
+- Auction：`matrixshop.auction.use` / `sell` / `bid` / `buyout` / `manage.own`
+- Cart：`matrixshop.cart.use` / `checkout` / `clear`
+- Record：`matrixshop.record.use` / `detail.self` / `stats.self`
+- Transaction：`matrixshop.transaction.use`
+- ChestShop：`matrixshop.chestshop.use` / `create` / `manage.own`
+
+`matrixshop.admin` 会被视为通配管理权限，自动通过模块级校验。

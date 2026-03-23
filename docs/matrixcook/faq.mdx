@@ -1,0 +1,55 @@
+---
+title: 常见问题
+description: MatrixCook 的排错与注意事项。
+---
+
+# 常见问题
+
+## 为什么命令是 `matrixcook`，但权限和占位符里还有 `cookly`
+
+这是当前代码保留下来的兼容痕迹：
+
+- 命令权限走 `matrixcook.*`
+- 锅具/配方默认权限走 `cookly.*`
+- PlaceholderAPI 前缀也是 `cookly`
+
+写权限组和记分板时要按这个现状处理。
+
+## 为什么配方明明写了却匹配不上
+
+优先检查这几项：
+
+- 当前锅具 `allowed_recipes` 是否允许这条配方
+- 原料数量是否满足 `ingredients`
+- 配方权限是否真的给到了玩家
+- 如果用了分类，`categories/*.yml` 里的物品 ID 是否正确
+
+## 为什么燃料放进去没有反应
+
+`FuelConfig` 的匹配逻辑分两档：
+
+- 只写 `type` 时，按材质匹配
+- 写了 `name`、`lore`、`custom-model-data` 后，要求完全匹配
+
+另外，配方如果声明了 `allowed_fuels`，不在名单里的燃料也不会被消耗。
+
+## 为什么没有全息文字
+
+全息系统需要以下两者之一：
+
+- `DecentHolograms`
+- `CMI`
+
+如果两者都没装，锅具依然能工作，只是不会创建全息提示。
+
+## 存档会不会自动迁移
+
+会。当前后端为空而旧版 `data/placed_cookers.yml` 存在时，插件会尝试导入旧数据，并把原文件改名为 `.migrated`。
+
+## 什么时候该用 `minecraft`，什么时候该用 `craftengine` / `itemsadder`
+
+- 纯原版方块锅具：用 `minecraft`
+- 自定义方块或家具来自 CraftEngine：用 `craftengine`
+- 自定义方块或家具来自 ItemsAdder：用 `itemsadder`
+
+放置来源和监听器必须与实际使用的物品系统一致，否则放下去之后不会被识别为锅具。

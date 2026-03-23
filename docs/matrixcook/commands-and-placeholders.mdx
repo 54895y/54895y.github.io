@@ -1,0 +1,64 @@
+---
+title: 命令与占位符
+description: MatrixCook 的命令入口、权限节点和 PlaceholderAPI 变量。
+---
+
+# 命令与占位符
+
+## 主命令
+
+根命令是 `/matrixcook`，总权限为 `matrixcook.command`。
+
+### 玩家常用命令
+
+| 命令 | 权限 | 说明 |
+| --- | --- | --- |
+| `/matrixcook help` | `matrixcook.command` | 查看帮助面板 |
+| `/matrixcook menu` | `matrixcook.command.menu` | 打开锅具总览菜单 |
+| `/matrixcook menu cooker <锅具ID>` | `matrixcook.command.menu` | 查看某个锅具的配方列表 |
+| `/matrixcook menu categories <分类ID>` | `matrixcook.command.menu` | 查看分类详情 |
+
+### 管理命令
+
+| 命令 | 权限 | 说明 |
+| --- | --- | --- |
+| `/matrixcook reload` | `matrixcook.command.reload` | 重载配置、语言和缓存 |
+| `/matrixcook give cooker <玩家> <锅具ID> [数量]` | `matrixcook.command.give` | 发放锅具 |
+| `/matrixcook give fuel <玩家> <燃料ID> [数量]` | `matrixcook.command.give` | 发放燃料 |
+| `/matrixcook give item <玩家> <配方ID> <result\|failure> [数量]` | `matrixcook.command.give` | 发放配方产物或失败产物 |
+| `/matrixcook debug` | `matrixcook.admin` | 输出当前已放置锅具的调试信息 |
+
+## 配置内权限
+
+除了命令权限，配置本身还有两类运行权限：
+
+- 锅具权限：默认 `cookly.cooker.<id>`
+- 配方权限：默认 `cookly.recipe.<id>`
+
+也就是说，命令权限前缀是 `matrixcook.*`，而锅具/配方使用权限默认还是 `cookly.*`。这是当前代码里的真实行为。
+
+## PlaceholderAPI
+
+如果服务器安装了 PlaceholderAPI，插件会注册 `cookly` 前缀。
+
+当前已实现的占位符形式：
+
+- `%cookly_cooker_<id>_amount%`
+- `%cookly_cooker_<id>_active%`
+- `%cookly_cooker_<id>_normal%`
+
+含义分别是：
+
+- `amount`：玩家拥有或放置的该锅具总数
+- `active`：当前处于烹饪中的数量
+- `normal`：当前空闲中的数量
+
+示例：
+
+```text
+%cookly_cooker_iron_pot_amount%
+%cookly_cooker_iron_pot_active%
+%cookly_cooker_iron_pot_normal%
+```
+
+占位符前缀之所以还是 `cookly`，是因为扩展类 `CooklyExpansion` 当前就是按这个名字注册的。

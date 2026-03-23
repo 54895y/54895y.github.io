@@ -1,0 +1,106 @@
+---
+title: 数据库与存储
+description: MatrixShop 的 JDBC 优先与文件回退设计。
+---
+
+# 数据库与存储
+
+## 当前后端模型
+
+MatrixShop 当前采用“JDBC 优先，文件回退”的设计：
+
+- 如果 SQLite / MySQL JDBC 可用，则使用数据库
+- 如果 JDBC 初始化失败，则自动回退到文件后端
+
+对应配置文件是 `database.yml`。
+
+## `database.yml`
+
+默认字段如下：
+
+```yaml
+Database:
+  Type: SQLITE
+  SQLite:
+    File: 'Data/data.db'
+  MySQL:
+    Host: '127.0.0.1'
+    Port: 3306
+    Database: 'matrixshop'
+    Username: 'root'
+    Password: 'password'
+```
+
+当前代码真正支持的数据库类型只有：
+
+- `SQLITE`
+- `MYSQL`
+
+## Schema 同步
+
+`DatabaseManager` 当前维护的 schema 版本是 `3`，并在启动和 `/matrixshopadmin sync` 时同步。
+
+已知升级点包括：
+
+- 创建运行期表和索引
+- 将拍卖行、全球市场、玩家商店迁移到带 `shop_id` 的结构
+
+数据库元信息会写入 `matrixshop_meta`，用于记录：
+
+- 当前 schema 版本
+- 上次迁移信息
+- 上次旧数据导入信息
+- 当前数据目标
+
+## 已接入 JDBC / 文件回退的模块
+
+当前代码里，下列模块都已经是 JDBC 优先、文件回退：
+
+- Record
+- AuctionRepository
+- AuctionDeliveryRepository
+- GlobalMarketRepository
+- PlayerShopRepository
+- CartRepository
+- ChestShopRepository
+
+这意味着：
+
+- 数据库可用时，这些模块会优先写表
+- 数据库不可用时，仍然能以文件方式运行
+
+## 旧数据导入
+
+启动过程会调用 `LegacyDataMigrationService.migrateAll()`。管理员也可以手动运行：
+
+```text
+/matrixshopadmin sync
+```
+
+执行后会同时看到：
+
+- schema 同步结果
+- 旧数据导入结果
+
+## 管理员排错命令
+
+```text
+/matrixshopadmin status
+```
+
+会输出：
+
+- 当前数据目录
+- 经济提供者
+- 配置后端与实际后端
+- schema 版本
+- Redis 通知开关
+- 记录后端
+- 表数量统计
+- 模块启用状态
+
+## Redis 说明
+
+`database.yml` 里虽然暴露了 Redis 相关字段，但当前代码只把它作为状态信息的一部分，并不会把 MatrixShop 主数据层切换到 Redis。
+
+写文档和运维说明时，应该把 Redis 视为“预留配置”，而不是正式主存储后端。

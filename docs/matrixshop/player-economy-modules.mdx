@@ -1,0 +1,113 @@
+---
+title: PlayerShop、GlobalMarket、Auction
+description: 三个主要经济模块的配置入口与行为差异。
+---
+
+# PlayerShop、GlobalMarket、Auction
+
+这三个模块都属于“可上架、可浏览、可管理”的经济模块，但侧重点不同。
+
+## PlayerShop
+
+### 主要文件
+
+- `PlayerShop/settings.yml`
+- `PlayerShop/shops/*.yml`
+- `PlayerShop/ui/shop.yml`
+- `PlayerShop/ui/edit.yml`
+
+### 关键配置
+
+`PlayerShop/settings.yml` 当前真正有用的设置包括：
+
+- `Unlock.Base`
+- `Unlock.Max`
+- `Search.enable`
+- `Search.condition`
+
+### 常用命令
+
+```text
+/playershop open [player]
+/playershop edit
+/playershop upload <price> [amount]
+```
+
+`upload` 会从主手读取物品上架。
+
+## GlobalMarket
+
+### 主要文件
+
+- `GlobalMarket/settings.yml`
+- `GlobalMarket/shops/*.yml`
+- `GlobalMarket/ui/market.yml`
+- `GlobalMarket/ui/upload.yml`
+- `GlobalMarket/ui/manage.yml`
+
+### 关键配置
+
+`GlobalMarket/settings.yml` 当前默认使用：
+
+- `Listing.Expire-Hours`
+- `Listing.Tax-Percent`
+
+### 常用命令
+
+```text
+/market open
+/market upload <price> [amount]
+/market manage
+```
+
+`manage` 会打开自己的上架列表。
+
+## Auction
+
+### 主要文件
+
+- `Auction/settings.yml`
+- `Auction/shops/*.yml`
+- `Auction/ui/auction.yml`
+- `Auction/ui/detail.yml`
+- `Auction/ui/upload.yml`
+- `Auction/ui/manage.yml`
+- `Auction/ui/bids.yml`
+
+### 当前已实现的重点选项
+
+`Auction/settings.yml` 中最重要的是：
+
+- `Options.Listing.Max-Active`
+- `Options.Listing.Duration.Default / Min / Max`
+- `Options.Listing.Modes.ENGLISH`
+- `Options.Listing.Modes.DUTCH`
+- `Options.Listing.Deposit`
+- `Options.Listing.Tax`
+- `Options.Snipe-Protection`
+- `Options.Cancel.Owner`
+- `Options.Record`
+
+也就是说，当前代码已经明确支持：
+
+- 英式拍卖
+- 荷式拍卖
+- 一口价 / 终价
+- 押金与税
+- 抢拍保护
+- 主人取消限制
+
+### 常用命令
+
+```text
+/auction open
+/auction upload <english|dutch> <start> [buyout|end] [duration]
+/auction detail <id>
+/auction bid <id> [price]
+/auction buyout <id>
+/auction manage
+/auction bids
+/auction remove <id>
+```
+
+如果你要写新手文档或运营说明，应该明确告诉玩家：当前拍卖行是依赖主手物品上架的，而不是先打开一个独立的“投递箱”。

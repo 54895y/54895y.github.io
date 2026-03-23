@@ -1,0 +1,154 @@
+---
+title: 锅具、配方与燃料
+description: MatrixCook 的核心 YAML 结构。
+---
+
+# 锅具、配方与燃料
+
+MatrixCook 的核心配置分布在 4 个目录：
+
+- `cooker/`：锅具定义
+- `recipe/`：配方定义
+- `fuel/`：燃料定义
+- `categories/`：分类定义
+
+## 锅具文件
+
+锅具示例 `cooker/iron_pot.yml` 包含这些重点字段：
+
+```yaml
+iron_pot:
+  permission: "cookly.cooker.iron_pot"
+  properties:
+    speed: 1.0
+    allowed_recipes:
+      - "fried_egg"
+  hologram:
+    idle:
+      - "&7铁锅"
+    cooking:
+      - "&7铁锅"
+      - "&a烹饪中 %progress%"
+  items:
+    hand:
+      type: "CAULDRON"
+      custom-model-data: 1001
+    placed:
+      source: "minecraft"
+      type: "block"
+      id: "CAMPFIRE"
+  gui:
+    title: "&6铁锅"
+    layout:
+      - "AAAAAAAAA"
+      - "AAIAIAIAA"
+      - "AAAAFAAAA"
+      - "AAAAOAAAA"
+      - "AAAACAAAA"
+```
+
+### 关键点
+
+- `permission`：玩家是否可以使用这个锅具。
+- `properties.speed`：速度倍率。真实烹饪时间会用 `配方时间 / speed` 计算。
+- `properties.allowed_recipes`：留空表示允许全部配方。
+- `items.hand`：玩家手里拿到的锅具物品。
+- `items.placed`：放下后在世界中对应的实体或方块。
+
+`items.placed` 支持：
+
+- `source`: `minecraft`、`craftengine`、`itemsadder`
+- `type`: `block`、`furniture`
+
+如果你使用 CraftEngine 或 ItemsAdder，锅具的放置监听会分别由对应的监听器处理。
+
+## 配方文件
+
+配方示例 `recipe/basic.yml` 使用这些字段：
+
+```yaml
+fried_egg:
+  permission: "cookly.recipe.fried_egg"
+  ingredients:
+    - "EGG:1"
+  cooking_time: 10
+  result:
+    item:
+      type: "COOKED_CHICKEN"
+      name: "&6煎蛋"
+    amount: 1
+    actions: []
+  failure:
+    item:
+      type: "CHARCOAL"
+      name: "&7烧焦的食物"
+    actions: []
+```
+
+### 配方规则
+
+- `ingredients` 支持 `物品ID:数量`。
+- 也支持分类写法，例如 `categories:蔬菜:2`。
+- `allowed_fuels` 留空表示兼容所有燃料。
+- `result.actions` / `failure.actions` 会在完成后执行 Kether 动作。
+
+### 批量烹饪
+
+如果当前锅具内的原料足够多，`CookingManager` 会计算最大批次数，并连续处理下一锅。中途如果输出槽满了，或原料不再满足，就会停止批量流程。
+
+### 燃料耗尽失败
+
+烹饪中如果燃料耗尽，锅具会进入 `FUEL_OUT` 状态。超过 `config.yml` 中的 `cooking.fuel_out_timeout` 后，当前配方会走 `failure` 分支。
+
+## 燃料文件
+
+`fuel/fuels.yml` 支持两种常见写法：
+
+1. 只按物品类型匹配
+2. 按完整名称、Lore、CMD 精确匹配
+
+示例：
+
+```yaml
+煤炭:
+  item:
+    type: "COAL"
+  time: 1
+
+超级煤炭:
+  item:
+    type: "COAL"
+    name: "&e超级煤炭"
+  time: 100
+```
+
+如果 `item` 里只写了 `type`，任何同类型物品都能作为燃料；一旦加入 `name`、`lore` 或 `custom-model-data`，就会变成严格匹配。
+
+## 分类文件
+
+`categories/example.yml` 的结构是：
+
+```yaml
+categories:
+  蔬菜:
+    display: "蔬菜"
+    list:
+      - "minecraft:carrot"
+      - "minecraft:potato"
+```
+
+分类的用途主要有两个：
+
+- 作为配方原料条件，例如 `categories:蔬菜:2`
+- 作为燃料来源，例如 `categories:木质物品`
+
+## 物品 ID 规则
+
+`ItemData` 最终通过 Arim 物品解析器构建物品。当前文档里最常用的写法有：
+
+- 原版：`minecraft:stone`
+- 省略前缀时默认按原版处理，例如 `DIAMOND`
+- CraftEngine：`ce:namespace:item`
+- 分类：`categories:<分类ID>`
+
+如果你使用 ItemsAdder，自定义物品也可以按其命名空间 ID 参与匹配和生成。

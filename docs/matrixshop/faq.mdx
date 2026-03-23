@@ -1,0 +1,65 @@
+---
+title: 常见问题
+description: MatrixShop 当前实现的常见误区与排错入口。
+---
+
+# 常见问题
+
+## 为什么文档里不再写 `currency.yml`
+
+因为当前源码默认资源里没有 `currency.yml`。旧版文档提到的货币总表不适用于现在这套实现。
+
+当前示例里的货币字段通常直接写：
+
+```yaml
+currency: 'vault'
+```
+
+## 为什么改了 `shops/*.yml` 文件名后，原来的入口和数据不见了
+
+因为现在的 `shopId` 就是文件名。对这些模块来说，改文件名相当于改了运行时作用域：
+
+- `player-shop`
+- `global-market`
+- `auction`
+- `transaction`
+
+## `/ms open <id>` 打不开或提示歧义怎么办
+
+如果多个模块里出现了同名 `shopId`，就不要再用短写法，直接改成显式前缀：
+
+```text
+/ms open playershop:default
+/ms open auction:default
+```
+
+## 数据库明明配了，为什么还是走文件后端
+
+先执行：
+
+```text
+/matrixshopadmin status
+```
+
+然后重点看：
+
+- `Configured data backend`
+- `Active data backend`
+- `Data backend reason`
+
+只要 JDBC 初始化失败，插件就会自动回退到文件后端。
+
+## Redis 能不能当主存储
+
+不能。当前代码只会把 Redis 配置显示在状态信息里，不会把主数据层切到 Redis。
+
+## 为什么切换独立命令绑定后，`reload` 不生效
+
+因为独立命令注册只在插件启动时执行。改这些字段后需要重启：
+
+- `Bindings.Commands.Register`
+- 独立命令关键字本身
+
+## SystemShop 为什么没有数据库表
+
+因为当前 SystemShop 是纯配置驱动模块，不依赖 JDBC 运行表。真正大量落表的是拍卖、市场、玩家商店、购物车、箱店和记录系统。

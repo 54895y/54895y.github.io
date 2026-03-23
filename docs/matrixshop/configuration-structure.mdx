@@ -1,0 +1,99 @@
+---
+title: 配置结构
+description: MatrixShop 当前版本的目录布局与文件职责。
+---
+
+# 配置结构
+
+当前 MatrixShop 不是“一个总配置 + 一堆平铺子目录”的结构，而是三层配置：
+
+- 顶层全局文件
+- 模块目录
+- 模块内的 `settings.yml`、`shops/*.yml`、`ui/*.yml`
+
+## 顶层文件
+
+| 文件 | 作用 |
+| --- | --- |
+| `config.yml` | 调试、默认系统商店分类、基础消息 |
+| `module.yml` | 九个模块的启用状态 |
+| `database.yml` | SQLite / MySQL 数据层配置 |
+
+## 模块目录
+
+当前默认资源目录如下：
+
+- `Menu/`
+- `SystemShop/`
+- `PlayerShop/`
+- `GlobalMarket/`
+- `Auction/`
+- `ChestShop/`
+- `Transaction/`
+- `Cart/`
+- `Record/`
+
+## `settings.yml`
+
+每个模块的 `settings.yml` 主要负责两类内容：
+
+1. 模块是否启用后的运行选项
+2. 命令绑定声明
+
+命令绑定的通用结构是：
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'auction'
+      - 'ah'
+    Register: true
+    Show-In-Help: true
+    Priority: 20
+    Condition: 'perm matrixshop.auction.use'
+```
+
+其中：
+
+- `Bindings`：候选命令关键字
+- `Register`：是否注册为独立命令
+- `Show-In-Help`：是否出现在 `/ms help`
+- `Priority`：多个命令别名冲突时的优先级
+
+## `shops/*.yml`
+
+`shops/*.yml` 是当前版本最重要的入口配置。它承担两个职责：
+
+1. 定义一个菜单视图
+2. 定义一个 `shopId`
+
+规则很简单：
+
+- 文件名就是 `shopId`
+- 里面可以再次声明 `Bindings.Commands`
+- 里面的 `layout`、`icons`、`template` 决定这个入口怎么显示
+
+当前示例里，以下模块都依赖 `shops/*.yml`：
+
+- `Menu`
+- `SystemShop`
+- `PlayerShop`
+- `GlobalMarket`
+- `Auction`
+- `ChestShop`
+- `Transaction`
+- `Cart`
+- `Record`
+
+## `ui/*.yml`
+
+`ui/*.yml` 用于承载模块的具体界面模板，例如：
+
+- 系统商店确认页
+- 拍卖详情页
+- 玩家商店编辑页
+- 购物车结算页
+- 交易确认页
+
+模块代码会按自己的流程打开这些 UI 文件，因此 `ui/*.yml` 更偏向“内部页面”，而 `shops/*.yml` 更偏向“入口页面”。

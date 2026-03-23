@@ -8,41 +8,51 @@ import styles from './index.module.css';
 const pluginCards = [
   {
     title: 'MatrixAuth',
-    status: '已上线',
+    status: '已校对',
     description:
-      '混合登录、档案绑定、SQLite/MySQL、Folia 兼容、PlaceholderAPI 和 EasyBot 查询都已经整理进当前文档。',
+      '混合登录、档案绑定、SQLite/MySQL、PlaceholderAPI、Geyser/Floodgate 与 EasyBot 查询接口都已按当前源码整理。',
     tags: ['1.12+', 'TabooLib', 'Folia', 'EasyBot'],
     to: '/docs/matrixauth/overview',
   },
   {
-    title: 'MatrixShop',
-    status: '已收录',
+    title: 'MatrixCook',
+    status: '新增',
     description:
-      '多功能服务器商店文档继续保留在同一站点，系统商店、玩家商店、拍卖行和 UI 配置仍按原结构维护。',
-    tags: ['Shop', 'Auction', 'GUI', 'Economy'],
-    to: '/docs/matrixshop/quick-start',
+      '围绕锅具、配方、燃料、分类和放置状态构建的烹饪系统文档，覆盖配置、命令、占位符与多存储后端。',
+    tags: ['Cooking', 'GUI', 'CraftEngine', 'ItemsAdder'],
+    to: '/docs/matrixcook/overview',
   },
   {
-    title: 'Wiki 站点',
+    title: 'MatrixShop',
+    status: '已重写',
+    description:
+      '按当前模块化实现重写，覆盖 Menu、SystemShop、PlayerShop、GlobalMarket、Auction、ChestShop、Transaction、Cart、Record。',
+    tags: ['Shop', 'Auction', 'Economy', 'JDBC'],
+    to: '/docs/matrixshop',
+  },
+  {
+    title: 'Wiki 仓库',
     status: 'GitHub Pages',
     description:
-      '站点使用 54895y.github.io 仓库发布，后续插件可以继续沿用同一套 Docusaurus 结构接入。',
+      '站点使用 `54895y.github.io` 仓库发布，当前文档目录已经作为 Matrix 系列插件的统一知识入口。',
     tags: ['Docusaurus', 'GitHub Pages', 'Docs'],
     href: 'https://github.com/54895y/54895y.github.io',
   },
 ];
 
 const highlights = [
-  'Docs 根目录现在作为 Matrix 系列插件统一 Wiki 入口',
-  'MatrixAuth 已补齐概览、部署、配置、命令、PAPI、EasyBot、开发与 FAQ',
-  'MatrixShop 旧文档保留并并入同一套导航，不再被新站点覆盖',
+  'Docs 目录现在统一承载 MatrixAuth、MatrixCook、MatrixShop 三套文档',
+  'MatrixCook 页面已补齐锅具、配方、燃料、存储与命令说明',
+  'MatrixShop 页面已切换到当前模块化结构，不再沿用旧版目录和旧版配置描述',
 ];
 
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
 
   return (
-    <Layout title="插件文档总览" description="Matrix 系列插件统一文档站，当前已收录 MatrixAuth 与 MatrixShop。">
+    <Layout
+      title="插件文档总览"
+      description="Matrix 系列插件统一文档站点，当前维护 MatrixAuth、MatrixCook 与 MatrixShop。">
       <main className={styles.page}>
         <section className={styles.heroSection}>
           <div className={styles.heroPanel}>
@@ -51,15 +61,15 @@ export default function Home(): ReactNode {
               <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
               <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
               <p className={styles.heroDescription}>
-                这里不是默认示例站点，而是你所有插件的统一知识库入口。
-                当前站点已经先完成 MatrixAuth 文档，并把原有 MatrixShop 文档一并纳入统一导航。
+                这里不再区分旧仓库文档和临时记录，而是把三款插件的源码信息统一整理到一个站点里。
+                页面内容优先依据当前代码、默认配置与默认资源文件生成。
               </p>
               <div className={styles.actions}>
-                <Link className={styles.primaryAction} to="/docs/matrixauth/overview">
-                  查看 MatrixAuth
-                </Link>
-                <Link className={styles.secondaryAction} to="/docs/plugins">
+                <Link className={styles.primaryAction} to="/docs/plugins">
                   查看插件列表
+                </Link>
+                <Link className={styles.secondaryAction} to="/docs/matrixshop">
+                  从 MatrixShop 开始
                 </Link>
               </div>
             </div>
@@ -72,12 +82,12 @@ export default function Home(): ReactNode {
               </ul>
               <div className={styles.statRow}>
                 <div className={styles.statCard}>
-                  <strong>2</strong>
+                  <strong>3</strong>
                   <span>已收录插件</span>
                 </div>
                 <div className={styles.statCard}>
-                  <strong>8</strong>
-                  <span>MatrixAuth 页面</span>
+                  <strong>3</strong>
+                  <span>插件分区</span>
                 </div>
                 <div className={styles.statCard}>
                   <strong>1</strong>

@@ -1,0 +1,50 @@
+---
+title: 安装指南
+description: MatrixCook 的运行条件、可选依赖与首次启动步骤。
+---
+
+# 安装指南
+
+## 运行条件
+
+- Java 8 或更高
+- 支持 Bukkit API 的服务端
+- 代码以 `1.12` API 编译，适合作为低版本起步的兼容实现
+
+插件内部还会检测运行时核心类型，适配：
+
+- Bukkit / Spigot
+- Paper 系
+- Folia
+- 常见混合核心
+
+## 可选依赖
+
+这些插件不是必须项，但安装后会启用额外功能：
+
+| 组件 | 作用 |
+| --- | --- |
+| PlaceholderAPI | 启用 `%cookly_*%` 占位符 |
+| CraftEngine | 支持 `craftengine` / `ce:` 放置物与物品解析 |
+| ItemsAdder | 支持 `itemsadder` 放置物与物品解析 |
+| DecentHolograms | 锅具全息文字优先使用该适配器 |
+| CMI | 没有 DecentHolograms 时可作为全息适配器 |
+
+## 首次启动
+
+1. 将 `MatrixCook.jar` 放入服务端 `plugins/` 目录。
+2. 启动一次服务器，让默认配置和示例文件释放出来。
+3. 按需修改 `config.yml`、`cooker/*.yml`、`recipe/*.yml`、`fuel/*.yml`。
+4. 重新启动，或执行 `/matrixcook reload`。
+
+## 运行时依赖
+
+插件使用 `@RuntimeDependency` 拉取数据库和缓存依赖，首次启动时可能会自动下载：
+
+- HikariCP
+- sqlite-jdbc
+- mysql-connector-j
+- Jedis
+- commons-pool2
+
+如果你的环境完全离线，建议先在可联网环境启动一次，让依赖缓存落地。

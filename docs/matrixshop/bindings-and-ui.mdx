@@ -1,0 +1,114 @@
+---
+title: 绑定与 UI
+description: MatrixShop 的命令绑定、菜单布局与动作执行规则。
+---
+
+# 绑定与 UI
+
+## 命令绑定来源
+
+MatrixShop 的命令不只来自固定代码，还来自配置：
+
+1. 模块级 `settings.yml`
+2. 入口级 `shops/*.yml`
+
+模块级绑定由 `ModuleBindings` 读取，入口级绑定由 `ShopMenuLoader` 读取。
+
+## 绑定字段
+
+这组字段在模块和入口里通用：
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'market'
+      - 'gm'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+```
+
+含义：
+
+- `Bindings`：命令关键字列表
+- `Register`：是否注册为独立命令
+- `Show-In-Help`：是否出现在 `/ms help`
+- `Priority`：冲突时优先级
+
+## `shopId` 规则
+
+当前实现里，`shopId` 不再依赖 YAML 内部的 `id` 字段，而是直接取：
+
+```text
+shops/<file-name>.yml
+```
+
+例如：
+
+- `PlayerShop/shops/default.yml` -> `default`
+- `Menu/shops/main.yml` -> `main`
+
+这条规则非常重要，因为它会影响：
+
+- `/ms open <shop-id>`
+- `/ms open <type:id>`
+- 多商店模块的数据作用域
+
+## 菜单结构
+
+菜单文件的核心字段如下：
+
+```yaml
+Title:
+  - '&8Global Market &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+```
+
+### 关键规则
+
+- `layout` 每行 9 格
+- `icons` 里每个字符都对应一种图标定义
+- 带 `mode:` 的格子会交给模块代码渲染动态内容
+- 没有 `mode:` 的格子会按静态图标直接渲染
+
+## 动作语法
+
+`ActionExecutor` 当前支持这些动作：
+
+- `close`
+- `back`
+- `tell:消息`
+- `sound:SOUND-VOLUME-PITCH`
+- 其他任意字符串：作为玩家命令执行
+
+例如：
+
+```yaml
+actions:
+  left:
+    - 'matrixshop open systemshop:weapon'
+    - 'sound:ui_button_click-1-1'
+```
+
+这意味着大多数按钮跳转其实都是“把一条命令当动作执行”，而不是写死在 UI 系统里。
+
+## 重载与重启的区别
+
+`/matrixshopadmin reload` 会重新加载配置和模块，但有一个边界要注意：
+
+- `/ms` 这种主入口绑定可以随重载更新
+- 独立命令注册只发生在插件启动时
+
+所以如果你改了 `Bindings.Commands.Register` 或独立命令关键字，最好完整重启服务器。
