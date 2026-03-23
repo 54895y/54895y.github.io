@@ -42,18 +42,35 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-html,
+html {
+  background-color: #eef7f8;
+}
+
 body {
+  background: transparent;
+}
+
+#__docusaurus {
+  min-height: 100vh;
   background:
     radial-gradient(circle at top, rgba(224, 176, 75, 0.1), transparent 26%),
     linear-gradient(180deg, #fffdf7 0%, #eef7f8 100%);
+  background-repeat: no-repeat;
 }
 
-[data-theme='dark'] html,
-[data-theme='dark'] body {
+html[data-theme='dark'] {
+  background-color: #102131;
+}
+
+html[data-theme='dark'] body {
+  background: transparent;
+}
+
+html[data-theme='dark'] #__docusaurus {
   background:
     radial-gradient(circle at top, rgba(125, 211, 199, 0.16), transparent 25%),
     linear-gradient(180deg, #08131f 0%, #102131 100%);
+  background-repeat: no-repeat;
 }
 
 .navbar {
