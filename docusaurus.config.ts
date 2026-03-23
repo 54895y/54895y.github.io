@@ -1,25 +1,24 @@
-﻿import {themes as prismThemes} from 'prism-react-renderer';
+import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Matrix 插件中心',
-  tagline: 'Minecraft 服务器插件解决方案',
-  favicon: 'img/favicon.ico',
-
+  title: 'Matrix Wiki',
+  tagline: '统一维护 Matrix 系列插件的部署、配置与开发文档',
+  favicon: 'img/logo.svg',
+  future: {
+    v4: true,
+  },
   url: 'https://54895y.github.io',
   baseUrl: '/',
-
   organizationName: '54895y',
   projectName: '54895y.github.io',
-
+  deploymentBranch: 'main',
   onBrokenLinks: 'throw',
-
   i18n: {
     defaultLocale: 'zh-Hans',
     locales: ['zh-Hans'],
   },
-
   presets: [
     [
       'classic',
@@ -27,41 +26,46 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/54895y/54895y.github.io/tree/main/',
+          exclude: ['**/tutorial-basics/**', '**/tutorial-extras/**'],
         },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
   ],
-
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/logo.svg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'Matrix 插件中心',
+      title: 'Matrix Wiki',
       logo: {
-        alt: 'Matrix Logo',
-        src: 'img/logo.png',
+        alt: 'Matrix Wiki Logo',
+        src: 'img/logo.svg',
       },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'docsSidebar',
           position: 'left',
           label: '文档',
         },
+        {to: '/docs/plugins', label: '插件列表', position: 'left'},
+        {to: '/docs/matrixauth/overview', label: 'MatrixAuth', position: 'left'},
+        {to: '/docs/matrixshop/quick-start', label: 'MatrixShop', position: 'left'},
         {
-          type: 'doc',
-          docId: 'plugins',
-          position: 'left',
-          label: '插件列表',
+          href: 'https://github.com/54895y/MatirxAuth',
+          label: 'MatrixAuth GitHub',
+          position: 'right',
         },
         {
           href: 'https://github.com/54895y/54895y.github.io',
-          label: 'GitHub',
+          label: 'Wiki GitHub',
           position: 'right',
         },
       ],
@@ -70,25 +74,54 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: '插件列表',
+          title: '文档',
           items: [
             {
-              label: '所有插件',
+              label: '插件列表',
               to: '/docs/plugins',
+            },
+            {
+              label: '站点说明',
+              to: '/docs/intro',
+            },
+            {
+              label: 'MatrixAuth',
+              to: '/docs/matrixauth/overview',
+            },
+            {
+              label: 'MatrixShop',
+              to: '/docs/matrixshop/quick-start',
             },
           ],
         },
         {
-          title: '更多',
+          title: '仓库',
           items: [
             {
-              label: 'GitHub',
+              label: 'MatrixAuth',
+              href: 'https://github.com/54895y/MatirxAuth',
+            },
+            {
+              label: 'Wiki',
               href: 'https://github.com/54895y/54895y.github.io',
             },
           ],
         },
+        {
+          title: '入口',
+          items: [
+            {
+              label: 'MatrixAuth 部署',
+              to: '/docs/matrixauth/installation',
+            },
+            {
+              label: 'MatrixShop 快速开始',
+              to: '/docs/matrixshop/quick-start',
+            },
+          ],
+        },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Matrix Plugin Docs. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} 54895y. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

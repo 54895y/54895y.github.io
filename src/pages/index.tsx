@@ -1,195 +1,130 @@
-﻿import type {ReactNode} from 'react';
-import clsx from 'clsx';
+import type {ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <div className={styles.heroContent}>
-          <div className={styles.heroLogo}>
-            <img src="/img/matrixshop_logo.png" alt="MatrixShop Logo" />
-          </div>
-          <div className={styles.heroText}>
-            <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
-            <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
-            <div className={styles.buttons}>
-              <Link
-                className={clsx('button button--secondary button--lg', styles.button)}
-                to="/docs/plugins">
-                浏览插件
-              </Link>
-              <Link
-                className={clsx('button button--primary button--lg', styles.button)}
-                to="/docs/matrixshop/quick-start">
-                快速开始
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
+const pluginCards = [
+  {
+    title: 'MatrixAuth',
+    status: '已上线',
+    description:
+      '混合登录、档案绑定、SQLite/MySQL、Folia 兼容、PlaceholderAPI 和 EasyBot 查询都已经整理进当前文档。',
+    tags: ['1.12+', 'TabooLib', 'Folia', 'EasyBot'],
+    to: '/docs/matrixauth/overview',
+  },
+  {
+    title: 'MatrixShop',
+    status: '已收录',
+    description:
+      '多功能服务器商店文档继续保留在同一站点，系统商店、玩家商店、拍卖行和 UI 配置仍按原结构维护。',
+    tags: ['Shop', 'Auction', 'GUI', 'Economy'],
+    to: '/docs/matrixshop/quick-start',
+  },
+  {
+    title: 'Wiki 站点',
+    status: 'GitHub Pages',
+    description:
+      '站点使用 54895y.github.io 仓库发布，后续插件可以继续沿用同一套 Docusaurus 结构接入。',
+    tags: ['Docusaurus', 'GitHub Pages', 'Docs'],
+    href: 'https://github.com/54895y/54895y.github.io',
+  },
+];
 
-function PluginsSection() {
-  const plugins = [
-    {
-      name: 'MatrixShop',
-      description: '多功能 Minecraft 商店插件，支持系统商店、玩家商店、拍卖行、全球市场等多种交易模式。功能强大，配置灵活，是服务器经济系统的理想选择。',
-      icon: '🏪',
-      color: '#667eea',
-      features: ['系统商店', '玩家商店', '拍卖行', '全球市场', '箱子商店'],
-    },
-    {
-      name: '更多插件',
-      description: '更多优秀的 Matrix 系列插件，持续为您带来更好的服务器插件解决方案。',
-      icon: '🎁',
-      color: '#9ca3af',
-      features: ['神秘新游', '即将发布'],
-    },
-  ];
-
-  return (
-    <section className={styles.pluginsSection}>
-      <div className="container">
-        <div className={styles.pluginsTitle}>
-          <h2>Matrix 系列插件</h2>
-          <p>为 Minecraft 服务器打造的全方位插件解决方案</p>
-        </div>
-        <div className={styles.pluginsGrid}>
-          {plugins.map((plugin, index) => (
-            <div key={index} className={styles.pluginCard}>
-              <div className={styles.pluginCardHeader}>
-                <div className={styles.pluginIcon}>{plugin.icon}</div>
-                <h3 className={styles.pluginName}>{plugin.name}</h3>
-              </div>
-              <p className={styles.pluginDescription}>{plugin.description}</p>
-              <div className={styles.pluginFeatures}>
-                {plugin.features.map((feature, idx) => (
-                  <span key={idx} className={styles.featureTag}>{feature}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TechStackSection() {
-  const technologies = [
-    {
-      name: 'Java 21',
-      description: '现代 Java 特性',
-      color: '#f89820',
-    },
-    {
-      name: 'Kotlin',
-      description: '高效开发体验',
-      color: '#7F52FF',
-    },
-    {
-      name: 'TabooLib',
-      description: '强大框架支持',
-      color: '#667eea',
-    },
-    {
-      name: 'YAML',
-      description: '简洁配置管理',
-      color: '#cb171e',
-    },
-  ];
-
-  return (
-    <section className={styles.techSection}>
-      <div className="container">
-        <div className={styles.techTitle}>
-          <h2>技术栈</h2>
-          <p>采用现代化技术栈，确保插件的稳定性和可扩展性</p>
-        </div>
-        <div className={styles.techGrid}>
-          {technologies.map((tech, index) => (
-            <div
-              key={index}
-              className={styles.techCard}
-              style={{background: `linear-gradient(135deg, ${tech.color} 0%, ${tech.color}dd 100%)`}}>
-              <h3 className={styles.techCardTitle}>{tech.name}</h3>
-              <p className={styles.techCardDesc}>{tech.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function QuickStartSection() {
-  return (
-    <section className={styles.quickStartSection}>
-      <div className="container">
-        <div className={styles.quickStartContent}>
-          <div className={styles.quickStartText}>
-            <h2>准备好开始了吗？</h2>
-            <p>只需几分钟即可完成配置，让您的服务器拥有专业的插件系统</p>
-            <div className={styles.quickStartButtons}>
-              <Link
-                className={clsx('button button--primary button--lg', styles.button)}
-                to="/docs/plugins">
-                了解所有插件
-              </Link>
-              <Link
-                className={clsx('button button--secondary button--lg', styles.button)}
-                to="/docs/matrixshop/quick-start">
-                快速开始
-              </Link>
-            </div>
-          </div>
-          <div className={styles.quickStartCode}>
-            <div className={styles.codeHeader}>
-              <span className={styles.codeDot} style={{background: '#ff5f56'}}></span>
-              <span className={styles.codeDot} style={{background: '#ffbd2e'}}></span>
-              <span className={styles.codeDot} style={{background: '#27c93f'}}></span>
-            </div>
-            <pre className={styles.codeBlock}>
-              <code>{`# 下载插件
-wget https://github.com/your-name/matrixshop/releases
-
-# 放入 plugins 文件夹
-mv MatrixShop.jar plugins/
-
-# 重启服务器
-./start.sh
-
-# 配置完成！`}</code>
-            </pre>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+const highlights = [
+  'Docs 根目录现在作为 Matrix 系列插件统一 Wiki 入口',
+  'MatrixAuth 已补齐概览、部署、配置、命令、PAPI、EasyBot、开发与 FAQ',
+  'MatrixShop 旧文档保留并并入同一套导航，不再被新站点覆盖',
+];
 
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
+
   return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <PluginsSection />
-        <TechStackSection />
-        <QuickStartSection />
+    <Layout title="插件文档总览" description="Matrix 系列插件统一文档站，当前已收录 MatrixAuth 与 MatrixShop。">
+      <main className={styles.page}>
+        <section className={styles.heroSection}>
+          <div className={styles.heroPanel}>
+            <div className={styles.heroCopy}>
+              <p className={styles.eyebrow}>MATRIX PLUGIN WIKI</p>
+              <h1 className={styles.heroTitle}>{siteConfig.title}</h1>
+              <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
+              <p className={styles.heroDescription}>
+                这里不是默认示例站点，而是你所有插件的统一知识库入口。
+                当前站点已经先完成 MatrixAuth 文档，并把原有 MatrixShop 文档一并纳入统一导航。
+              </p>
+              <div className={styles.actions}>
+                <Link className={styles.primaryAction} to="/docs/matrixauth/overview">
+                  查看 MatrixAuth
+                </Link>
+                <Link className={styles.secondaryAction} to="/docs/plugins">
+                  查看插件列表
+                </Link>
+              </div>
+            </div>
+            <aside className={styles.heroAside}>
+              <span className={styles.asideLabel}>当前进度</span>
+              <ul className={styles.highlightList}>
+                {highlights.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <div className={styles.statRow}>
+                <div className={styles.statCard}>
+                  <strong>2</strong>
+                  <span>已收录插件</span>
+                </div>
+                <div className={styles.statCard}>
+                  <strong>8</strong>
+                  <span>MatrixAuth 页面</span>
+                </div>
+                <div className={styles.statCard}>
+                  <strong>1</strong>
+                  <span>GitHub Pages 站点</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+        <section className={styles.catalogSection}>
+          <div className={styles.sectionHeader}>
+            <p className={styles.sectionEyebrow}>PLUGIN INDEX</p>
+            <h2>当前站点内容</h2>
+          </div>
+          <div className={styles.cardGrid}>
+            {pluginCards.map((card) => {
+              const action = card.to ? (
+                <Link className={styles.cardAction} to={card.to}>
+                  进入页面
+                </Link>
+              ) : (
+                <Link className={styles.cardAction} href={card.href}>
+                  打开仓库
+                </Link>
+              );
+
+              return (
+                <article key={card.title} className={styles.catalogCard}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardStatus}>{card.status}</span>
+                    <h3>{card.title}</h3>
+                  </div>
+                  <p className={styles.cardDescription}>{card.description}</p>
+                  <div className={styles.tagRow}>
+                    {card.tags.map((tag) => (
+                      <span key={tag} className={styles.tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  {action}
+                </article>
+              );
+            })}
+          </div>
+        </section>
       </main>
     </Layout>
   );
 }
-
-
