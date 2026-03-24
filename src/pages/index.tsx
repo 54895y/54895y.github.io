@@ -5,142 +5,131 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 
-const pluginBriefs = [
+const pluginDocs = [
   {
     title: 'MatrixAuth',
-    stage: 'Reviewed',
-    summary: '混合登录、档案绑定、兼容 AuthMe / Geyser / Floodgate 的认证文档，聚焦部署、迁移与运行边界。',
-    deliverables: ['安装与接入', '配置说明', '命令与占位符'],
+    summary: '认证、登录、档案绑定与兼容接入文档。',
+    topics: ['安装与部署', '配置说明', '命令与占位符'],
     to: '/docs/matrixauth/overview',
   },
   {
     title: 'MatrixCook',
-    stage: 'New',
-    summary: '围绕锅具、配方、燃料、分类与放置存储整理的完整使用说明，适合直接交付服务器配置人员。',
-    deliverables: ['锅具与配方', '多后端存储', '命令与 PAPI'],
+    summary: '锅具、配方、燃料、分类与存储说明。',
+    topics: ['安装与配置', '锅具与配方', '命令与 PAPI'],
     to: '/docs/matrixcook/overview',
   },
   {
     title: 'MatrixShop',
-    stage: 'Refreshed',
-    summary: '按当前模块化实现重写文档结构，覆盖 Menu、SystemShop、Auction、ChestShop、Transaction 等核心模块。',
-    deliverables: ['目录结构', '命令与权限', '数据库与模块边界'],
+    summary: '模块化商店系统的结构、命令与运行边界。',
+    topics: ['快速开始', '模块总览', '数据库与权限'],
     to: '/docs/matrixshop',
   },
 ];
 
-const readingFlow = [
+const quickLinks = [
   {
-    index: '01',
-    title: 'Executive Summary',
-    text: '先看每个插件的总览页，快速判断它负责什么、依赖什么、当前文档覆盖到哪里。',
+    label: '插件索引',
+    description: '查看当前站点纳入维护的插件列表。',
+    to: '/docs/plugins',
   },
   {
-    index: '02',
-    title: 'Implementation Notes',
-    text: '进入安装、配置、命令与模块页，按服务器落地顺序完成部署和参数调整。',
+    label: '站点说明',
+    description: '了解本 Wiki 的维护范围与组织方式。',
+    to: '/docs/intro',
   },
   {
-    index: '03',
-    title: 'Operational Boundaries',
-    text: '最后核对 FAQ、存储方式、权限与兼容性，避免把旧版本习惯带入新实现。',
+    label: 'MatrixAuth 安装',
+    description: '从部署和依赖开始接入 MatrixAuth。',
+    to: '/docs/matrixauth/installation',
   },
-];
-
-const principles = [
-  '文档入口像产品 Brief，而不是纯文件索引。',
-  '每个插件先给结论，再展开安装、配置、运行边界。',
-  '保留可执行信息，减少无效装饰和模板噪音。',
+  {
+    label: 'MatrixCook 安装',
+    description: '从默认资源和依赖开始部署 MatrixCook。',
+    to: '/docs/matrixcook/installation',
+  },
+  {
+    label: 'MatrixShop 快速开始',
+    description: '从模块启用和命令校验开始接入 MatrixShop。',
+    to: '/docs/matrixshop/quick-start',
+  },
+  {
+    label: 'Wiki 仓库',
+    description: '查看文档源码与发布仓库。',
+    href: 'https://github.com/54895y/54895y.github.io',
+  },
 ];
 
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
 
   return (
-    <Layout
-      title="Matrix 产品文档"
-      description="把 Matrix 系列插件文档整理成可交接、可执行的产品 Brief 风格知识库。">
+    <Layout title="Matrix 官方文档" description="Matrix 系列插件的统一官方文档入口。">
       <main className={styles.page}>
         <section className={styles.heroSection}>
           <div className={styles.heroShell}>
-            <div className={styles.heroCopy}>
-              <p className={styles.kicker}>MATRIX DOCUMENT BRIEF</p>
-              <h1 className={styles.heroTitle}>把插件 Wiki 写成可以直接交接的 Product Brief。</h1>
+            <div className={styles.heroCard}>
+              <p className={styles.kicker}>Official Documentation</p>
+              <h1 className={styles.heroTitle}>Matrix 官方文档</h1>
               <p className={styles.heroSubtitle}>{siteConfig.tagline}</p>
               <p className={styles.heroDescription}>
-                这套文档站不再只是罗列页面，而是按产品说明书的方式组织内容。每个插件都优先说明目标、范围、
-                安装方式、配置结构和运行边界，让服主、开发者和维护者可以直接拿来落地。
+                本站统一维护 MatrixAuth、MatrixCook、MatrixShop 的安装、配置、命令、模块说明与常见问题。
+                页面内容以当前代码、默认配置和内置资源文件为准。
               </p>
               <div className={styles.actions}>
                 <Link className={styles.primaryAction} to="/docs/plugins">
                   查看插件索引
                 </Link>
-                <Link className={styles.secondaryAction} to="/docs/matrixshop">
-                  打开 MatrixShop
-                </Link>
-                <Link className={styles.ghostAction} href="https://github.com/54895y/54895y.github.io">
-                  查看仓库
+                <Link className={styles.secondaryAction} href="https://github.com/54895y/54895y.github.io">
+                  打开 GitHub
                 </Link>
               </div>
             </div>
-            <aside className={styles.briefPanel}>
-              <div className={styles.panelHeader}>
-                <span className={styles.panelLabel}>Project Brief</span>
-                <span className={styles.panelVersion}>v2</span>
-              </div>
-              <div className={styles.metaGrid}>
-                <div className={styles.metaItem}>
-                  <span>Scope</span>
-                  <strong>MatrixAuth / MatrixCook / MatrixShop</strong>
+
+            <aside className={styles.infoCard}>
+              <h2 className={styles.infoTitle}>站点信息</h2>
+              <dl className={styles.infoList}>
+                <div>
+                  <dt>维护范围</dt>
+                  <dd>MatrixAuth、MatrixCook、MatrixShop</dd>
                 </div>
-                <div className={styles.metaItem}>
-                  <span>Format</span>
-                  <strong>Overview, Config, Commands, FAQ</strong>
+                <div>
+                  <dt>内容来源</dt>
+                  <dd>当前代码与默认资源文件</dd>
                 </div>
-                <div className={styles.metaItem}>
-                  <span>Source of Truth</span>
-                  <strong>Current code and bundled resources</strong>
+                <div>
+                  <dt>发布方式</dt>
+                  <dd>GitHub Pages</dd>
                 </div>
-                <div className={styles.metaItem}>
-                  <span>Status</span>
-                  <strong>Live on GitHub Pages</strong>
+                <div>
+                  <dt>文档结构</dt>
+                  <dd>Overview、Installation、Configuration、Commands、FAQ</dd>
                 </div>
-              </div>
-              <div className={styles.principleBox}>
-                <p className={styles.principleTitle}>Documentation Principles</p>
-                <ul className={styles.principleList}>
-                  {principles.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+              </dl>
             </aside>
           </div>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionKicker}>Included Briefs</p>
-            <h2>当前纳入统一 Wiki 的插件</h2>
-            <p>
-              首页不再展示泛泛的卡片介绍，而是像项目立项文档那样，先告诉你每个插件已经整理了什么，以及该从哪里开始读。
-            </p>
+            <p className={styles.kicker}>Documentation Scope</p>
+            <h2>当前文档范围</h2>
+            <p>首页只保留实际可用入口。每个插件文档都按部署和维护流程组织，便于直接查阅与交接。</p>
           </div>
-          <div className={styles.briefGrid}>
-            {pluginBriefs.map((plugin) => (
-              <article key={plugin.title} className={styles.briefCard}>
-                <div className={styles.cardTop}>
-                  <span className={styles.cardStage}>{plugin.stage}</span>
+          <div className={styles.pluginGrid}>
+            {pluginDocs.map((plugin) => (
+              <article key={plugin.title} className={styles.pluginCard}>
+                <div className={styles.pluginHeader}>
                   <h3>{plugin.title}</h3>
+                  <span className={styles.pluginBadge}>已收录</span>
                 </div>
-                <p className={styles.cardSummary}>{plugin.summary}</p>
-                <ul className={styles.deliverableList}>
-                  {plugin.deliverables.map((item) => (
-                    <li key={item}>{item}</li>
+                <p className={styles.pluginSummary}>{plugin.summary}</p>
+                <ul className={styles.topicList}>
+                  {plugin.topics.map((topic) => (
+                    <li key={topic}>{topic}</li>
                   ))}
                 </ul>
                 <Link className={styles.cardAction} to={plugin.to}>
-                  阅读文档
+                  进入文档
                 </Link>
               </article>
             ))}
@@ -149,18 +138,19 @@ export default function Home(): ReactNode {
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionKicker}>Reading Flow</p>
-            <h2>建议的阅读顺序</h2>
-            <p>先看结论，再看部署，再看运行边界。这样能最快完成接入，也能减少被旧版本文档误导的风险。</p>
+            <p className={styles.kicker}>Quick Access</p>
+            <h2>常用入口</h2>
           </div>
-          <div className={styles.flowGrid}>
-            {readingFlow.map((item) => (
-              <article key={item.index} className={styles.flowCard}>
-                <span className={styles.flowIndex}>{item.index}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
+          <div className={styles.linkGrid}>
+            {quickLinks.map((item) => {
+              const linkProps = item.to ? {to: item.to} : {href: item.href};
+              return (
+                <Link key={item.label} className={styles.linkCard} {...linkProps}>
+                  <strong>{item.label}</strong>
+                  <span>{item.description}</span>
+                </Link>
+              );
+            })}
           </div>
         </section>
       </main>
