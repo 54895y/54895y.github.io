@@ -1,0 +1,161 @@
+---
+title: 商店与模块详解
+description: MatrixShop 各模块默认配置、入口文件与字段解释的统一入口。
+---
+
+# 商店与模块详解
+
+这一组页面专门解决两个问题：
+
+1. 每种商店或模块到底看哪些文件。
+2. 默认配置里的每个字段分别控制什么。
+
+如果你是第一次改 MatrixShop，建议先看本页，再按模块进入对应文档。
+
+## 这一组页面怎么读
+
+每个模块页都会按同样的顺序展开：
+
+1. 这个模块负责什么。
+2. 默认有哪些文件。
+3. `settings.yml` 的完整示例与字段解释。
+4. `shops/*.yml` 的完整示例与字段解释。
+5. 相关 `ui/*.yml`、额外配置文件和实践建议。
+
+## MatrixShop 常见文件类型
+
+### `settings.yml`
+
+模块级控制文件，主要放：
+
+- 模块开关
+- 命令绑定
+- 模块运行参数
+
+常见结构如下：
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'auction'
+      - 'ah'
+    Register: true
+    Show-In-Help: true
+    Priority: 20
+    Condition: 'perm matrixshop.auction.use'
+```
+
+字段含义：
+
+| 字段 | 作用 |
+| --- | --- |
+| `Enabled` | 该模块默认是否启用。 |
+| `Bindings.Commands.Bindings` | 模块想占用的命令关键字列表。 |
+| `Register` | 是否注册为独立命令。关闭时只能从 `/matrixshop ...` 进入。 |
+| `Show-In-Help` | 是否显示在 `/ms help`。 |
+| `Priority` | 关键字冲突时的优先级。数字越大，越容易抢到别名。 |
+| `Condition` | 注册或展示前的条件表达式，默认通常是权限判断。 |
+
+### `shops/*.yml`
+
+入口页或列表页配置文件。当前实现里，**文件名就是 `shopId`**。
+
+例如：
+
+- `Menu/shops/main.yml` -> `main`
+- `SystemShop/shops/weapon.yml` -> `weapon`
+- `PlayerShop/shops/default.yml` -> `default`
+
+这些文件通常包含下面几组字段：
+
+| 字段 | 作用 |
+| --- | --- |
+| `Bindings.Commands` | 针对某一个入口单独声明命令关键字。 |
+| `Title` | 打开菜单时显示的标题，支持占位符。 |
+| `layout` | 菜单布局，每行必须是 9 个字符。 |
+| `icons` | 每个字符对应的图标定义。 |
+| `template` | 动态商品或记录的统一模板。 |
+| `goods` | 静态商品定义，主要见于 `SystemShop`。 |
+| `Options` | 入口级附加行为参数，常见于 `Cart`、`Record`。 |
+
+### `ui/*.yml`
+
+二级界面模板，通常由模块代码在运行中打开，例如：
+
+- `SystemShop/ui/confirm.yml`
+- `PlayerShop/ui/edit.yml`
+- `Auction/ui/detail.yml`
+- `Transaction/ui/trade.yml`
+
+它们不是主入口，但决定了用户在确认、编辑、详情、结算这些步骤中看到什么。
+
+## 常见布局字段解释
+
+### `layout`
+
+```yaml
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - 'P###R###N'
+```
+
+解释：
+
+- 每一行是一个菜单行。
+- 每个字符会到 `icons` 里找对应定义。
+- `g` 这类带 `mode` 的字符通常不是固定图标，而是动态列表插槽。
+
+### `icons`
+
+```yaml
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+```
+
+解释：
+
+| 字段 | 作用 |
+| --- | --- |
+| `material` | 图标材质。动态槽位一般写 `AIR`。 |
+| `name` | 显示名称。 |
+| `lore` | 说明文字。 |
+| `mode` | 交给模块代码填充动态内容的渲染模式。 |
+| `actions.left` | 左键动作列表。 |
+
+### `template`
+
+```yaml
+template:
+  name: '&f{name}'
+  lore:
+    - '&7价格: &e{price} {currency}'
+```
+
+解释：
+
+- `template` 只作用于动态槽位。
+- 模块会把商品、记录、购物车条目等数据填到这里的占位符里。
+- 如果没有 `template`，动态槽位通常只能显示默认外观或无法展示完整信息。
+
+## 当前已拆分的模块页
+
+- [Menu](./menu)
+- [SystemShop](./system-shop)
+- [PlayerShop](./player-shop)
+- [GlobalMarket](./global-market)
+- [Auction](./auction)
+- [ChestShop](./chest-shop)
+- [Transaction](./transaction)
+- [Cart](./cart)
+- [Record](./record)
+
+如果你只想快速找到默认文件位置，可以先看 [模块总览](../modules-overview)；如果你准备动手改配置，建议直接进入具体模块页。

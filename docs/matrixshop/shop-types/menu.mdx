@@ -1,0 +1,164 @@
+---
+title: Menu
+description: Menu 模块的默认入口配置与字段解释。
+---
+
+# Menu
+
+`Menu` 是 MatrixShop 的总站内导航。它不直接处理交易逻辑，而是把按钮跳转到 SystemShop、PlayerShop、GlobalMarket、Auction、Transaction、Cart 和 Record。
+
+## 默认文件
+
+- `Menu/settings.yml`
+- `Menu/shops/main.yml`
+- `Menu/ui/default.yml`
+
+当前默认入口主要靠 `shops/main.yml` 工作，`settings.yml` 则负责模块级命令绑定。
+
+## `Menu/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'menu'
+      - 'menus'
+    Register: false
+    Show-In-Help: true
+    Priority: 110
+    Condition: 'perm matrixshop.menu.use'
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用 `Menu` 模块。 |
+| `Bindings.Commands.Bindings` | 模块级候选命令关键字。 |
+| `Register` | 这里默认是 `false`，表示模块本身不强制注册独立命令。 |
+| `Show-In-Help` | 是否显示在 `/ms help`。 |
+| `Priority` | `Menu` 入口优先级较高，避免被别的模块抢占 `menu` 关键字。 |
+| `Condition` | 默认要求 `matrixshop.menu.use` 权限。 |
+
+## `Menu/shops/main.yml`
+
+这是默认主菜单，也是最适合新手理解 `layout`、`icons` 和 `actions` 的例子。
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'menu'
+      - 'mainmenu'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Title:
+  - '&8MatrixShop Menu &7{shop-id}'
+
+layout:
+  - '#########'
+  - '#S#P#G#A#'
+  - '#########'
+  - '#T#C#R#X#'
+  - '#########'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'S':
+    material: 'DIAMOND'
+    name: '&bSystem Shop'
+    lore:
+      - '&7Open the default system shop'
+    actions:
+      left:
+        - 'matrixshop open systemshop:weapon'
+  'P':
+    material: 'CHEST'
+    name: '&aPlayer Shop'
+    lore:
+      - '&7Open your player shop'
+    actions:
+      left:
+        - 'matrixshop open playershop:default'
+  'G':
+    material: 'ENDER_CHEST'
+    name: '&6Global Market'
+    lore:
+      - '&7Open the global market'
+    actions:
+      left:
+        - 'matrixshop open globalmarket:default'
+  'A':
+    material: 'GOLD_INGOT'
+    name: '&eAuction'
+    lore:
+      - '&7Open the auction hall'
+    actions:
+      left:
+        - 'matrixshop open auction:default'
+  'T':
+    material: 'NAME_TAG'
+    name: '&dTrade'
+    lore:
+      - '&7Open the trade hub'
+    actions:
+      left:
+        - 'matrixshop open transaction:default'
+  'C':
+    material: 'MINECART'
+    name: '&fCart'
+    lore:
+      - '&7Open your shopping cart'
+    actions:
+      left:
+        - 'matrixshop open cart:cart'
+  'R':
+    material: 'BOOK'
+    name: '&fRecord'
+    lore:
+      - '&7Open your ledger'
+    actions:
+      left:
+        - 'matrixshop open record:record'
+  'X':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+```
+
+### 顶层字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `Bindings.Commands.Bindings` | 这个入口自己再额外声明了一组命令别名。 |
+| `Register` | `true` 表示它会直接注册 `/menu`、`/mainmenu`。 |
+| `Title` | 菜单标题，可使用 `{shop-id}`。 |
+| `layout` | 这里没有动态槽位，全部是静态导航按钮。 |
+| `icons` | 每个按钮都对应一个模块入口。 |
+
+### 按钮解释
+
+| 图标 | 跳转目标 | 作用 |
+| --- | --- | --- |
+| `S` | `systemshop:weapon` | 打开默认系统商店分类。 |
+| `P` | `playershop:default` | 打开玩家商店。 |
+| `G` | `globalmarket:default` | 打开全球市场。 |
+| `A` | `auction:default` | 打开拍卖行。 |
+| `T` | `transaction:default` | 打开交易中心。 |
+| `C` | `cart:cart` | 打开购物车。 |
+| `R` | `record:record` | 打开流水账本。 |
+| `X` | `close` | 关闭菜单。 |
+
+## 使用建议
+
+- 如果你只是想改“总入口长什么样”，优先改这个文件。
+- 如果你要接入自己的模块或自定义入口，直接复制一个按钮并替换 `actions.left` 里的命令即可。
+- `Menu` 更像导航页，不建议在这里塞太多业务逻辑。

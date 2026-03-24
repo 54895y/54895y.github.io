@@ -1,0 +1,172 @@
+---
+title: Record
+description: Record 账本模块的记录视图、过滤项和保留策略说明。
+---
+
+# Record
+
+`Record` 用于展示交易流水、收入、支出和详情。它本质上是 MatrixShop 的账本层，配合 Auction、Transaction、Cart 等模块一起使用。
+
+## 默认文件
+
+- `Record/settings.yml`
+- `Record/retention.yml`
+- `Record/shops/record.yml`
+- `Record/ui/record.yml`
+- `Record/ui/detail.yml`
+- `Record/ui/income.yml`
+- `Record/ui/expense.yml`
+
+## `Record/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'record'
+      - 'records'
+    Register: false
+    Show-In-Help: true
+    Priority: 30
+    Condition: 'perm matrixshop.record.use'
+
+View:
+  Player:
+    Show-Admin-Reason: true
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用账本模块。 |
+| `Bindings.Commands.Bindings` | 候选命令关键字。 |
+| `Register` | 默认不在模块级抢独立命令。 |
+| `Priority` | 命令优先级。 |
+| `Condition` | 默认权限节点。 |
+| `View.Player.Show-Admin-Reason` | 玩家视图里是否显示管理员原因字段。 |
+
+## `Record/retention.yml`
+
+```yaml
+Retention:
+  record_entries:
+    days: 180
+    archive-before-delete: true
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `days` | 记录保留天数。 |
+| `archive-before-delete` | 删除前是否先归档。 |
+
+## `Record/shops/record.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'record'
+      - 'records'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Options:
+  Modules:
+    - system_shop
+    - player_shop
+    - global_market
+    - auction
+    - chestshop
+    - transaction
+    - cart
+    - mailbox
+
+Title:
+  - '&8Ledger &7{shop-id} &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#F#I#E#K#'
+  - 'P###R###N'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'records'
+  'F':
+    material: 'HOPPER'
+    name: '&eCycle Filter'
+    lore:
+      - '&7Current module filter: &f{module-filter}'
+  'I':
+    material: 'EMERALD'
+    name: '&aIncome'
+    lore:
+      - '&7Total income: &a{income-total}'
+      - '&7Open income statistics'
+  'E':
+    material: 'REDSTONE'
+    name: '&cExpense'
+    lore:
+      - '&7Total expense: &c{expense-total}'
+      - '&7Open expense statistics'
+  'K':
+    material: 'BOOK'
+    name: '&fLedger Info'
+    lore:
+      - '&7Visible entries: &f{size}'
+      - '&7Keyword: &f{keyword}'
+      - '&7Module filter: &f{module-filter}'
+      - '&7Use /record filter <module|all>'
+  'R':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+  'P':
+    material: 'ARROW'
+    name: '&aPrevious'
+  'N':
+    material: 'ARROW'
+    name: '&aNext'
+
+template:
+  name: '&f{module} &7/ &b{type}'
+  lore:
+    - '&7Time: &f{time}'
+    - '&7Money: &f{money}'
+    - '&7Note: &f{note}'
+    - '&7Reason: &f{admin_reason}'
+    - '&7Id: &f{id}'
+```
+
+### 字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `Options.Modules` | 账本页允许轮换查看的模块来源。 |
+| `icons.g.mode: records` | 动态记录列表插槽。 |
+| `icons.F` | 切换模块过滤。 |
+| `icons.I` | 打开收入统计。 |
+| `icons.E` | 打开支出统计。 |
+| `icons.K` | 显示账本摘要。 |
+| `template` | 每条记录的统一显示模板。 |
+
+## 使用建议
+
+- 想简化玩家看到的模块：删减 `Options.Modules`。
+- 想控制流水保留期：改 `retention.yml`。
+- 想让账本更便于排错：保留 `Show-Admin-Reason: true`。

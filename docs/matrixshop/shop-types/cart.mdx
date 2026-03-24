@@ -1,0 +1,158 @@
+---
+title: Cart
+description: Cart 购物车模块的可结算来源、入口页与模板字段说明。
+---
+
+# Cart
+
+`Cart` 负责把不同模块中的待购买条目暂存起来，再统一结算。它不是一个独立的上架模块，而是服务于系统商店、玩家商店、全球市场等来源。
+
+## 默认文件
+
+- `Cart/settings.yml`
+- `Cart/shops/cart.yml`
+- `Cart/ui/cart.yml`
+- `Cart/ui/checkout.yml`
+- `Cart/ui/conflict.yml`
+
+## `Cart/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'cart'
+    Register: false
+    Show-In-Help: true
+    Priority: 40
+    Condition: 'perm matrixshop.cart.use'
+
+Sources:
+  Checkoutable:
+    - system_shop
+    - player_shop
+    - global_market
+  Auction:
+    Enabled: true
+    Type: watch_only
+    Protected-On-Clear: true
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用购物车。 |
+| `Bindings.Commands.Bindings` | 模块级购物车命令。 |
+| `Register` | 默认不注册独立命令，由入口配置处理。 |
+| `Sources.Checkoutable` | 哪些来源模块的条目允许进入结算。 |
+| `Auction.Enabled` | 是否允许拍卖条目进入购物车体系。 |
+| `Auction.Type` | 示例值是 `watch_only`，表示更偏“观察/保护”而不是正常结算。 |
+| `Auction.Protected-On-Clear` | 清空购物车时是否保护这类拍卖条目。 |
+
+## `Cart/shops/cart.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'cart'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Options:
+  Source-Modules:
+    - system_shop
+    - player_shop
+    - global_market
+
+Title:
+  - '&8Cart &7{shop-id} &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '##K#V#X##'
+  - 'P#A#C#R#N'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+  'K':
+    material: 'BOOK'
+    name: '&fCart Info'
+    lore:
+      - '&7Entries: &f{size}'
+      - '&7Estimated total: &e{estimate-total}'
+      - '&7Auction watch only: &f{auction-watch-size}'
+      - '&7Source filter: &f{source-filter}'
+  'V':
+    material: 'HOPPER'
+    name: '&eRemove Invalid'
+  'X':
+    material: 'LAVA_BUCKET'
+    name: '&cClear Cart'
+  'A':
+    material: 'PAPER'
+    name: '&bChange Amount'
+    lore:
+      - '&7Use command:'
+      - '&f/matrixshop cart amount <slot> <number>'
+  'C':
+    material: 'LIME_WOOL'
+    name: '&aOpen Checkout'
+  'R':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+  'P':
+    material: 'ARROW'
+    name: '&aPrevious'
+  'N':
+    material: 'ARROW'
+    name: '&aNext'
+
+template:
+  name: '&f{name}'
+  lore:
+    - '&7Source: &f{source-module}'
+    - '&7Source id: &f{source-id}'
+    - '&7Snapshot price: &e{snapshot-price} {currency}'
+    - '&7Current price: &6{current-price} {currency}'
+    - '&7Amount: &f{amount}'
+    - '&7State: &f{state}'
+    - '&7Limit: &f{limitation}'
+    - '&7Added at: &f{created-at}'
+    - '&7Slot: &f{slot}'
+    - '&7Reason: &f{reason}'
+```
+
+### 字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `Options.Source-Modules` | 入口页里允许浏览的来源模块。 |
+| `icons.g` | 动态购物车条目。 |
+| `icons.K` | 购物车摘要。 |
+| `icons.V` | 清理失效条目。 |
+| `icons.X` | 清空购物车。 |
+| `icons.A` | 引导玩家用命令改数量。 |
+| `icons.C` | 进入结算页。 |
+| `template` | 购物车条目模板，会显示来源、快照价格、当前价格、状态和原因。 |
+
+## 使用建议
+
+- 想限制购物车来源：改 `Sources.Checkoutable` 和 `Options.Source-Modules`。
+- 想让购物车更保守：保留 `Auction.Type: watch_only`。
+- 想让用户更容易理解冲突：重点修改 `template.lore` 和 `ui/conflict.yml`。

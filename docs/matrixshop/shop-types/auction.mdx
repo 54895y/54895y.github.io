@@ -1,0 +1,220 @@
+---
+title: Auction
+description: Auction 模块的默认配置、入口页和核心拍卖参数解释。
+---
+
+# Auction
+
+`Auction` 是 MatrixShop 里配置最复杂的模块之一。它不仅决定拍卖入口长什么样，还控制英式拍卖、荷式拍卖、押金、税率、抢拍保护和记录写入。
+
+## 默认文件
+
+- `Auction/settings.yml`
+- `Auction/shops/default.yml`
+- `Auction/ui/auction.yml`
+- `Auction/ui/upload.yml`
+- `Auction/ui/detail.yml`
+- `Auction/ui/manage.yml`
+- `Auction/ui/bids.yml`
+- `Auction/ui/bid.yml`
+
+## `Auction/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'auction'
+      - 'ah'
+    Register: true
+    Show-In-Help: true
+    Priority: 20
+    Condition: 'perm matrixshop.auction.use'
+
+Options:
+  Listing:
+    Max-Active: 20
+    Duration:
+      Default: 86400
+      Min: 600
+      Max: 604800
+    Modes:
+      ENGLISH:
+        Enabled: true
+        Allow-Buyout: true
+        Min-Start-Price: 100
+        Min-Step:
+          Mode: percent
+          Fixed: 100
+          Percent: 5
+      DUTCH:
+        Enabled: true
+        Min-Start-Price: 100
+        End-Price-Min: 1
+        Tick-Seconds: 60
+    Deposit:
+      Enabled: true
+      Mode: percent
+      Value: 5
+      Refund-On-Sell: true
+      Refund-On-Cancel: false
+    Tax:
+      Enabled: true
+      Mode: percent
+      Value: 3
+  Snipe-Protection:
+    Enabled: true
+    Trigger-Seconds: 30
+    Extend-Seconds: 30
+    Max-Extend-Times: 5
+  Cancel:
+    Owner:
+      Allow: true
+      Deny-If-Has-Bid: true
+  Record:
+    Write-On-Create: true
+    Write-On-Bid: false
+    Write-On-Complete: true
+    Write-On-Cancel: true
+```
+
+### 模块级字段
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用拍卖行。 |
+| `Bindings.Commands.Bindings` | 拍卖命令别名，默认包括 `auction` 和 `ah`。 |
+| `Register` | 这里直接是 `true`，所以会注册独立拍卖命令。 |
+| `Priority` | 由于 `ah` 很容易和别的插件冲突，这个优先级非常重要。 |
+| `Condition` | 默认权限节点。 |
+
+### `Options.Listing`
+
+| 字段 | 说明 |
+| --- | --- |
+| `Max-Active` | 每个玩家最多同时保持多少个拍卖。 |
+| `Duration.Default` | 默认拍卖时长，单位是秒。 |
+| `Duration.Min` | 允许创建的最短时长。 |
+| `Duration.Max` | 允许创建的最长时长。 |
+
+### `Options.Listing.Modes.ENGLISH`
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用英式拍卖。 |
+| `Allow-Buyout` | 英式拍卖是否允许一口价。 |
+| `Min-Start-Price` | 起拍价最小值。 |
+| `Min-Step.Mode` | 加价步长模式，示例是 `percent`。 |
+| `Min-Step.Fixed` | 固定步长值，只有在 `Mode: fixed` 时更直观。 |
+| `Min-Step.Percent` | 百分比步长。 |
+
+### `Options.Listing.Modes.DUTCH`
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用荷式拍卖。 |
+| `Min-Start-Price` | 荷拍起始价下限。 |
+| `End-Price-Min` | 最低结束价。 |
+| `Tick-Seconds` | 荷拍价格下降间隔，单位秒。 |
+
+### 押金、税率、保护和记录
+
+| 字段 | 说明 |
+| --- | --- |
+| `Deposit.Enabled` | 是否启用押金。 |
+| `Deposit.Mode` | 押金计算方式，示例是百分比。 |
+| `Deposit.Value` | 押金值。 |
+| `Deposit.Refund-On-Sell` | 成交后是否返还押金。 |
+| `Deposit.Refund-On-Cancel` | 取消后是否返还押金。 |
+| `Tax.Enabled` | 是否启用交易税。 |
+| `Tax.Mode` | 税率模式。 |
+| `Tax.Value` | 税值。 |
+| `Snipe-Protection.Enabled` | 是否启用尾秒保护。 |
+| `Trigger-Seconds` | 剩余时间少于多少秒时触发保护。 |
+| `Extend-Seconds` | 每次触发后延长多少秒。 |
+| `Max-Extend-Times` | 最多延长几次。 |
+| `Cancel.Owner.Allow` | 是否允许卖家自己取消。 |
+| `Cancel.Owner.Deny-If-Has-Bid` | 已有人出价时是否禁止取消。 |
+| `Record.Write-On-*` | 各类行为是否写入记录系统。 |
+
+## `Auction/shops/default.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'auction'
+      - 'ah'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Title:
+  - '&8Auction Hall &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '##U#B#M##'
+  - 'P###R###N'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+  'U':
+    material: 'CHEST'
+    name: '&aUpload'
+    lore:
+      - '&7Open upload instructions'
+  'B':
+    material: 'GOLD_INGOT'
+    name: '&6My Bids'
+    lore:
+      - '&7View auctions you have bid on'
+  'M':
+    material: 'BOOK'
+    name: '&fMy Auctions'
+    lore:
+      - '&7Manage your active listings'
+  'R':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+  'P':
+    material: 'ARROW'
+    name: '&aPrevious'
+  'N':
+    material: 'ARROW'
+    name: '&aNext'
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Bindings.Commands` | 入口页再次声明拍卖命令。 |
+| `Title` | 带页码的拍卖大厅标题。 |
+| `layout` | 三行拍卖列表 + 一行功能按钮。 |
+| `icons.g` | 动态拍卖条目。 |
+| `icons.U` | 上传或上架入口。 |
+| `icons.B` | 查看自己的出价记录。 |
+| `icons.M` | 查看自己当前的拍卖。 |
+| `icons.P/N` | 翻页。 |
+| `icons.R` | 关闭页面。 |
+
+## 使用建议
+
+- 想限制玩家同时挂拍数量：改 `Options.Listing.Max-Active`。
+- 想关掉一口价：改 `Options.Listing.Modes.ENGLISH.Allow-Buyout`。
+- 想让尾秒更刺激：调 `Snipe-Protection.Trigger-Seconds` 和 `Extend-Seconds`。
+- 想减少账本写入：把 `Record.Write-On-*` 改成更保守的组合。

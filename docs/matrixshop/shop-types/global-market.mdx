@@ -1,0 +1,139 @@
+---
+title: GlobalMarket
+description: GlobalMarket 的默认配置、入口页和关键行为解释。
+---
+
+# GlobalMarket
+
+`GlobalMarket` 是全服共享的上架市场。它比 `PlayerShop` 更强调公开浏览、统一税率和统一过期时间。
+
+## 默认文件
+
+- `GlobalMarket/settings.yml`
+- `GlobalMarket/shops/default.yml`
+- `GlobalMarket/ui/market.yml`
+- `GlobalMarket/ui/upload.yml`
+- `GlobalMarket/ui/manage.yml`
+
+## `GlobalMarket/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'global_market'
+      - 'globalmarket'
+      - 'market'
+      - 'gm'
+    Register: false
+    Show-In-Help: true
+    Priority: 80
+    Condition: 'perm matrixshop.globalmarket.use'
+
+Listing:
+  Expire-Hours: 72
+  Tax-Percent: 3.0
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用全球市场。 |
+| `Bindings.Commands.Bindings` | 模块级候选命令。 |
+| `Register` | 模块级默认不直接注册，入口页会再声明。 |
+| `Priority` | `market`、`gm` 的命令优先级。 |
+| `Condition` | 默认权限节点。 |
+| `Listing.Expire-Hours` | 市场上架物品的默认过期时长。 |
+| `Listing.Tax-Percent` | 市场成交税率。 |
+
+## `GlobalMarket/shops/default.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'market'
+      - 'gm'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Title:
+  - '&8Global Market &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '##U#C#M##'
+  - 'P###R###N'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+  'U':
+    material: 'CHEST'
+    name: '&aUpload'
+    lore:
+      - '&7Open the upload view for this market'
+  'C':
+    material: 'CHEST_MINECART'
+    name: '&6Cart'
+    lore:
+      - '&7Open your shopping cart'
+  'M':
+    material: 'BOOK'
+    name: '&dMy Listings'
+    lore:
+      - '&7Manage your listings in this market'
+  'R':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+  'P':
+    material: 'ARROW'
+    name: '&aPrevious'
+  'N':
+    material: 'ARROW'
+    name: '&aNext'
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Bindings.Commands.Bindings` | 独立命令入口，默认是 `/market` 和 `/gm`。 |
+| `Title` | 带页码的市场标题。 |
+| `layout` | 三行动态列表加一行功能按钮。 |
+| `icons.g` | 运行时市场商品槽位。 |
+| `icons.U` | 打开上架说明或上架界面。 |
+| `icons.C` | 打开购物车。 |
+| `icons.M` | 打开自己的上架管理。 |
+| `icons.P/N` | 翻页。 |
+| `icons.R` | 关闭页面。 |
+
+## `GlobalMarket/ui/market.yml`
+
+中文版市场页与 `shops/default.yml` 结构基本一致，主要差异是：
+
+- 名称、Lore 已经翻译成中文
+- 方便你直接作为正式服模板使用
+
+如果你准备做中文服务器，通常优先从 `ui/market.yml` 开始改文案；如果你要改入口命令和版式，再回到 `shops/default.yml`。
+
+## 使用建议
+
+- 想改过期时间：改 `Listing.Expire-Hours`。
+- 想改全服税率：改 `Listing.Tax-Percent`。
+- 想隐藏购物车按钮：删掉 `layout` 里的 `C` 并移除 `icons.C`。
+- 想改独立命令：改 `Bindings.Commands.Bindings` 和 `Register`。

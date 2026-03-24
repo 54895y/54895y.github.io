@@ -1,0 +1,251 @@
+---
+title: SystemShop
+description: SystemShop 的默认配置、分类文件和商品字段解释。
+---
+
+# SystemShop
+
+`SystemShop` 是 MatrixShop 中最接近“传统服务器商店”的模块。它主要依赖 YAML 静态定义商品，不需要像拍卖行或玩家商店那样读取运行时上架数据。
+
+## 默认文件
+
+- `SystemShop/settings.yml`
+- `SystemShop/shops/weapon.yml`
+- `SystemShop/shops/food.yml`
+- `SystemShop/shops/material.yml`
+- `SystemShop/ui/shop.yml`
+- `SystemShop/ui/confirm.yml`
+
+## `SystemShop/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'system'
+      - 'systemshop'
+    Register: false
+    Show-In-Help: true
+    Priority: 100
+    Condition: 'perm matrixshop.systemshop.use'
+
+Entry:
+  Open-Main-On-Command: true
+
+Currency:
+  Default: vault
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用系统商店模块。 |
+| `Bindings.Commands.Bindings` | 模块级候选命令关键字。 |
+| `Register` | 这里默认不注册独立命令，而是走主命令体系。 |
+| `Show-In-Help` | 是否在 `/ms help` 里展示。 |
+| `Priority` | 系统商店入口命令优先级。 |
+| `Condition` | 默认需要 `matrixshop.systemshop.use` 权限。 |
+| `Entry.Open-Main-On-Command` | 为 `true` 时，直接输入系统商店命令会先打开主分类页。 |
+| `Currency.Default` | 默认货币类型，当前示例是 `vault`。 |
+
+## `SystemShop/ui/shop.yml`
+
+这个文件定义的是系统商店“主分类页”，不是具体商品页。
+
+```yaml
+Title:
+  - '&8系统商店'
+
+layout:
+  - '#########'
+  - '#W#F#M#I#'
+  - '#########'
+  - '####R####'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'W':
+    material: 'DIAMOND_SWORD'
+    name: '&b武器商店'
+    lore:
+      - '&7购买武器与战斗用品'
+      - ''
+      - '&e左键打开'
+    actions:
+      left:
+        - 'matrixshop system open weapon'
+  'F':
+    material: 'COOKED_BEEF'
+    name: '&6食物商店'
+    lore:
+      - '&7购买食物与生存补给'
+      - ''
+      - '&e左键打开'
+    actions:
+      left:
+        - 'matrixshop system open food'
+  'M':
+    material: 'DIAMOND'
+    name: '&d材料商店'
+    lore:
+      - '&7购买基础材料'
+      - ''
+      - '&e左键打开'
+    actions:
+      left:
+        - 'matrixshop system open material'
+  'I':
+    material: 'PAPER'
+    name: '&f个人信息'
+    lore:
+      - '&7玩家: &f{player}'
+      - '&7余额: &e{money}'
+  'R':
+    material: 'BARRIER'
+    name: '&c关闭'
+    actions:
+      left:
+        - 'close'
+```
+
+重点：
+
+- `W`、`F`、`M` 分别跳转到 `weapon`、`food`、`material` 三个分类页。
+- `I` 是纯信息按钮，没有动作。
+- `R` 关闭菜单。
+
+## `SystemShop/shops/weapon.yml`
+
+这是最关键的商品分类配置文件。`food.yml` 和 `material.yml` 的结构与它一致。
+
+```yaml
+id: weapon
+
+Title:
+  - '&8武器商店'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '####I####'
+  - '####R####'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+  'I':
+    material: 'BOOK'
+    name: '&f商店说明'
+    lore:
+      - '&7点击商品进入确认界面'
+      - '&7第一版仅实现基础购买流程'
+  'R':
+    material: 'BARRIER'
+    name: '&c返回'
+    actions:
+      left:
+        - 'back'
+
+template:
+  name: '&f{name}'
+  lore:
+    - '&7价格: &e{price} {currency}'
+    - '&7单次上限: &f{limit}'
+    - '&7余额: &f{has_currency}'
+    - ''
+    - '&e左键进入购买确认'
+
+goods:
+  wooden_sword:
+    material: 'WOOD_SWORD'
+    amount: 1
+    price: 25
+    currency: 'vault'
+    buy-max: 16
+    name: '&f木剑'
+    lore:
+      - '&7入门级近战武器'
+  iron_sword:
+    material: 'IRON_SWORD'
+    amount: 1
+    price: 120
+    currency: 'vault'
+    buy-max: 16
+    name: '&f铁剑'
+    lore:
+      - '&7稳定的主力武器'
+  diamond_sword:
+    material: 'DIAMOND_SWORD'
+    amount: 1
+    price: 420
+    currency: 'vault'
+    buy-max: 8
+    name: '&b钻石剑'
+    lore:
+      - '&7高品质近战武器'
+  bow:
+    material: 'BOW'
+    amount: 1
+    price: 180
+    currency: 'vault'
+    buy-max: 8
+    name: '&6弓'
+    lore:
+      - '&7远程作战基础装备'
+  arrow_bundle:
+    material: 'ARROW'
+    amount: 16
+    price: 32
+    currency: 'vault'
+    buy-max: 64
+    name: '&f箭矢 x16'
+    lore:
+      - '&7远程消耗品补给'
+```
+
+### 顶层字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | 文档上可以保留，但真正的 `shopId` 仍以文件名 `weapon.yml` 为准。 |
+| `Title` | 当前分类页面标题。 |
+| `layout` | `g` 是动态商品槽位，`I` 是说明，`R` 是返回。 |
+| `icons` | 静态图标定义。 |
+| `template` | 所有动态商品统一使用的名称和 Lore 模板。 |
+| `goods` | 静态商品列表。 |
+
+### `goods.*` 字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `material` | 商品材质。 |
+| `amount` | 每次购买给多少个。 |
+| `price` | 单次交易价格。 |
+| `currency` | 货币类型。 |
+| `buy-max` | 单次购买的最大数量或上限展示值。 |
+| `name` | 商品显示名。 |
+| `lore` | 商品说明。 |
+
+## 你应该怎么改
+
+- 想新增一个分类：复制一份 `shops/weapon.yml`，改文件名，再把 `ui/shop.yml` 的按钮指过去。
+- 想新增一个商品：直接在 `goods:` 下加一项。
+- 想改默认打开的分类：改顶层 `config.yml` 的 `system-shop.default-category`。
+
+## 相关文件
+
+- `SystemShop/shops/food.yml`
+- `SystemShop/shops/material.yml`
+- `SystemShop/ui/confirm.yml`
+
+通常先改 `shops/*.yml`，只有在你想重做分类入口和确认流程时，才需要再动 `ui/*.yml`。

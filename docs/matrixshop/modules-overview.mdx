@@ -1,52 +1,60 @@
 ---
 title: 模块总览
-description: MatrixShop 九个模块的职责与当前边界。
+description: MatrixShop 各模块职责、默认文件和详细文档入口。
 ---
 
 # 模块总览
 
-## 模块列表
+当前 MatrixShop 默认启用了九个模块。为了让文档更容易查找，本站现在把每个模块都拆成了单独页面。
 
-| 模块 ID | 作用 | 关键文件 |
-| --- | --- | --- |
-| `menu` | 总入口菜单 | `Menu/settings.yml`、`Menu/shops/*.yml` |
-| `system-shop` | 服务器预设商店 | `SystemShop/settings.yml`、`SystemShop/shops/*.yml` |
-| `player-shop` | 玩家个人商店 | `PlayerShop/settings.yml`、`PlayerShop/shops/*.yml` |
-| `global-market` | 全服上架市场 | `GlobalMarket/settings.yml`、`GlobalMarket/shops/*.yml` |
-| `auction` | 拍卖行 | `Auction/settings.yml`、`Auction/shops/*.yml` |
-| `chestshop` | 箱子商店 | `ChestShop/settings.yml`、`ChestShop/shops/*.yml` |
-| `transaction` | 面对面交易 | `Transaction/settings.yml`、`Transaction/shops/*.yml` |
-| `cart` | 购物车 | `Cart/settings.yml`、`Cart/shops/*.yml` |
-| `record` | 交易记录 | `Record/settings.yml`、`Record/shops/*.yml` |
+## 模块清单
 
-## 当前范围说明
+| 模块 | 作用 | 关键文件 | 详细页 |
+| --- | --- | --- | --- |
+| `menu` | 总入口导航菜单 | `Menu/settings.yml`、`Menu/shops/main.yml` | [Menu](./shop-types/menu) |
+| `system-shop` | 静态系统商店 | `SystemShop/settings.yml`、`SystemShop/shops/*.yml` | [SystemShop](./shop-types/system-shop) |
+| `player-shop` | 玩家个人商店 | `PlayerShop/settings.yml`、`PlayerShop/shops/default.yml` | [PlayerShop](./shop-types/player-shop) |
+| `global-market` | 全服共享市场 | `GlobalMarket/settings.yml`、`GlobalMarket/shops/default.yml` | [GlobalMarket](./shop-types/global-market) |
+| `auction` | 拍卖行 | `Auction/settings.yml`、`Auction/shops/default.yml` | [Auction](./shop-types/auction) |
+| `chestshop` | 箱子商店 | `ChestShop/settings.yml`、`ChestShop/shops/default.yml` | [ChestShop](./shop-types/chest-shop) |
+| `transaction` | 面对面交易 | `Transaction/settings.yml`、`Transaction/shops/default.yml` | [Transaction](./shop-types/transaction) |
+| `cart` | 购物车 | `Cart/settings.yml`、`Cart/shops/cart.yml` | [Cart](./shop-types/cart) |
+| `record` | 账本记录 | `Record/settings.yml`、`Record/shops/record.yml` | [Record](./shop-types/record) |
 
-### 真正按 `shopId` 分开的模块
+## 应该先读哪些页
 
-这些模块的命令、入口菜单和数据库记录都已经按 `shops/<file-name>.yml` 的文件名做作用域：
+### 如果你在做新服部署
 
-- `player-shop`
-- `global-market`
-- `auction`
-- `transaction`
+建议顺序：
 
-### 入口是分开的，但运行态仍是共享的模块
+1. [配置结构](./configuration-structure)
+2. [商店与模块详解](./shop-types)
+3. 你实际会用到的模块页
 
-这些模块支持多个 `shops/*.yml` 入口，但内部数据不是完全按 `shopId` 物理拆分：
+### 如果你在排查某个商店为什么打不开
 
-- `cart`
-- `record`
-- `chestshop`
+先看：
 
-其中：
+1. 对应模块的 `settings.yml` 是否启用、是否有权限条件。
+2. 对应 `shops/*.yml` 的文件名是否和你打开的 `shopId` 一致。
+3. 模块页里记录的默认命令别名和 UI 文件是否匹配。
 
-- `cart` 主要是按入口过滤可结算来源
-- `record` 主要是按入口过滤模块视图
-- `chestshop` 的 `shops/*.yml` 更像不同入口视图，而不是多套独立箱店池
+### 如果你在做中文化或重做界面
 
-### 配置驱动、不走数据库运行表的模块
+先看：
 
-- `menu`
-- `system-shop`
+1. [绑定与 UI](./bindings-and-ui)
+2. 对应模块页中的 `shops/*.yml`
+3. 对应模块的 `ui/*.yml`
 
-其中 `system-shop` 主要依赖 YAML 配置和 Vault 经济，不需要 JDBC 运行表。
+## 当前模块边界
+
+为了避免把 MatrixShop 理解成“所有模块都完全一样”，这里再强调一次：
+
+- `SystemShop` 主要是静态 YAML 商品。
+- `PlayerShop`、`GlobalMarket`、`Auction` 主要是运行时上架数据。
+- `ChestShop` 有箱子、库存、告示牌这套线下交互。
+- `Transaction` 不是商品市场，而是面对面交换。
+- `Cart` 和 `Record` 是辅助模块，不是独立销售市场。
+
+如果你准备直接改字段，请进入 [商店与模块详解](./shop-types) 下的具体模块页。

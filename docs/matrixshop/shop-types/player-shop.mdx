@@ -1,0 +1,150 @@
+---
+title: PlayerShop
+description: PlayerShop 的默认配置、商店入口与相关 UI 说明。
+---
+
+# PlayerShop
+
+`PlayerShop` 是玩家自己上架、自己管理的个人商店模块。和 `SystemShop` 的静态商品不同，这里的商品来自玩家运行时上架。
+
+## 默认文件
+
+- `PlayerShop/settings.yml`
+- `PlayerShop/shops/default.yml`
+- `PlayerShop/ui/shop.yml`
+- `PlayerShop/ui/edit.yml`
+
+## `PlayerShop/settings.yml`
+
+```yaml
+Enabled: true
+
+Bindings:
+  Commands:
+    Bindings:
+      - 'player_shop'
+      - 'playershop'
+      - 'pshop'
+    Register: false
+    Show-In-Help: true
+    Priority: 90
+    Condition: 'perm matrixshop.playershop.use'
+
+Unlock:
+  Base: 21
+  Max: 100
+
+Search:
+  enable: true
+  condition: "perm shop.vip"
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Enabled` | 是否启用玩家商店模块。 |
+| `Bindings.Commands.Bindings` | 模块级候选命令。 |
+| `Register` | 这里默认不抢独立命令，由入口配置决定是否注册。 |
+| `Priority` | 命令优先级。 |
+| `Condition` | 默认要求 `matrixshop.playershop.use` 权限。 |
+| `Unlock.Base` | 玩家初始可解锁的商店格数或基础上限。 |
+| `Unlock.Max` | 玩家最大可扩展到的上限。 |
+| `Search.enable` | 是否启用搜索。 |
+| `Search.condition` | 搜索功能的权限条件。 |
+
+## `PlayerShop/shops/default.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'player_shop'
+      - 'playershop'
+      - 'pshop'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Title:
+  - '&8{owner} Shop &7{page}/{max-page}'
+
+layout:
+  - '#########'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '#ggggggg#'
+  - '###I#E###'
+  - 'P###B###N'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+  'I':
+    material: 'PAPER'
+    name: '&fShop Info'
+    lore:
+      - '&7Owner: &f{owner}'
+      - '&7Listed: &f{listed}'
+      - '&7Your Balance: &e{money}'
+  'E':
+    material: 'BOOK'
+    name: '&eEdit My Shop'
+    lore:
+      - '&7Only visible for the owner'
+      - '&eLeft click to open the edit view'
+  'B':
+    material: 'BARRIER'
+    name: '&cClose'
+    actions:
+      left:
+        - 'close'
+  'P':
+    material: 'ARROW'
+    name: '&aPrevious'
+  'N':
+    material: 'ARROW'
+    name: '&aNext'
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `Bindings.Commands.Bindings` | 入口单独声明 `/playershop`、`/pshop` 等命令。 |
+| `Register` | 默认是 `true`，所以玩家商店会直接注册独立命令。 |
+| `Title` | 可使用 `{owner}`、`{page}`、`{max-page}`。 |
+| `layout` | `g` 是动态商品列表，`I` 是信息，`E` 是编辑入口，`P/N` 是翻页。 |
+| `icons.I` | 显示店主、已上架数量和查看者余额。 |
+| `icons.E` | 仅对店主有意义，通常用于打开编辑 UI。 |
+| `icons.B` | 关闭当前页面。 |
+
+## 相关 UI 文件
+
+### `PlayerShop/ui/shop.yml`
+
+这个文件和 `shops/default.yml` 的布局相近，主要是中文化后的浏览页模板。默认重点仍然是：
+
+- `mode: goods` 动态商品区
+- 店主信息按钮
+- 编辑按钮
+- 翻页按钮
+
+### `PlayerShop/ui/edit.yml`
+
+编辑页主要负责：
+
+- 调整自己店铺中的商品
+- 处理上架后的维护操作
+
+如果你只是改“玩家浏览商店长什么样”，优先动 `shops/default.yml` 或 `ui/shop.yml`；如果你要改店主管理流程，再去看 `edit.yml`。
+
+## 使用建议
+
+- 想改命令别名：改 `shops/default.yml` 的 `Bindings.Commands`。
+- 想控制玩家能开多少格：改 `Unlock.Base` 和 `Unlock.Max`。
+- 想给 VIP 开搜索：保留 `Search.enable: true`，并把 `condition` 改成你的权限节点。

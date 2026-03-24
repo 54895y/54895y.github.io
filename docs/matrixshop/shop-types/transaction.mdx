@@ -1,0 +1,163 @@
+---
+title: Transaction
+description: Transaction 面对面交易模块的设置、入口页与交易界面说明。
+---
+
+# Transaction
+
+`Transaction` 是玩家之间的面对面交易模块。它不依赖“商店上架”，而是依赖请求、会话、准备、确认这条流程。
+
+## 默认文件
+
+- `Transaction/settings.yml`
+- `Transaction/shops/default.yml`
+- `Transaction/ui/request.yml`
+- `Transaction/ui/trade.yml`
+- `Transaction/ui/confirm.yml`
+
+## `Transaction/settings.yml`
+
+```yaml
+Enabled: true
+Bindings:
+  Commands:
+    Bindings:
+      - 'trade'
+      - 'tm'
+    Register: true
+    Show-In-Help: true
+    Priority: 18
+    Condition: 'perm matrixshop.transaction.use'
+Options:
+  Request:
+    Timeout-Seconds: 30
+    Max-Pending: 5
+    Allow-Multi-Pending: true
+  Session:
+    Max-Distance: 8
+    Same-World-Only: true
+    Cancel-On-Damage: true
+    Cancel-On-Death: true
+    Cancel-On-Quit: true
+    Cancel-On-World-Change: true
+  Trade:
+    Allow-Items: true
+    Allow-Money: true
+    Allow-Exp: true
+  Record:
+    Write-On-Complete: true
+    Write-On-Cancel: false
+```
+
+### 请求与会话字段
+
+| 字段 | 说明 |
+| --- | --- |
+| `Request.Timeout-Seconds` | 交易请求超时时间。 |
+| `Request.Max-Pending` | 每个玩家最多允许挂起多少个请求。 |
+| `Request.Allow-Multi-Pending` | 是否允许同时存在多个待处理请求。 |
+| `Session.Max-Distance` | 交易双方允许的最大距离。 |
+| `Session.Same-World-Only` | 是否必须在同一世界。 |
+| `Cancel-On-Damage` | 受伤时是否取消交易。 |
+| `Cancel-On-Death` | 死亡时是否取消交易。 |
+| `Cancel-On-Quit` | 退出服务器时是否取消。 |
+| `Cancel-On-World-Change` | 切换世界时是否取消。 |
+
+### 交易内容与记录
+
+| 字段 | 说明 |
+| --- | --- |
+| `Trade.Allow-Items` | 是否允许交换物品。 |
+| `Trade.Allow-Money` | 是否允许附带金钱。 |
+| `Trade.Allow-Exp` | 是否允许附带经验。 |
+| `Record.Write-On-Complete` | 成交时是否写记录。 |
+| `Record.Write-On-Cancel` | 取消时是否写记录。 |
+
+## `Transaction/shops/default.yml`
+
+```yaml
+Bindings:
+  Commands:
+    Bindings:
+      - 'trade'
+      - 'tm'
+    Register: true
+    Show-In-Help: true
+    Priority: 100
+
+Title:
+  - '&8Trade Hub &7{shop-id}'
+
+layout:
+  - '#########'
+  - '###R#A###'
+  - '#########'
+  - '###L#####'
+  - '#########'
+
+icons:
+  '#':
+    material: 'STAINED_GLASS_PANE'
+    name: ' '
+  'R':
+    material: 'NAME_TAG'
+    name: '&aRequest Trade'
+    lore:
+      - '&7Use /ms trade request <player>'
+      - '&7or your custom binding equivalent'
+  'A':
+    material: 'EMERALD'
+    name: '&fActive Trade'
+    lore:
+      - '&7Open your current trade session'
+  'L':
+    material: 'BOOK'
+    name: '&6Trade Records'
+    lore:
+      - '&7Open transaction records'
+```
+
+字段解释：
+
+| 字段 | 说明 |
+| --- | --- |
+| `R` | 提示玩家如何发起交易请求。 |
+| `A` | 打开当前交易会话。 |
+| `L` | 打开交易记录。 |
+| `layout` | 这个页面不是商品列表，而是交易中心的导航页。 |
+
+## `Transaction/ui/trade.yml`
+
+这个文件决定真正交易时的主界面结构：
+
+```yaml
+Title:
+  - '&8Trading - {self} -> {target}'
+
+layout:
+  - 'AAA#BBB##'
+  - 'AAA#BBB##'
+  - 'AAA#BBB##'
+  - '##M#E#T##'
+  - '##R#C#Q##'
+  - '#########'
+```
+
+关键模式说明：
+
+| 字段 | 说明 |
+| --- | --- |
+| `A` / `mode: self-offer` | 自己的出价区。 |
+| `B` / `mode: target-offer` | 对方的出价区。 |
+| `M` | 金钱出价按钮。 |
+| `E` | 经验出价按钮。 |
+| `T` | 目标方摘要。 |
+| `R` | 准备按钮。 |
+| `C` | 双方准备后进入最终确认。 |
+| `Q` | 取消交易。 |
+
+## 使用建议
+
+- 想让交易更安全：降低 `Max-Distance`，并保留所有 `Cancel-On-*` 开关。
+- 想做纯物品交易服：把 `Allow-Money` 和 `Allow-Exp` 关掉。
+- 想保留取消记录：把 `Record.Write-On-Cancel` 改成 `true`。
