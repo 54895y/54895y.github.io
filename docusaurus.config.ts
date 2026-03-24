@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Matrix Product Docs',
-  tagline: '把 Matrix 系列插件文档整理成可交接、可执行的产品 Brief 与实现说明。',
+  title: 'Matrix Wiki',
+  tagline: 'Matrix 系列插件官方文档。',
   favicon: 'img/logo.svg',
   future: {
     v4: true,
@@ -39,11 +39,11 @@ const config: Config = {
     image: 'img/logo.svg',
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: true,
-      respectPrefersColorScheme: false,
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Matrix Product Docs',
+      title: 'Matrix Wiki',
       logo: {
         alt: 'Matrix Wiki Logo',
         src: 'img/logo.svg',
@@ -108,29 +108,12 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: 'Quick Start',
-          items: [
-            {
-              label: 'MatrixAuth 安装',
-              to: '/docs/matrixauth/installation',
-            },
-            {
-              label: 'MatrixCook 安装',
-              to: '/docs/matrixcook/installation',
-            },
-            {
-              label: 'MatrixShop 快速开始',
-              to: '/docs/matrixshop/quick-start',
-            },
-          ],
-        },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} 54895y. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
 };
