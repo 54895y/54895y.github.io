@@ -1,111 +1,235 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap');
 
-:root {
-  --ifm-color-primary: #0f766e;
-  --ifm-color-primary-dark: #0d6a63;
-  --ifm-color-primary-darker: #0c645d;
-  --ifm-color-primary-darkest: #0a534d;
-  --ifm-color-primary-light: #118278;
-  --ifm-color-primary-lighter: #13887d;
-  --ifm-color-primary-lightest: #169a8d;
-  --ifm-background-color: #fffdf7;
-  --ifm-background-surface-color: rgba(255, 255, 255, 0.92);
-  --ifm-navbar-background-color: rgba(255, 253, 247, 0.78);
-  --ifm-footer-background-color: #0b1b2b;
-  --ifm-font-family-base: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --ifm-heading-font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
-  --ifm-font-family-monospace: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
-  --ifm-heading-color: #0b1b2b;
-  --ifm-link-color: #155e75;
-  --ifm-menu-color-active: #0f766e;
-  --ifm-toc-border-color: rgba(15, 118, 110, 0.16);
-  --ifm-code-background: rgba(11, 27, 43, 0.06);
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-}
-
+:root,
 [data-theme='dark'] {
-  --ifm-color-primary: #7dd3c7;
-  --ifm-color-primary-dark: #69ccbe;
-  --ifm-color-primary-darker: #5ec8b8;
-  --ifm-color-primary-darkest: #39b9a6;
-  --ifm-color-primary-light: #91dacd;
-  --ifm-color-primary-lighter: #9cded3;
-  --ifm-color-primary-lightest: #baeae3;
-  --ifm-background-color: #08131f;
-  --ifm-background-surface-color: rgba(11, 27, 43, 0.92);
-  --ifm-navbar-background-color: rgba(8, 19, 31, 0.8);
-  --ifm-footer-background-color: #06101a;
-  --ifm-heading-color: #f8fafc;
-  --ifm-link-color: #8fe1d7;
-  --ifm-code-background: rgba(255, 255, 255, 0.08);
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #6d4f34;
+  --ifm-color-primary-dark: #62482f;
+  --ifm-color-primary-darker: #5c442c;
+  --ifm-color-primary-darkest: #4c3824;
+  --ifm-color-primary-light: #785639;
+  --ifm-color-primary-lighter: #805a3b;
+  --ifm-color-primary-lightest: #976948;
+  --ifm-background-color: #f4ede2;
+  --ifm-background-surface-color: rgba(255, 252, 247, 0.9);
+  --ifm-navbar-background-color: rgba(249, 245, 238, 0.84);
+  --ifm-footer-background-color: #ede3d3;
+  --ifm-heading-color: #211913;
+  --ifm-link-color: #3f5a72;
+  --ifm-link-hover-color: #2e455a;
+  --ifm-menu-color-active: #6d4f34;
+  --ifm-menu-color-background-active: rgba(109, 79, 52, 0.09);
+  --ifm-code-background: rgba(63, 90, 114, 0.08);
+  --ifm-code-font-size: 93%;
+  --ifm-font-color-base: #342920;
+  --ifm-toc-border-color: rgba(67, 55, 43, 0.12);
+  --ifm-font-family-base: 'IBM Plex Sans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --ifm-font-family-monospace: 'IBM Plex Mono', 'Cascadia Code', 'Consolas', monospace;
+  --ifm-heading-font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --ifm-global-shadow-lw: 0 12px 32px rgba(61, 46, 32, 0.08);
+  --docusaurus-highlighted-code-line-bg: rgba(63, 90, 114, 0.12);
 }
 
 html {
-  background-color: #eef7f8;
+  background-color: #efe7da;
 }
 
 body {
   background: transparent;
+  color: var(--ifm-font-color-base);
 }
 
 #__docusaurus {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(224, 176, 75, 0.1), transparent 26%),
-    linear-gradient(180deg, #fffdf7 0%, #eef7f8 100%);
-  background-repeat: no-repeat;
-}
-
-html[data-theme='dark'] {
-  background-color: #102131;
-}
-
-html[data-theme='dark'] body {
-  background: transparent;
-}
-
-html[data-theme='dark'] #__docusaurus {
-  background:
-    radial-gradient(circle at top, rgba(125, 211, 199, 0.16), transparent 25%),
-    linear-gradient(180deg, #08131f 0%, #102131 100%);
+  background-image:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.62), rgba(244, 237, 226, 0.96)),
+    repeating-linear-gradient(
+      180deg,
+      rgba(112, 89, 62, 0.04) 0,
+      rgba(112, 89, 62, 0.04) 1px,
+      transparent 1px,
+      transparent 92px
+    ),
+    radial-gradient(circle at top left, rgba(144, 112, 74, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(63, 90, 114, 0.12), transparent 26%);
   background-repeat: no-repeat;
 }
 
 .navbar {
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(15, 118, 110, 0.1);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(67, 55, 43, 0.08);
+  box-shadow: 0 10px 24px rgba(63, 46, 32, 0.05);
 }
 
-.footer {
-  border-top: 1px solid rgba(125, 211, 199, 0.12);
+.navbar__title,
+.footer__title {
+  font-family: var(--ifm-heading-font-family);
+  letter-spacing: -0.02em;
+}
+
+.navbar__link {
+  font-weight: 600;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #6d4f34;
 }
 
 .theme-doc-sidebar-container {
-  border-right: 1px solid rgba(15, 118, 110, 0.1);
+  border-right: none;
+  background: transparent;
+}
+
+.theme-doc-sidebar-menu {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(67, 55, 43, 0.09);
+  border-radius: 24px;
+  background: rgba(255, 252, 247, 0.82);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.menu__link,
+.menu__caret {
+  border-radius: 14px;
 }
 
 .menu__link {
-  border-radius: 12px;
+  font-size: 0.97rem;
 }
 
 .menu__link--active {
-  background: rgba(15, 118, 110, 0.1);
+  background: rgba(109, 79, 52, 0.09);
 }
 
-.table-of-contents__link--active {
-  font-weight: 700;
+.breadcrumbs {
+  margin-bottom: 1rem;
+}
+
+.breadcrumbs__link {
+  border-radius: 999px;
+  background: rgba(109, 79, 52, 0.08);
+  padding: 0.28rem 0.75rem;
+}
+
+.theme-doc-markdown {
+  padding: clamp(1.4rem, 2.6vw, 2.3rem);
+  border: 1px solid rgba(67, 55, 43, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 252, 247, 0.84);
+  box-shadow: 0 30px 80px rgba(61, 46, 32, 0.08);
+}
+
+.theme-doc-markdown > h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.4rem, 5vw, 3.7rem);
+  line-height: 1.02;
 }
 
 .markdown h1,
 .markdown h2,
 .markdown h3,
 .markdown h4 {
+  color: var(--ifm-heading-color);
   letter-spacing: -0.02em;
+}
+
+.markdown h2 {
+  margin-top: 2.4rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid rgba(67, 55, 43, 0.08);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+}
+
+.markdown h3 {
+  font-size: 1.3rem;
+}
+
+.markdown p,
+.markdown li {
+  line-height: 1.9;
+}
+
+.markdown strong {
+  color: #241d17;
+}
+
+.markdown blockquote {
+  margin: 1.3rem 0;
+  padding: 1rem 1.2rem;
+  border-left: 4px solid rgba(63, 90, 114, 0.28);
+  border-radius: 0 18px 18px 0;
+  background: rgba(63, 90, 114, 0.06);
+  color: #4c5d6c;
 }
 
 .markdown table {
   display: table;
   width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.markdown table thead tr {
+  background: rgba(109, 79, 52, 0.08);
+}
+
+.markdown table tr:nth-child(even) {
+  background: rgba(112, 89, 62, 0.03);
+}
+
+.markdown pre,
+.theme-code-block {
+  border: 1px solid rgba(67, 55, 43, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.pagination-nav__link {
+  border: 1px solid rgba(67, 55, 43, 0.1);
+  border-radius: 24px;
+  background: rgba(255, 252, 247, 0.84);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.table-of-contents {
+  padding: 1rem;
+  border: 1px solid rgba(67, 55, 43, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 252, 247, 0.82);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.table-of-contents__link--active {
+  font-weight: 700;
+}
+
+.footer {
+  border-top: 1px solid rgba(67, 55, 43, 0.08);
+  background: rgba(237, 227, 211, 0.84);
+}
+
+.footer__link-item,
+.footer__copyright {
+  color: #5f5245;
+}
+
+@media screen and (max-width: 996px) {
+  .theme-doc-sidebar-menu,
+  .theme-doc-markdown,
+  .table-of-contents {
+    border-radius: 22px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .theme-doc-markdown {
+    padding: 1.15rem;
+  }
+
+  .theme-doc-sidebar-menu,
+  .table-of-contents,
+  .pagination-nav__link {
+    border-radius: 18px;
+  }
 }

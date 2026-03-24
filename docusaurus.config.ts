@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Matrix Wiki',
-  tagline: '统一维护 Matrix 系列插件的部署、配置与使用文档',
+  title: 'Matrix Product Docs',
+  tagline: '把 Matrix 系列插件文档整理成可交接、可执行的产品 Brief 与实现说明。',
   favicon: 'img/logo.svg',
   future: {
     v4: true,
@@ -39,11 +39,11 @@ const config: Config = {
     image: 'img/logo.svg',
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: false,
+      disableSwitch: true,
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'Matrix Wiki',
+      title: 'Matrix Product Docs',
       logo: {
         alt: 'Matrix Wiki Logo',
         src: 'img/logo.svg',
@@ -53,49 +53,37 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: '文档',
+          label: 'Docs',
         },
-        {to: '/docs/plugins', label: '插件列表', position: 'left'},
+        {to: '/docs/plugins', label: 'Plugins', position: 'left'},
         {to: '/docs/matrixauth/overview', label: 'MatrixAuth', position: 'left'},
         {to: '/docs/matrixcook/overview', label: 'MatrixCook', position: 'left'},
         {to: '/docs/matrixshop', label: 'MatrixShop', position: 'left'},
         {
           href: 'https://github.com/54895y/54895y.github.io',
-          label: 'Wiki GitHub',
+          label: 'GitHub',
           position: 'right',
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
         {
-          title: '文档',
+          title: 'Documentation',
           items: [
             {
-              label: '插件列表',
+              label: '插件索引',
               to: '/docs/plugins',
             },
             {
               label: '站点说明',
               to: '/docs/intro',
             },
-            {
-              label: 'MatrixAuth',
-              to: '/docs/matrixauth/overview',
-            },
-            {
-              label: 'MatrixCook',
-              to: '/docs/matrixcook/overview',
-            },
-            {
-              label: 'MatrixShop',
-              to: '/docs/matrixshop',
-            },
           ],
         },
         {
-          title: '插件',
+          title: 'Projects',
           items: [
             {
               label: 'MatrixAuth',
@@ -112,16 +100,16 @@ const config: Config = {
           ],
         },
         {
-          title: '仓库',
+          title: 'Repository',
           items: [
             {
-              label: 'Wiki',
+              label: '54895y.github.io',
               href: 'https://github.com/54895y/54895y.github.io',
             },
           ],
         },
         {
-          title: '入口',
+          title: 'Quick Start',
           items: [
             {
               label: 'MatrixAuth 安装',
@@ -142,7 +130,7 @@ const config: Config = {
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      darkTheme: prismThemes.github,
     },
   } satisfies Preset.ThemeConfig,
 };
