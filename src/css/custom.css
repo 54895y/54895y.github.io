@@ -323,6 +323,73 @@ html[data-theme='dark'] .markdown table tr:nth-child(even) {
 }
 
 @media screen and (max-width: 996px) {
+  .navbar-sidebar {
+    background: rgba(238, 246, 255, 0.72);
+    backdrop-filter: blur(18px);
+  }
+
+  html[data-theme='dark'] .navbar-sidebar {
+    background: rgba(12, 19, 31, 0.82);
+  }
+
+  .navbar-sidebar__backdrop {
+    background: rgba(17, 35, 63, 0.28);
+    backdrop-filter: blur(3px);
+  }
+
+  .navbar-sidebar__brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--site-panel-border);
+    background: var(--site-panel-bg);
+    box-shadow: 0 12px 30px rgba(17, 44, 86, 0.08);
+  }
+
+  .navbar-sidebar__brand .navbar__title {
+    margin: 0;
+    color: var(--site-text-strong);
+  }
+
+  .navbar-sidebar__items {
+    padding: 0.8rem 0.75rem 1rem;
+    background: transparent;
+  }
+
+  .navbar-sidebar__item {
+    border-radius: 16px;
+  }
+
+  .navbar-sidebar__items .menu__link,
+  .navbar-sidebar__items .menu__caret,
+  .navbar-sidebar__items .navbar__link {
+    border-radius: 14px;
+  }
+
+  .navbar-sidebar__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid var(--site-panel-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--site-text-strong);
+    box-shadow: 0 8px 18px rgba(17, 44, 86, 0.08);
+  }
+
+  html[data-theme='dark'] .navbar-sidebar__close {
+    background: rgba(20, 31, 47, 0.94);
+  }
+
+  .theme-doc-sidebar-container {
+    border-right: none;
+  }
+
   .theme-doc-sidebar-menu,
   .theme-doc-markdown,
   .table-of-contents {
@@ -331,6 +398,14 @@ html[data-theme='dark'] .markdown table tr:nth-child(even) {
 }
 
 @media screen and (max-width: 640px) {
+  .navbar-sidebar__brand {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .navbar-sidebar__items {
+    padding: 0.65rem 0.55rem 0.9rem;
+  }
+
   .theme-doc-markdown {
     padding: 1.15rem;
   }
