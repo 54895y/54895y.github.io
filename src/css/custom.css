@@ -324,12 +324,14 @@ html[data-theme='dark'] .markdown table tr:nth-child(even) {
 
 @media screen and (max-width: 996px) {
   .navbar-sidebar {
-    background: rgba(238, 246, 255, 0.72);
+    width: min(83vw, 26rem);
+    max-width: 26rem;
+    background: rgba(238, 246, 255, 0.92);
     backdrop-filter: blur(18px);
   }
 
   html[data-theme='dark'] .navbar-sidebar {
-    background: rgba(12, 19, 31, 0.82);
+    background: rgba(12, 19, 31, 0.96);
   }
 
   .navbar-sidebar__backdrop {
@@ -357,21 +359,36 @@ html[data-theme='dark'] .markdown table tr:nth-child(even) {
     height: calc(100vh - var(--ifm-navbar-height));
     padding: 0;
     background: transparent;
+    overflow: hidden;
   }
 
   .theme-layout-navbar-sidebar-panel {
     height: 100%;
-    padding: 0.8rem 0.75rem 1rem;
+    padding: 0;
   }
 
   .navbar-sidebar__item.menu {
     height: 100%;
     margin: 0;
     overflow-y: auto;
-    border: 1px solid var(--site-panel-border);
-    border-radius: 22px;
-    background: var(--site-panel-bg);
-    box-shadow: var(--ifm-global-shadow-lw);
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0.6rem 0.75rem 1rem;
+  }
+
+  .navbar-sidebar .theme-doc-sidebar-menu {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .navbar-sidebar .menu__list {
+    padding: 0;
   }
 
   .navbar-sidebar__items .menu__link,
@@ -431,8 +448,8 @@ html[data-theme='dark'] .markdown table tr:nth-child(even) {
     padding: 0.8rem 0.9rem;
   }
 
-  .theme-layout-navbar-sidebar-panel {
-    padding: 0.65rem 0.55rem 0.9rem;
+  .navbar-sidebar__item.menu {
+    padding: 0.5rem 0.55rem 0.9rem;
   }
 
   .theme-doc-markdown {
