@@ -16,10 +16,10 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 | `player-shop` | 玩家个人商店 | `PlayerShop/settings.yml`、`PlayerShop/shops/default.yml` | [PlayerShop](./shop-types/player-shop) |
 | `global-market` | 全服共享市场 | `GlobalMarket/settings.yml`、`GlobalMarket/shops/default.yml` | [GlobalMarket](./shop-types/global-market) |
 | `auction` | 拍卖行 | `Auction/settings.yml`、`Auction/shops/default.yml` | [Auction](./shop-types/auction) |
-| `chestshop` | 箱子商店 | `ChestShop/settings.yml`、`ChestShop/shops/default.yml` | [ChestShop](./shop-types/chest-shop) |
+| `chestshop` | 箱子商店 | `ChestShop/settings.yml`、`ChestShop/signs.yml`、`ChestShop/ui/*.yml` | [ChestShop](./shop-types/chest-shop) |
 | `transaction` | 面对面交易 | `Transaction/settings.yml`、`Transaction/shops/default.yml` | [Transaction](./shop-types/transaction) |
-| `cart` | 购物车 | `Cart/settings.yml`、`Cart/shops/cart.yml` | [Cart](./shop-types/cart) |
-| `record` | 账本记录 | `Record/settings.yml`、`Record/shops/record.yml` | [Record](./shop-types/record) |
+| `cart` | 购物车 | `Cart/settings.yml`、`Cart/ui/*.yml` | [Cart](./shop-types/cart) |
+| `record` | 账本记录 | `Record/settings.yml`、`Record/retention.yml`、`Record/ui/*.yml` | [Record](./shop-types/record) |
 
 ## 应该先读哪些页
 
@@ -36,7 +36,7 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 先看：
 
 1. 对应模块的 `settings.yml` 是否启用、是否有权限条件。
-2. 对应 `shops/*.yml` 的文件名是否和你打开的 `shopId` 一致。
+2. 如果该模块使用 `shops/*.yml`，确认文件名是否和你打开的 `shopId` 一致。
 3. 模块页里记录的默认命令别名和 UI 文件是否匹配。
 
 ### 如果你在做中文化或重做界面
@@ -44,7 +44,7 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 先看：
 
 1. [绑定与 UI](./bindings-and-ui)
-2. 对应模块页中的 `shops/*.yml`
+2. 对应模块页中的 `shops/*.yml` 或 `ui/*.yml`
 3. 对应模块的 `ui/*.yml`
 
 ## 当前模块边界
@@ -55,6 +55,6 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 - `PlayerShop`、`GlobalMarket`、`Auction` 主要是运行时上架数据。
 - `ChestShop` 有箱子、库存、告示牌这套线下交互。
 - `Transaction` 不是商品市场，而是面对面交换。
-- `Cart` 和 `Record` 是辅助模块，不是独立销售市场。
+- `Cart` 和 `Record` 是辅助模块，不是独立销售市场，也不再使用 `shops/*.yml` 作为主入口。
 
 如果你准备直接改字段，请进入 [商店与模块详解](./shop-types) 下的具体模块页。

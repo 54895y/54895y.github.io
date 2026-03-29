@@ -22,8 +22,10 @@ description: MatrixShop 的玩家指令、管理员指令与权限节点。
 - `/chestshop`
 - `/trade`
 - `/market`
+- `/cart`
+- `/record`
 
-是否注册，取决于模块或具体 `shops/*.yml` 的 `Bindings.Commands.Register`。
+是否注册，取决于模块级或商店级配置中的 `Bindings.Commands.Register`。
 
 ## 玩家命令
 
@@ -44,9 +46,8 @@ description: MatrixShop 的玩家指令、管理员指令与权限节点。
 - `auction:<shop-id>`
 - `transaction:<shop-id>`
 - `menu:<shop-id>`
-- `cart:<shop-id>`
-- `record:<shop-id>`
-- `chestshop:<shop-id>`
+- `cart:<view-id>`
+- `record:<view-id>`
 
 ### 模块命令
 
@@ -56,7 +57,7 @@ description: MatrixShop 的玩家指令、管理员指令与权限节点。
 | PlayerShop | `/playershop open [player]`、`/playershop edit`、`/playershop upload <price> [amount]` |
 | GlobalMarket | `/market open`、`/market upload <price> [amount]`、`/market manage` |
 | Auction | `/auction open`、`/auction upload <english\|dutch> <start> [buyout\|end] [duration]`、`/auction bid <id> [price]`、`/auction buyout <id>` |
-| ChestShop | `/chestshop create <buy\|sell\|dual> <price> [sell-price] [amount]`、`/chestshop edit`、`/chestshop stock`、`/chestshop history` |
+| ChestShop | `/chestshop open`、`/chestshop create <buy\|sell\|dual> <price> [sell-price] [amount]`、`/chestshop edit`、`/chestshop stock`、`/chestshop history` |
 | Transaction | `/trade request <player>`、`/trade accept`、`/trade money <amount>`、`/trade exp <amount>`、`/trade ready`、`/trade confirm` |
 | Cart | `/cart open`、`/cart checkout [valid_only]`、`/cart clear`、`/cart remove <slot>` |
 | Record | `/record open [keyword]`、`/record detail <id>`、`/record filter [module\|all]`、`/record income`、`/record expense` |

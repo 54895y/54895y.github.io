@@ -33,13 +33,19 @@ plugins/MatrixShop/
 └─ Record/
 ```
 
-每个模块目录下至少会有：
+大多数模块目录下会包含：
 
 - `settings.yml`
 - `shops/*.yml`
 - `ui/*.yml`
 
-`shops/*.yml` 的文件名就是当前实现里的 `shopId`。
+但有三个例外：
+
+- `ChestShop/`：不再使用 `shops/*.yml`，只保留 `settings.yml`、`signs.yml` 和 `ui/*.yml`
+- `Cart/`：不再使用 `shops/*.yml`，只保留 `settings.yml` 和 `ui/*.yml`
+- `Record/`：不再使用 `shops/*.yml`，只保留 `settings.yml`、`retention.yml` 和 `ui/*.yml`
+
+对于仍然使用 `shops/*.yml` 的模块，文件名就是当前实现里的 `shopId`。
 
 ## 3. 先做的三项检查
 
@@ -71,7 +77,7 @@ modules:
 
 ### 检查绑定命令
 
-模块命令不是写死的。它们会从各模块 `settings.yml` 和 `shops/*.yml` 里的 `Bindings.Commands` 读取。
+模块命令不是全部写死的。它们会从各模块 `settings.yml` 和 `shops/*.yml` 里的 `Bindings.Commands` 读取。
 
 例如默认情况下：
 
@@ -80,6 +86,8 @@ modules:
 - `/chestshop`
 - `/trade`
 - `/market`
+- `/cart`
+- `/record`
 
 都可能在启动时注册成独立命令。
 
@@ -95,6 +103,8 @@ modules:
 /ms open systemshop:weapon
 /auction open
 /market open
+/cart help
+/record help
 ```
 
-如果你能正常打开系统商店、拍卖行和市场页面，说明基础配置已经生效。
+如果你能正常打开系统商店、拍卖、市场、购物车和记录页面，说明基础配置已经生效。

@@ -120,7 +120,7 @@ Database:
 - `Cart/`
 - `Record/`
 
-每个模块目录通常包含：
+大多数模块目录包含：
 
 - `settings.yml`
 - `shops/*.yml`
@@ -130,6 +130,12 @@ Database:
 
 - `ChestShop/signs.yml`
 - `Record/retention.yml`
+
+并且有三个模块已经不再使用 `shops/*.yml`：
+
+- `ChestShop`
+- `Cart`
+- `Record`
 
 ## `settings.yml` 和 `shops/*.yml` 的分工
 
@@ -157,8 +163,23 @@ Database:
 例如：
 
 - `PlayerShop/shops/default.yml` -> `default`
-- `Cart/shops/cart.yml` -> `cart`
-- `Record/shops/record.yml` -> `record`
+- `GlobalMarket/shops/default.yml` -> `default`
+- `Auction/shops/default.yml` -> `default`
+- `Transaction/shops/default.yml` -> `default`
+
+### 不使用 `shops/*.yml` 的模块
+
+这三个模块当前采用“模块级入口 + UI 文件”的结构：
+
+- `ChestShop`
+- `Cart`
+- `Record`
+
+它们的入口命令、帮助文本和行为控制主要来自：
+
+- `settings.yml`
+- `ui/*.yml`
+- 以及模块自身的运行时上下文
 
 ## 从哪里继续读
 

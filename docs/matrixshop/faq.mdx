@@ -24,6 +24,12 @@ currency: 'vault'
 - `auction`
 - `transaction`
 
+以下模块当前不依赖 `shops/*.yml` 作为主入口：
+
+- `chestshop`
+- `cart`
+- `record`
+
 ## `/ms open <id>` 打不开或提示歧义怎么办
 
 如果多个模块里出现了同名 `shopId`，就不要再用短写法，直接改成显式前缀：
@@ -59,6 +65,15 @@ currency: 'vault'
 
 - `Bindings.Commands.Register`
 - 独立命令关键字本身
+
+## 为什么 `/cart`、`/record` 能直接使用，但不需要 `shops/*.yml`
+
+因为这两个模块当前已经改成“模块级入口 + UI 文件”模型：
+
+- `Cart/settings.yml` + `Cart/ui/*.yml`
+- `Record/settings.yml` + `Record/ui/*.yml`
+
+它们仍然支持独立命令和帮助输出，但不再通过 `shops/*.yml` 划分主入口。
 
 ## SystemShop 为什么没有数据库表
 
