@@ -46,6 +46,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'matrixshop/quick-start',
         'matrixshop/configuration-structure',
+        'matrixshop/economy',
         'matrixshop/commands-and-permissions',
         'matrixshop/database-and-storage',
         'matrixshop/modules-overview',

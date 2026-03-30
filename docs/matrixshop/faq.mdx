@@ -5,15 +5,29 @@ description: MatrixShop 当前实现的常见误区与排错入口。
 
 # 常见问题
 
-## 为什么文档里不再写 `currency.yml`
+## 现在货币应该写在哪里
 
-因为当前源码默认资源里没有 `currency.yml`。旧版文档提到的货币总表不适用于现在这套实现。
+当前版本已经重新引入统一货币定义文件：
 
-当前示例里的货币字段通常直接写：
-
-```yaml
-currency: 'vault'
+```text
+plugins/MatrixShop/Economy/currency.yml
 ```
+
+推荐写法是引用货币 key，而不是在每个业务配置里重复写整段货币逻辑。
+
+优先级如下：
+
+1. 商品级
+2. 商店级
+3. 模块级
+4. 默认回退 `vault`
+
+如果你在改：
+
+- `SystemShop`：可写商品级 `currency`
+- `PlayerShop / GlobalMarket / Auction / Transaction`：优先写商店级 `Currency.Key`
+- `ChestShop`：写模块级 `Currency.Key`
+- `Cart / Record`：不需要配置货币
 
 ## 为什么改了 `shops/*.yml` 文件名后，原来的入口和数据不见了
 

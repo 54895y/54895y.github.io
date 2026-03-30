@@ -1,0 +1,179 @@
+---
+title: 经济模块
+description: MatrixShop 的统一货币定义、优先级规则和模块配置方式。
+---
+
+# 经济模块
+
+MatrixShop 当前已经引入独立的经济模块，用来统一管理货币定义和交易动作。
+
+它和旧版“每个商店自己随便写货币逻辑”的思路不同，当前版本采用的是：
+
+1. 统一定义货币
+2. 模块、商店或商品只引用货币 key
+3. 未定义时默认回退到 `vault`
+
+## 核心结论
+
+- `Economy` 是核心模块，始终启用，不支持关闭。
+- 默认货币定义文件是 `plugins/MatrixShop/Economy/currency.yml`
+- 支持的货币模式：
+  - `vault`
+  - `playerpoints`
+  - `PlaceholderAPI` 占位符货币
+- `Cart` 和 `Record` 不提供独立经济配置
+
+## 默认文件
+
+```text
+plugins/MatrixShop/Economy/currency.yml
+```
+
+默认资源示例：
+
+```yml
+vault:
+  Mode: vault
+  Display-Name: "金币"
+  Symbol: "$"
+  Decimal: true
+
+playerpoints:
+  Mode: playerpoints
+  Display-Name: "点券"
+  Symbol: "点"
+  Decimal: false
+
+custom_points:
+  Mode: "%custom_points%"
+  Display-Name: "自定义积分"
+  Symbol: ""
+  Decimal: false
+  Actions:
+    Take:
+      - "console: custompoints take {player} {amount}"
+    Give:
+      - "console: custompoints give {player} {amount}"
+    Deny:
+      - "tell:&c货币不足，需要 &e{need} &c，当前为 &e{balance}"
+```
+
+## 货币定义字段
+
+| 字段 | 说明 |
+| --- | --- |
+| `Mode` | 货币类型。可写 `vault`、`playerpoints` 或 PlaceholderAPI 占位符。 |
+| `Display-Name` | 菜单和提示中显示的货币名。 |
+| `Symbol` | 可选符号。当前主要用于展示，不直接控制结算。 |
+| `Decimal` | 是否允许小数。`playerpoints` 一般应设为 `false`。 |
+| `Actions.Take` | 自定义货币扣除动作。 |
+| `Actions.Give` | 自定义货币发放动作。 |
+| `Actions.Deny` | 余额不足时执行的提示动作。 |
+
+说明：
+
+- `vault` 和 `playerpoints` 模式优先走插件 API
+- 自定义占位符货币主要依赖 `Actions.Take / Give / Deny`
+- 如果没有定义动作，就只能用于读取余额，不能安全完成结算
+
+## 配置优先级
+
+当前版本的货币 key 解析优先级是：
+
+1. 商品级
+2. 商店级
+3. 模块级
+4. 默认回退 `vault`
+
+### 商品级
+
+当前主要体现在 `SystemShop`：
+
+```yml
+goods:
+  diamond_sword:
+    material: 'DIAMOND_SWORD'
+    price: 420
+    currency: playerpoints
+```
+
+### 商店级
+
+适用于带 `shops/*.yml` 的模块，例如：
+
+- `SystemShop`
+- `PlayerShop`
+- `GlobalMarket`
+- `Auction`
+- `Transaction`
+
+示例：
+
+```yml
+Currency:
+  Key: vault
+```
+
+### 模块级
+
+适用于：
+
+- 没有 `shops/*.yml` 的模块
+- 或作为带 `shops/*.yml` 模块的兜底值
+
+示例：
+
+```yml
+Currency:
+  Key: vault
+```
+
+## 各模块当前支持方式
+
+| 模块 | 支持方式 |
+| --- | --- |
+| `SystemShop` | 商品级 `currency` > 商店级 `Currency.Key` > 模块级 `SystemShop/settings.yml` |
+| `PlayerShop` | 商店级 `Currency.Key` > 模块级 `PlayerShop/settings.yml` |
+| `GlobalMarket` | 商店级 `Currency.Key` > 模块级 `GlobalMarket/settings.yml` |
+| `Auction` | 商店级 `Currency.Key` > 模块级 `Auction/settings.yml` |
+| `Transaction` | 商店级 `Currency.Key` > 模块级 `Transaction/settings.yml` |
+| `ChestShop` | 模块级 `ChestShop/settings.yml` |
+| `Cart` | 不配置经济 |
+| `Record` | 不配置经济 |
+
+## 当前不建议的写法
+
+当前 MatrixShop 不建议把完整货币动作直接内联在商店配置里。
+
+推荐做法是：
+
+1. 在 `Economy/currency.yml` 里统一定义货币
+2. 在模块、商店或商品里只写 key
+
+也就是说，优先写：
+
+```yml
+Currency:
+  Key: playerpoints
+```
+
+而不是在每个商店文件里重复写整段货币动作。
+
+## 管理与排查
+
+建议先执行：
+
+```text
+/matrixshopadmin status
+```
+
+重点看：
+
+- `Economy provider`
+- 启动摘要中的经济系统信息
+
+如果某种货币不可用，通常有三类原因：
+
+1. 对应依赖插件没装
+2. `currency.yml` 里写的模式或占位符不正确
+3. 自定义货币动作只定义了读取，没有定义 `Take / Give / Deny`

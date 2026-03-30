@@ -35,7 +35,7 @@ Entry:
   Open-Main-On-Command: true
 
 Currency:
-  Default: vault
+  Key: vault
 ```
 
 字段解释：
@@ -49,7 +49,7 @@ Currency:
 | `Priority` | 系统商店入口命令优先级。 |
 | `Condition` | 默认需要 `matrixshop.systemshop.use` 权限。 |
 | `Entry.Open-Main-On-Command` | 为 `true` 时，直接输入系统商店命令会先打开主分类页。 |
-| `Currency.Default` | 默认货币类型，当前示例是 `vault`。 |
+| `Currency.Key` | 模块级默认货币 key。 |
 
 ## `SystemShop/ui/shop.yml`
 
@@ -170,7 +170,6 @@ goods:
     material: 'WOOD_SWORD'
     amount: 1
     price: 25
-    currency: 'vault'
     buy-max: 16
     name: '&f木剑'
     lore:
@@ -179,7 +178,6 @@ goods:
     material: 'IRON_SWORD'
     amount: 1
     price: 120
-    currency: 'vault'
     buy-max: 16
     name: '&f铁剑'
     lore:
@@ -188,7 +186,6 @@ goods:
     material: 'DIAMOND_SWORD'
     amount: 1
     price: 420
-    currency: 'vault'
     buy-max: 8
     name: '&b钻石剑'
     lore:
@@ -197,7 +194,6 @@ goods:
     material: 'BOW'
     amount: 1
     price: 180
-    currency: 'vault'
     buy-max: 8
     name: '&6弓'
     lore:
@@ -206,7 +202,6 @@ goods:
     material: 'ARROW'
     amount: 16
     price: 32
-    currency: 'vault'
     buy-max: 64
     name: '&f箭矢 x16'
     lore:
@@ -231,7 +226,16 @@ goods:
 | `material` | 商品材质。 |
 | `amount` | 每次购买给多少个。 |
 | `price` | 单次交易价格。 |
-| `currency` | 货币类型。 |
+| `currency` | 商品级货币 key。可选；未写时会继续回退到商店级和模块级。 |
+
+## 当前货币优先级
+
+`SystemShop` 当前采用：
+
+1. 商品级 `currency`
+2. 当前分类文件里的 `Currency.Key`
+3. `SystemShop/settings.yml` 里的 `Currency.Key`
+4. 默认回退 `vault`
 | `buy-max` | 单次购买的最大数量或上限展示值。 |
 | `name` | 商品显示名。 |
 | `lore` | 商品说明。 |

@@ -24,6 +24,13 @@ description: 三个主要经济模块的配置入口与行为差异。
 - `Unlock.Max`
 - `Search.enable`
 - `Search.condition`
+- `Currency.Key`
+
+默认情况下，`PlayerShop` 的货币 key 优先级是：
+
+1. `PlayerShop/shops/*.yml -> Currency.Key`
+2. `PlayerShop/settings.yml -> Currency.Key`
+3. 默认回退 `vault`
 
 ### 常用命令
 
@@ -51,6 +58,13 @@ description: 三个主要经济模块的配置入口与行为差异。
 
 - `Listing.Expire-Hours`
 - `Listing.Tax-Percent`
+- `Currency.Key`
+
+`GlobalMarket` 的货币 key 优先级是：
+
+1. `GlobalMarket/shops/*.yml -> Currency.Key`
+2. `GlobalMarket/settings.yml -> Currency.Key`
+3. 默认回退 `vault`
 
 ### 常用命令
 
@@ -96,6 +110,12 @@ description: 三个主要经济模块的配置入口与行为差异。
 - 押金与税
 - 抢拍保护
 - 主人取消限制
+
+同时，`Auction` 的货币 key 优先级是：
+
+1. `Auction/shops/*.yml -> Currency.Key`
+2. `Auction/settings.yml -> Options.Currency.Key`
+3. 默认回退 `vault`
 
 ### 常用命令
 
