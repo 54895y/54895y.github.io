@@ -58,6 +58,12 @@ custom_points:
       - "tell:&c货币不足，需要 &e{need} &c，当前为 &e{balance}"
 ```
 
+说明：
+
+- `vault` 是当前未定义时的默认回退货币
+- `playerpoints` 适合整数型点券
+- `custom_points` 只是示例 key，可以改成你自己的命名
+
 ## 货币定义字段
 
 | 字段 | 说明 |
@@ -75,6 +81,22 @@ custom_points:
 - `vault` 和 `playerpoints` 模式优先走插件 API
 - 自定义占位符货币主要依赖 `Actions.Take / Give / Deny`
 - 如果没有定义动作，就只能用于读取余额，不能安全完成结算
+
+## 默认回退规则
+
+如果业务模块在以下三个层级都没有定义货币 key：
+
+1. 商品级
+2. 商店级
+3. 模块级
+
+那么最终会自动回退到：
+
+```yml
+vault
+```
+
+也就是说，不配置时默认使用 `vault`。
 
 ## 配置优先级
 
@@ -127,6 +149,46 @@ Currency:
 Currency:
   Key: vault
 ```
+
+### 一个完整示例
+
+假设你想让：
+
+- `SystemShop` 默认使用金币
+- `Auction/default.yml` 使用点券
+- `SystemShop/shops/weapon.yml` 下某把武器单独使用点券
+
+可以这样写：
+
+```yml
+# SystemShop/settings.yml
+Currency:
+  Key: vault
+```
+
+```yml
+# SystemShop/shops/weapon.yml
+Currency:
+  Key: vault
+
+goods:
+  diamond_sword:
+    material: 'DIAMOND_SWORD'
+    price: 420
+    currency: playerpoints
+```
+
+```yml
+# Auction/shops/default.yml
+Currency:
+  Key: playerpoints
+```
+
+最终效果：
+
+- 大多数系统商店商品使用 `vault`
+- `diamond_sword` 使用 `playerpoints`
+- `Auction/default.yml` 下的拍卖使用 `playerpoints`
 
 ## 各模块当前支持方式
 
