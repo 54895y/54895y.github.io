@@ -43,6 +43,11 @@ function SearchPageContent() {
     i18n: {currentLocale},
   } = useDocusaurusContext();
   const {selectMessage} = usePluralForm();
+  const searchLabel = translate({
+    id: 'theme.SearchBar.label',
+    message: '搜索',
+    description: 'The ARIA label and placeholder for the search page input',
+  });
   const {searchValue, searchContext, searchVersion, updateSearchPath, updateSearchContext} =
     useSearchQuery();
   const [searchQuery, setSearchQuery] = useState(searchValue);
@@ -129,7 +134,7 @@ function SearchPageContent() {
               type="search"
               name="q"
               className={searchStyles.searchQueryInput}
-              aria-label="Search"
+              aria-label={searchLabel}
               onChange={handleSearchInputChange}
               value={searchQuery}
               autoComplete="off"
@@ -209,7 +214,7 @@ function SearchPageContent() {
         {showAiCallout ? (
           <section className={styles.aiCallout}>
             <div className={styles.aiCopy}>
-              <p className={styles.aiKicker}>Manual AI Search</p>
+              <p className={styles.aiKicker}>手动 AI 搜索</p>
               <h2 className={styles.aiTitle}>没找到想要的结果？</h2>
               <p className={styles.aiDescription}>
                 {hasResults

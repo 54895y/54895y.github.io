@@ -34,6 +34,8 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/54895y/54895y.github.io/tree/main/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           exclude: ['**/tutorial-basics/**', '**/tutorial-extras/**'],
         },
         blog: false,
@@ -64,10 +66,29 @@ const config: Config = {
   ],
   themeConfig: {
     image: 'img/logo.svg',
+    metadata: [
+      {
+        name: 'description',
+        content: 'MatrixAuth、MatrixCook、MatrixShop 官方文档，包含插件索引、本地搜索与 AI 搜索入口。',
+      },
+      {
+        name: 'keywords',
+        content: 'MatrixAuth, MatrixCook, MatrixShop, Minecraft, Paper, Bukkit, 插件文档',
+      },
+      {
+        property: 'og:description',
+        content: 'Matrix 系列插件官方文档站点，覆盖概览、安装、配置、命令与常见问题。',
+      },
+    ],
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
+    },
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
     },
     navbar: {
       title: 'Matrix Wiki',
@@ -80,9 +101,8 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs',
+          label: '文档目录',
         },
-        {to: '/docs/plugins', label: 'Plugins', position: 'left'},
         {to: '/docs/matrixauth/overview', label: 'MatrixAuth', position: 'left'},
         {to: '/docs/matrixcook/overview', label: 'MatrixCook', position: 'left'},
         {to: '/docs/matrixshop', label: 'MatrixShop', position: 'left'},
@@ -99,16 +119,24 @@ const config: Config = {
       style: 'light',
       links: [
         {
-          title: 'Documentation',
+          title: '文档',
           items: [
+            {
+              label: '站点总览',
+              to: '/docs/intro',
+            },
             {
               label: '插件列表',
               to: '/docs/plugins',
             },
+            {
+              label: 'AI 搜索',
+              to: '/ai-search',
+            },
           ],
         },
         {
-          title: 'Projects',
+          title: '插件',
           items: [
             {
               label: 'MatrixAuth',
@@ -125,7 +153,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'Repository',
+          title: '仓库',
           items: [
             {
               label: '54895y.github.io',

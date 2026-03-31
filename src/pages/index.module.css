@@ -9,13 +9,17 @@
 
 .heroShell,
 .sectionHeader,
-.pluginGrid {
+.quickGrid,
+.pluginGrid,
+.flowGrid {
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .heroCard,
-.pluginCard {
+.quickCard,
+.pluginCard,
+.flowCard {
   border: 1px solid var(--site-panel-border);
   background: var(--site-panel-bg);
   box-shadow: var(--site-panel-shadow);
@@ -40,6 +44,37 @@
   color: var(--site-text-strong);
   font-size: clamp(2.8rem, 6vw, 4.6rem);
   line-height: 1;
+}
+
+.heroDescription {
+  max-width: 820px;
+  margin: 1rem 0 0;
+  color: var(--site-text-muted);
+  line-height: 1.9;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.heroMeta span,
+.flowStep,
+.pluginBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.heroMeta span {
+  padding: 0.36rem 0.72rem;
+  background: var(--site-badge-bg);
+  color: var(--site-badge-text);
+  font-size: 0.84rem;
 }
 
 .actions {
@@ -101,17 +136,47 @@
   font-size: clamp(2rem, 4vw, 3rem);
 }
 
-.pluginGrid {
+.sectionLead {
+  max-width: 760px;
+  margin: 0.7rem 0 0;
+  color: var(--site-text-muted);
+  line-height: 1.8;
+}
+
+.quickGrid,
+.pluginGrid,
+.flowGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
-.pluginCard {
+.quickGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pluginGrid,
+.flowGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.quickCard,
+.pluginCard,
+.flowCard {
   display: flex;
   flex-direction: column;
   padding: 1.4rem;
   border-radius: 24px;
+}
+
+.quickTitle,
+.pluginHeader h3,
+.flowCard h3 {
+  margin: 0;
+  color: var(--site-text-strong);
+}
+
+.quickTitle {
+  font-size: 1.12rem;
 }
 
 .pluginHeader {
@@ -121,29 +186,31 @@
   gap: 1rem;
 }
 
-.pluginHeader h3 {
-  margin: 0;
-  color: var(--site-text-strong);
+.pluginHeader h3,
+.flowCard h3 {
   font-size: 1.4rem;
 }
 
 .pluginBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   padding: 0.3rem 0.65rem;
-  border-radius: 999px;
   background: var(--site-badge-bg);
   color: var(--site-badge-text);
   font-size: 0.8rem;
-  font-weight: 700;
   white-space: nowrap;
 }
 
-.pluginSummary {
+.quickSummary,
+.pluginDetail,
+.pluginSummary,
+.flowCard p {
   margin: 0.9rem 0 0;
   color: var(--site-text-muted);
-  line-height: 1.75;
+  line-height: 1.8;
+}
+
+.pluginDetail {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
 }
 
 .topicList {
@@ -158,8 +225,20 @@
   width: fit-content;
 }
 
+.flowStep {
+  width: fit-content;
+  min-width: 3rem;
+  padding: 0.35rem 0.72rem;
+  background: rgba(33, 121, 255, 0.08);
+  color: var(--site-kicker-color);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
 @media screen and (max-width: 996px) {
-  .pluginGrid {
+  .quickGrid,
+  .pluginGrid,
+  .flowGrid {
     grid-template-columns: 1fr;
   }
 
@@ -180,7 +259,9 @@
   }
 
   .heroCard,
-  .pluginCard {
+  .quickCard,
+  .pluginCard,
+  .flowCard {
     padding: 1.2rem;
     border-radius: 20px;
   }

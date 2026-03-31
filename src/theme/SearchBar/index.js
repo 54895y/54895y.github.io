@@ -96,20 +96,20 @@ function buildSearchPageUrl({
       linkText = translate(
         {
           id: 'theme.SearchBar.searchInContext',
-          message: 'See all results within "{context}"',
+          message: '查看“{context}”中的全部结果',
         },
         {context: translatedSearchContext},
       );
     } else {
       linkText = translate({
         id: 'theme.SearchBar.seeAll',
-        message: 'See all results',
+        message: '查看全部结果',
       });
     }
   } else {
     linkText = translate({
       id: 'theme.SearchBar.seeAll',
-      message: 'See all results',
+      message: '查看全部结果',
     });
   }
 
@@ -190,7 +190,7 @@ function buildFooterElement({
         href: buildAiSearchUrl(baseUrl, trimmedQuery),
         text: translate({
           id: 'theme.SearchBar.openAiSearch',
-          message: 'Try AI search',
+          message: '试试 AI 搜索',
         }),
       }),
     );
@@ -468,6 +468,11 @@ function SearchBarImpl({handleSearchBarToggle}) {
   }, [history, location.hash, location.pathname, location.search]);
 
   const isMac = isBrowser ? isMacPlatform() : false;
+  const searchLabel = translate({
+    id: 'theme.SearchBar.label',
+    message: '搜索',
+    description: 'The ARIA label and placeholder for search button',
+  });
 
   return (
     <div
@@ -478,12 +483,8 @@ function SearchBarImpl({handleSearchBarToggle}) {
       hidden={hidden}
       dir="ltr">
       <input
-        placeholder={translate({
-          id: 'theme.SearchBar.label',
-          message: 'Search',
-          description: 'The ARIA label and placeholder for search button',
-        })}
-        aria-label="Search"
+        placeholder={searchLabel}
+        aria-label={searchLabel}
         className={`navbar__search-input ${styles.searchInput}`}
         onMouseEnter={onInputMouseEnter}
         onFocus={onInputFocus}

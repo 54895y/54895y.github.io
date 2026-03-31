@@ -35,9 +35,9 @@ function getResultTitle(item) {
     type === SearchDocumentType.Description ||
     type === SearchDocumentType.Keywords
   ) {
-    return normalizeText(document.s || page?.t || document.t || 'Untitled');
+    return normalizeText(document.s || page?.t || document.t || '未命名文档');
   }
-  return normalizeText(document.t || page?.t || 'Untitled');
+  return normalizeText(document.t || page?.t || '未命名文档');
 }
 
 function getResultPath(item) {
@@ -71,9 +71,9 @@ function buildDeepSeekMessages(query, results) {
             const url = getResultUrl(result);
             return [
               `[${index + 1}] ${title}`,
-              path ? `Path: ${path}` : null,
-              `URL: ${url}`,
-              `Snippet: ${snippet}`,
+              path ? `路径：${path}` : null,
+              `链接：${url}`,
+              `摘要：${snippet}`,
             ]
               .filter(Boolean)
               .join('\n');
@@ -305,15 +305,15 @@ export default function AiSearchPage() {
       <main className={styles.page}>
         <div className={styles.shell}>
           <section className={styles.heroCard}>
-            <p className={styles.kicker}>Manual AI Search</p>
+            <p className={styles.kicker}>手动 AI 搜索</p>
             <h1 className={styles.heroTitle}>AI 搜索</h1>
             <p className={styles.heroDescription}>
               先使用本地索引检索当前 Wiki；只有在你主动点击按钮后，才会调用 DeepSeek 继续回答。
             </p>
             <div className={styles.heroMeta}>
-              <span>Provider: DeepSeek</span>
-              <span>Model: {model}</span>
-              <span>Mode: 手动触发</span>
+              <span>提供方：DeepSeek</span>
+              <span>模型：{model}</span>
+              <span>触发方式：手动</span>
             </div>
           </section>
 
@@ -321,7 +321,7 @@ export default function AiSearchPage() {
             <article className={styles.panel}>
               <div className={styles.panelHeader}>
                 <div>
-                  <p className={styles.sectionKicker}>Step 1</p>
+                  <p className={styles.sectionKicker}>第一步</p>
                   <h2>本地搜索</h2>
                 </div>
                 <Link className={styles.inlineLink} to="/search">
@@ -357,13 +357,13 @@ export default function AiSearchPage() {
             <article className={styles.panel}>
               <div className={styles.panelHeader}>
                 <div>
-                  <p className={styles.sectionKicker}>Step 2</p>
-                  <h2>DeepSeek Key</h2>
+                  <p className={styles.sectionKicker}>第二步</p>
+                  <h2>DeepSeek 密钥</h2>
                 </div>
               </div>
 
               <label className={styles.field}>
-                <span>API Key</span>
+                <span>API 密钥</span>
                 <input
                   className={styles.textInput}
                   type="password"
@@ -372,7 +372,7 @@ export default function AiSearchPage() {
                     setApiKey(event.target.value);
                     setKeyMessage('');
                   }}
-                  placeholder="输入 DeepSeek API Key"
+                  placeholder="输入 DeepSeek API 密钥"
                   autoComplete="off"
                 />
               </label>
@@ -382,12 +382,12 @@ export default function AiSearchPage() {
                   保存到当前浏览器
                 </button>
                 <button className={styles.ghostButton} type="button" onClick={handleClearKey}>
-                  清除本地 Key
+                  清除本地密钥
                 </button>
               </div>
 
               <p className={styles.hint}>
-                本站部署在 GitHub Pages 上，不能安全地把服务端密钥写进公开仓库。这里的 Key 只会保存在你当前浏览器的本地存储中。
+                本站部署在 GitHub Pages 上，不能安全地把服务端密钥写进公开仓库。这里的密钥只会保存在你当前浏览器的本地存储中。
               </p>
 
               {keyMessage ? <p className={styles.notice}>{keyMessage}</p> : null}
@@ -398,7 +398,7 @@ export default function AiSearchPage() {
             <article className={styles.panel}>
               <div className={styles.panelHeader}>
                 <div>
-                  <p className={styles.sectionKicker}>Local Results</p>
+                  <p className={styles.sectionKicker}>本地结果</p>
                   <h2>本地命中结果</h2>
                 </div>
                 {localResults.length > 0 ? <span className={styles.badge}>{localResults.length} 条</span> : null}
@@ -431,7 +431,7 @@ export default function AiSearchPage() {
             <article className={styles.panel}>
               <div className={styles.panelHeader}>
                 <div>
-                  <p className={styles.sectionKicker}>AI Answer</p>
+                  <p className={styles.sectionKicker}>AI 回答</p>
                   <h2>DeepSeek 回答</h2>
                 </div>
                 <span className={styles.badge}>
