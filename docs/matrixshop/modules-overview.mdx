@@ -13,7 +13,7 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 | --- | --- | --- | --- |
 | `economy` | 统一货币定义与结算入口 | `Economy/currency.yml` | [经济模块](./economy) |
 | `menu` | 总入口导航菜单 | `Menu/settings.yml`、`Menu/shops/main.yml` | [Menu](./shop-types/menu) |
-| `system-shop` | 静态系统商店 | `SystemShop/settings.yml`、`SystemShop/shops/*.yml` | [SystemShop](./shop-types/system-shop) |
+| `system-shop` | 静态系统商店 | `SystemShop/settings.yml`、`SystemShop/goods/*.yml`、`SystemShop/shops/*.yml` | [SystemShop](./shop-types/system-shop) |
 | `player-shop` | 玩家个人商店 | `PlayerShop/settings.yml`、`PlayerShop/shops/default.yml` | [PlayerShop](./shop-types/player-shop) |
 | `global-market` | 全服共享市场 | `GlobalMarket/settings.yml`、`GlobalMarket/shops/default.yml` | [GlobalMarket](./shop-types/global-market) |
 | `auction` | 拍卖行 | `Auction/settings.yml`、`Auction/shops/default.yml` | [Auction](./shop-types/auction) |
@@ -54,7 +54,7 @@ description: MatrixShop 各模块职责、默认文件和详细文档入口。
 为了避免把 MatrixShop 理解成“所有模块都完全一样”，这里再强调一次：
 
 - `Economy` 负责统一货币定义，不建议在业务模块里重复实现结算逻辑。
-- `SystemShop` 主要是静态 YAML 商品。
+- `SystemShop` 主要是静态 YAML 商品，推荐用 `goods/*.yml` + `shops/*.yml` 引用。
 - `PlayerShop`、`GlobalMarket`、`Auction` 主要是运行时上架数据。
 - `ChestShop` 有箱子、库存、告示牌这套线下交互。
 - `Transaction` 不是商品市场，而是面对面交换。

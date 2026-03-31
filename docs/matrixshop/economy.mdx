@@ -117,11 +117,17 @@ vault
 当前主要体现在 `SystemShop`：
 
 ```yml
+# SystemShop/shops/weapon.yml
 goods:
-  diamond_sword:
-    material: 'DIAMOND_SWORD'
-    price: 420
-    currency: playerpoints
+  - diamond_sword
+```
+
+```yml
+# SystemShop/goods/diamond_sword.yml
+id: diamond_sword
+material: 'DIAMOND_SWORD'
+price: 420
+currency: playerpoints
 ```
 
 ### 商店级
@@ -171,7 +177,7 @@ Currency:
 
 - `SystemShop` 默认使用金币
 - `Auction/default.yml` 使用点券
-- `SystemShop/shops/weapon.yml` 下某把武器单独使用点券
+- `SystemShop/goods/diamond_sword.yml` 单独使用点券
 
 可以这样写：
 
@@ -187,10 +193,15 @@ Currency:
   Key: vault
 
 goods:
-  diamond_sword:
-    material: 'DIAMOND_SWORD'
-    price: 420
-    currency: playerpoints
+  - diamond_sword
+```
+
+```yml
+# SystemShop/goods/diamond_sword.yml
+id: diamond_sword
+material: 'DIAMOND_SWORD'
+price: 420
+currency: playerpoints
 ```
 
 ```yml

@@ -1,6 +1,6 @@
 ---
 title: SystemShop
-description: SystemShop 的分类、商品内联配置与确认流程。
+description: SystemShop 的分类、goods 目录配置与确认流程。
 ---
 
 # SystemShop
@@ -10,6 +10,7 @@ description: SystemShop 的分类、商品内联配置与确认流程。
 SystemShop 的主要文件是：
 
 - `SystemShop/settings.yml`
+- `SystemShop/goods/*.yml`
 - `SystemShop/shops/*.yml`
 - `SystemShop/ui/shop.yml`
 - `SystemShop/ui/confirm.yml`
@@ -38,26 +39,55 @@ system-shop:
 
 ## 商品定义
 
-当前 SystemShop 不是单独的 `goods/*.yml` 结构，而是直接把商品写在 `shops/*.yml` 里：
+当前推荐结构是把商品单独放进 `goods` 目录，然后在分类文件中引用：
 
 ```yaml
+# SystemShop/shops/weapon.yml
 goods:
-  iron_sword:
-    material: 'IRON_SWORD'
-    amount: 1
-    price: 120
-    currency: 'vault'
-    buy-max: 16
-    name: '&f铁剑'
+  - iron_sword
+  - bow
 ```
 
-每个商品至少要明确：
+```yaml
+# SystemShop/goods/iron_sword.yml
+id: iron_sword
+material: 'IRON_SWORD'
+amount: 1
+price: 120
+buy-max: 16
+name: '&f铁剑'
+```
+
+每个商品通常至少要明确：
 
 - `material`
 - `amount`
 - `price`
-- `currency`
 - `buy-max`
+
+可选字段包括：
+
+- `item`
+- `name`
+- `lore`
+- `currency`
+
+> 兼容说明：旧版 `shops/*.yml` 中直接内联 `goods.<id>` 的写法仍然可以读取，但新配置不建议继续这样写。
+
+## 管理员维护流
+
+当前后台命令已经拆成两步：
+
+1. 先把主手物品保存到 `goods` 仓库
+2. 再把已保存商品挂到某个系统商店分类
+
+对应命令：
+
+- `/matrixshopadmin goods ui [page]`
+- `/matrixshopadmin goods save <price> [buy-max] [product-id]`
+- `/matrixshopadmin goods add <category> <product-id>`
+- `/matrixshopadmin goods select <category> <product-id>`
+- `/matrixshopadmin goods edit <price|buy-max|currency|name|item|remove> ...`
 
 ## 菜单渲染规则
 

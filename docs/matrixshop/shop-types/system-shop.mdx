@@ -1,6 +1,6 @@
 ---
 title: SystemShop
-description: SystemShop 的默认配置、分类文件和商品字段解释。
+description: SystemShop 的默认配置、goods 目录、分类引用和管理员维护方式。
 ---
 
 # SystemShop
@@ -10,6 +10,7 @@ description: SystemShop 的默认配置、分类文件和商品字段解释。
 ## 默认文件
 
 - `SystemShop/settings.yml`
+- `SystemShop/goods/*.yml`
 - `SystemShop/shops/weapon.yml`
 - `SystemShop/shops/food.yml`
 - `SystemShop/shops/material.yml`
@@ -121,7 +122,7 @@ icons:
 
 ## `SystemShop/shops/weapon.yml`
 
-这是最关键的商品分类配置文件。`food.yml` 和 `material.yml` 的结构与它一致。
+分类文件负责页面布局、模板和商品引用。推荐写法如下：
 
 ```yaml
 id: weapon
@@ -165,47 +166,15 @@ template:
     - ''
     - '&e左键进入购买确认'
 
+Currency:
+  Key: vault
+
 goods:
-  wooden_sword:
-    material: 'WOOD_SWORD'
-    amount: 1
-    price: 25
-    buy-max: 16
-    name: '&f木剑'
-    lore:
-      - '&7入门级近战武器'
-  iron_sword:
-    material: 'IRON_SWORD'
-    amount: 1
-    price: 120
-    buy-max: 16
-    name: '&f铁剑'
-    lore:
-      - '&7稳定的主力武器'
-  diamond_sword:
-    material: 'DIAMOND_SWORD'
-    amount: 1
-    price: 420
-    buy-max: 8
-    name: '&b钻石剑'
-    lore:
-      - '&7高品质近战武器'
-  bow:
-    material: 'BOW'
-    amount: 1
-    price: 180
-    buy-max: 8
-    name: '&6弓'
-    lore:
-      - '&7远程作战基础装备'
-  arrow_bundle:
-    material: 'ARROW'
-    amount: 16
-    price: 32
-    buy-max: 64
-    name: '&f箭矢 x16'
-    lore:
-      - '&7远程消耗品补给'
+  - wooden_sword
+  - iron_sword
+  - diamond_sword
+  - bow
+  - arrow_bundle
 ```
 
 ### 顶层字段解释
@@ -217,19 +186,39 @@ goods:
 | `layout` | `g` 是动态商品槽位，`I` 是说明，`R` 是返回。 |
 | `icons` | 静态图标定义。 |
 | `template` | 所有动态商品统一使用的名称和 Lore 模板。 |
-| `goods` | 静态商品列表。 |
+| `Currency.Key` | 当前分类的默认货币 key。 |
+| `goods` | 当前分类引用的商品 id 列表。 |
 
-### `goods.*` 字段解释
+## `SystemShop/goods/diamond_sword.yml`
+
+商品文件负责真正的商品定义：
+
+```yaml
+id: diamond_sword
+material: 'DIAMOND_SWORD'
+amount: 1
+price: 420
+buy-max: 8
+name: '&b钻石剑'
+lore:
+  - '&7高品质近战武器'
+```
+
+### 商品字段解释
 
 | 字段 | 说明 |
 | --- | --- |
+| `id` | 商品 id，通常与文件名一致。 |
 | `material` | 商品材质。 |
+| `item` | 更高保真的物品定义，可覆盖基础材质展示。 |
 | `amount` | 每次购买给多少个。 |
 | `price` | 单次交易价格。 |
 | `buy-max` | 单次购买的最大数量或上限展示值。 |
 | `name` | 商品显示名。 |
 | `lore` | 商品说明。 |
 | `currency` | 商品级货币 key。可选；只有你想覆盖默认货币时才需要写。 |
+
+> 兼容说明：旧版 `SystemShop/shops/*.yml` 中直接内联 `goods.<id>` 的写法仍然可读取，但新配置应优先拆到 `SystemShop/goods/*.yml`。
 
 ## 当前货币优先级
 
@@ -240,10 +229,31 @@ goods:
 3. `SystemShop/settings.yml` 里的 `Currency.Key`
 4. 默认回退 `vault`
 
+## 管理员商品维护
+
+当前后台命令流已经拆成两步：
+
+1. 保存商品定义到 `goods` 仓库
+2. 把已保存商品挂到某个系统商店分类
+
+命令如下：
+
+- `/matrixshopadmin goods ui [page]`
+- `/matrixshopadmin goods save <price> [buy-max] [product-id]`
+- `/matrixshopadmin goods add <category> <product-id>`
+- `/matrixshopadmin goods select <category> <product-id>`
+- `/matrixshopadmin goods edit <price|buy-max|currency|name|item|remove> ...`
+
+其中：
+
+- `goods save` 只写 `SystemShop/goods/*.yml`
+- `goods add` 只负责把商品 id 引用进分类文件的 `goods:`
+- `goods edit remove` 只会把商品从当前分类下架，不会删除 `goods` 仓库里的文件
+
 ## 你应该怎么改
 
 - 想新增一个分类：复制一份 `shops/weapon.yml`，改文件名，再把 `ui/shop.yml` 的按钮指过去。
-- 想新增一个商品：直接在 `goods:` 下加一项。
+- 想新增一个商品：新建 `SystemShop/goods/<product-id>.yml`，然后把 id 加到对应分类的 `goods:` 列表里。
 - 想改默认打开的分类：改顶层 `config.yml` 的 `system-shop.default-category`。
 
 ## 相关文件
@@ -252,4 +262,4 @@ goods:
 - `SystemShop/shops/material.yml`
 - `SystemShop/ui/confirm.yml`
 
-通常先改 `shops/*.yml`，只有在你想重做分类入口和确认流程时，才需要再动 `ui/*.yml`。
+通常先改 `goods/*.yml` 和 `shops/*.yml`，只有在你想重做分类入口和确认流程时，才需要再动 `ui/*.yml`。
