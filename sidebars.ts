@@ -45,6 +45,7 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         'matrixshop/quick-start',
+        'matrixshop/release-notes-1-1-0',
         'matrixshop/configuration-structure',
         'matrixshop/economy',
         'matrixshop/economy-reference',

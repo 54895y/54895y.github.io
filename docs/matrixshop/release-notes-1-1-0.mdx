@@ -1,0 +1,108 @@
+---
+title: 1.1.0 发布说明
+description: MatrixShop 1.1.0 的正式发布内容、升级重点和兼容说明。
+---
+
+# MatrixShop 1.1.0 发布说明
+
+发布时间：`2026-03-31`
+
+## 版本定位
+
+`1.1.0` 是 MatrixShop 首个面向正式部署收口的稳定迭代版本。
+
+这一版没有推翻原有模块结构，而是在 `1.0.0` 的基础上重点补齐：
+
+- 统一经济模块
+- 默认模块帮助系统
+- 发布态语言与默认反馈
+- 配置结构收口
+- 文档站与示例覆盖
+
+## 本版本重点
+
+### 统一经济模块
+
+新增强制启用的 `Economy` 核心模块，用于集中管理所有货币定义。
+
+当前货币优先级为：
+
+1. 商品级
+2. 商店级
+3. 模块级
+4. 默认回退 `vault`
+
+这意味着业务模块只需要引用货币键，不再各自维护一套经济接入逻辑。
+
+继续阅读：
+
+- [经济模块](./economy)
+- [经济字段参考](./economy-reference)
+- [经济配置示例](./economy-examples)
+
+### 默认帮助系统增强
+
+默认模块命令现在支持：
+
+- 多行 `Help`
+- `Help-Key`
+- `Hint-Keys`
+- 别名感知的 `{command}` 提示
+
+这让 `/auction help`、`/trade help`、`/cart help`、`/record help` 这类入口可以围绕当前命令前缀输出更正式的帮助信息。
+
+继续阅读：
+
+- [Help、Help-Key 与 Hint-Keys](./bindings-help-and-hints)
+
+### 配置结构收口
+
+这一版对几个模块的默认结构做了收口：
+
+- `ChestShop` 不再使用 `shops/*.yml`
+- `Cart` 不再使用 `shops/*.yml`
+- `Record` 不再使用 `shops/*.yml`
+
+这几个模块现在更接近“模块级单入口 + 多个 UI 视图”的设计。
+
+### 文案与反馈正式化
+
+这一版统一收紧了以下内容：
+
+- 启动和控制台输出
+- 默认语言包
+- 交易、拍卖、箱子商店、购物车、记录等关键反馈
+- 默认帮助与提示词
+
+目标是让默认发布包更接近正式产品，而不是开发期原型。
+
+## 升级建议
+
+如果你从 `1.0.0` 升级到 `1.1.0`，建议至少检查这些文件：
+
+- `plugins/MatrixShop/Economy/currency.yml`
+- `plugins/MatrixShop/module.yml`
+- 各模块 `settings.yml`
+- 各模块 `shops/*.yml`
+- `plugins/MatrixShop/Lang/*.yml`
+
+尤其需要注意：
+
+- 旧语言文件会自动补缺失键，但你仍然应该检查是否覆盖了旧自定义文案
+- `ChestShop`、`Cart`、`Record` 的入口结构已经和早期草案不同
+- 若你自定义了帮助提示，建议复查 `Help / Help-Key / Hint-Keys`
+
+## 兼容与验证
+
+本版本发布前已完成的基础验证包括：
+
+- `bash ./gradlew build`
+- `paper-1.12.2` smoke boot
+- 默认命令帮助与模块入口回归
+- 经济模块与货币优先级回归
+
+## 相关链接
+
+- [GitHub Releases](https://github.com/54895y/MatrixShop/releases)
+- [1.1.0 GitHub Release](https://github.com/54895y/MatrixShop/releases/tag/v1.1.0)
+- [CHANGELOG](https://github.com/54895y/MatrixShop/blob/main/CHANGELOG.md)
