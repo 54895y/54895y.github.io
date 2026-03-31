@@ -92,3 +92,11 @@ plugins/MatrixShop/Economy/currency.yml
 ## SystemShop 为什么没有数据库表
 
 因为当前 SystemShop 是纯配置驱动模块，不依赖 JDBC 运行表。真正大量落表的是拍卖、市场、玩家商店、购物车、箱店和记录系统。
+
+## MatrixShop 会不会发送遥测数据
+
+会。当前版本集成了 `bStats`，但只发送聚合级的配置和模块统计，不发送玩家交易明细或敏感配置。
+
+详细说明见：
+
+- [bStats 与遥测](./bstats-and-telemetry)

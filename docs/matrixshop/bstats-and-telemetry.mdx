@@ -1,0 +1,77 @@
+---
+title: bStats 与遥测
+description: MatrixShop 当前集成的 bStats 统计项、隐私范围和关闭方式。
+sidebar_position: 11
+---
+
+# bStats 与遥测
+
+MatrixShop 当前已经集成 `bStats`，用于统计插件的安装量和基础配置分布。
+
+当前插件 id 为：
+
+```text
+30502
+```
+
+## 当前会上报什么
+
+当前版本只上报配置和模块层面的聚合数据：
+
+- `database_backend`
+- `configured_database_backend`
+- `enabled_module_count`
+- `enabled_modules`
+- `systemshop_category_count`
+- `systemshop_goods_count`
+- `economy_currency_count`
+- `economy_currency_modes`
+
+这些图表分别反映：
+
+- 当前实际使用的数据后端
+- 配置中声明的数据后端
+- 当前启用的模块数量
+- 各模块是否启用
+- SystemShop 分类数量
+- SystemShop goods 仓库数量
+- 经济模块里配置的货币数量
+- 货币模式分布，例如 `vault`、`playerpoints`、`placeholder`
+
+## 当前不会上报什么
+
+当前实现不会通过 bStats 上报以下内容：
+
+- 玩家名
+- UUID
+- 聊天内容
+- 交易记录内容
+- 商品具体 NBT 或物品内容
+- 数据库连接地址、用户名或密码
+- 服务器自定义业务数据
+
+## 如何关闭
+
+`bStats` 的总开关由服务端公共配置控制。首次启动后，通常会在这里生成配置：
+
+```text
+plugins/bStats/config.yml
+```
+
+关闭方式通常是把其中的：
+
+```yaml
+enabled: false
+```
+
+然后重启服务端。
+
+## 对部署的影响
+
+源码构建后，MatrixShop 当前会输出带重定位 bStats 的运行产物：
+
+```text
+build/libs/MatrixShop-1.2.0-all.jar
+```
+
+`org.bstats` 已被重定位到插件私有包名下，避免和其他同样使用 bStats 的插件产生类冲突。
