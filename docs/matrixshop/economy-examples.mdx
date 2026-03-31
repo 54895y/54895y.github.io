@@ -1,0 +1,198 @@
+---
+title: 经济配置实战示例
+description: MatrixShop 中 Vault、PlayerPoints 和自定义占位符货币的常见配置写法。
+---
+
+# 经济配置实战示例
+
+这页只给可以直接照抄的配置，不重复解释概念。  
+如果你还没看过优先级规则，先看 [经济模块](./economy)。
+
+## 示例 1：整服默认使用 Vault
+
+适合最常见的生存服经济配置。
+
+```yml
+# Economy/currency.yml
+vault:
+  Mode: vault
+  Display-Name: "金币"
+  Symbol: "$"
+  Decimal: true
+```
+
+```yml
+# SystemShop/settings.yml
+Currency:
+  Key: vault
+```
+
+```yml
+# PlayerShop/settings.yml
+Currency:
+  Key: vault
+```
+
+```yml
+# GlobalMarket/settings.yml
+Currency:
+  Key: vault
+```
+
+```yml
+# Auction/settings.yml
+Options:
+  Currency:
+    Key: vault
+```
+
+```yml
+# Transaction/settings.yml
+Options:
+  Currency:
+    Money-Key: vault
+```
+
+```yml
+# ChestShop/settings.yml
+Currency:
+  Key: vault
+```
+
+## 示例 2：拍卖使用点券，其余模块仍然使用金币
+
+适合把拍卖做成特殊玩法的服务器。
+
+```yml
+# Economy/currency.yml
+vault:
+  Mode: vault
+  Display-Name: "金币"
+  Decimal: true
+
+playerpoints:
+  Mode: playerpoints
+  Display-Name: "点券"
+  Decimal: false
+```
+
+```yml
+# Auction/shops/default.yml
+Currency:
+  Key: playerpoints
+```
+
+说明：
+
+- `Auction/shops/default.yml` 已经覆盖了商店级货币
+- 即使 `Auction/settings.yml` 里写的是 `vault`
+- 默认拍卖入口依然会优先使用 `playerpoints`
+
+## 示例 3：SystemShop 中只有个别商品使用点券
+
+适合大部分商品卖金币，个别稀有商品卖点券。
+
+```yml
+# SystemShop/settings.yml
+Currency:
+  Key: vault
+```
+
+```yml
+# SystemShop/shops/weapon.yml
+Currency:
+  Key: vault
+
+goods:
+  iron_sword:
+    material: 'IRON_SWORD'
+    amount: 1
+    price: 120
+    buy-max: 16
+    name: '&f铁剑'
+
+  diamond_sword:
+    material: 'DIAMOND_SWORD'
+    amount: 1
+    price: 420
+    currency: playerpoints
+    buy-max: 8
+    name: '&b钻石剑'
+```
+
+最终效果：
+
+- `iron_sword` 使用 `vault`
+- `diamond_sword` 使用 `playerpoints`
+
+## 示例 4：Transaction 使用点券做金钱报价
+
+适合不想让交易界面直接操作服务器金币的玩法服。
+
+```yml
+# Transaction/settings.yml
+Options:
+  Currency:
+    Money-Key: playerpoints
+  Trade:
+    Allow-Items: true
+    Allow-Money: true
+    Allow-Exp: false
+```
+
+```yml
+# Transaction/shops/default.yml
+Currency:
+  Key: playerpoints
+```
+
+## 示例 5：自定义 Placeholder 货币
+
+适合已有自定义积分系统，并且能通过命令增减积分。
+
+```yml
+# Economy/currency.yml
+custom_points:
+  Mode: "%custom_points%"
+  Display-Name: "活动积分"
+  Decimal: false
+  Actions:
+    Take:
+      - "console: custompoints take {player} {amount}"
+    Give:
+      - "console: custompoints give {player} {amount}"
+    Deny:
+      - "tell:&c活动积分不足，需要 &e{need} &c，当前为 &e{balance}"
+```
+
+然后在模块、商店或商品里引用：
+
+```yml
+Currency:
+  Key: custom_points
+```
+
+## 示例 6：不写任何货币配置
+
+当前版本会自动回退到：
+
+```yml
+vault
+```
+
+前提是：
+
+- 你已安装 Vault
+- 且有可用经济提供者
+
+如果没有可用 Vault，相关模块会在结算时直接提示货币不可用。
+
+## 推荐排查顺序
+
+当你怀疑货币没生效时，建议按这个顺序看：
+
+1. `Economy/currency.yml` 中对应 key 是否存在
+2. 当前模块 `settings.yml` 是否写了默认货币
+3. 当前 `shops/*.yml` 是否覆盖了 `Currency.Key`
+4. `SystemShop` 商品是否写了单独的 `currency`
+5. `/matrixshopadmin status` 中的经济系统摘要是否正常
