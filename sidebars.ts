@@ -15,6 +15,8 @@ const sidebars: SidebarsConfig = {
         'matrix-agent-skills/install-by-agent',
         'matrix-agent-skills/direct-link-examples',
         'matrix-agent-skills/matrixshop-config',
+        'matrix-agent-skills/migrating-other-shop-plugins',
+        'matrix-agent-skills/anti-inflation-prompt-templates',
         'matrix-agent-skills/aichat-knowledge-base',
       ],
     },

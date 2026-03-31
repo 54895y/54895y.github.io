@@ -1,0 +1,137 @@
+---
+title: 迁移其他商店插件配置
+description: 将其他商店插件配置迁移到 MatrixShop 的建议路径和提示词模板。
+---
+
+# 迁移其他商店插件配置
+
+这一页讨论的不是“怎么照抄原插件结构”，而是：
+
+如何把其他商店插件的配置迁移成 MatrixShop 当前主线支持的结构。
+
+## 常见迁移来源
+
+当前最值得优先支持的来源有：
+
+- `UltimateShop`
+- `EconomyShopGUI`
+- `Shopkeepers`
+- `QuickShop`
+
+## 迁移原则
+
+### 1. 不保留源插件的目录结构
+
+迁移目标应该是 MatrixShop 当前支持的目录，而不是保留源插件键名。
+
+例如：
+
+- 静态分类商店 -> `SystemShop`
+- 玩家上架市场 -> `PlayerShop / GlobalMarket / Auction`
+- 箱子和告示牌商店 -> `ChestShop`
+
+### 2. 以功能归类，不以插件名归类
+
+不要把：
+
+- `UltimateShop`
+- `EconomyShopGUI`
+
+简单当作“旧版商城配置”整体照搬。
+
+应该先识别它们的实际能力，再映射到：
+
+- `SystemShop`
+- `PlayerShop`
+- `GlobalMarket`
+- `ChestShop`
+
+### 3. 把货币层拆出来
+
+如果源插件把货币写在每个页面或商品里，迁移时要按 MatrixShop 规则重组：
+
+1. 商品级
+2. 商店级
+3. 模块级
+4. 默认 `vault`
+
+## 具体建议
+
+### UltimateShop -> MatrixShop
+
+最常见的映射目标是：
+
+- `SystemShop/settings.yml`
+- `SystemShop/shops/*.yml`
+
+映射思路：
+
+- 源分类 -> `shops/<category>.yml`
+- 商品显示 -> `name / lore / material / item`
+- 价格 -> `goods.<id>.price`
+- 限购 -> `goods.<id>.buy-max`
+- 页面标题和布局 -> `Title / layout / icons / template`
+
+推荐提示词：
+
+```text
+把下面这份 UltimateShop 配置迁移成 MatrixShop 的 SystemShop。
+要求：
+- 输出目标文件路径
+- 使用 MatrixShop 当前目录结构
+- 不保留 UltimateShop 原键名
+- 如果货币需要统一，优先放到 shop 级或模块级
+```
+
+### EconomyShopGUI -> MatrixShop
+
+最常见的映射目标也是：
+
+- `SystemShop/settings.yml`
+- `SystemShop/shops/*.yml`
+
+映射思路：
+
+- 商店页 -> 一个 `shops/<page>.yml`
+- GUI 排列 -> `layout` 和 `icons`
+- 商品 -> `goods`
+
+推荐提示词：
+
+```text
+把下面这份 EconomyShopGUI 配置迁移成 MatrixShop 的 SystemShop。
+要求：
+- 每个页面生成一个 shops/*.yml
+- 价格和限购转换为 MatrixShop goods 结构
+- 不要输出 EconomyShopGUI 原始键名
+```
+
+### QuickShop -> MatrixShop
+
+这类物理箱店不要迁到 `SystemShop`。
+
+更合理的目标是：
+
+- `ChestShop/settings.yml`
+- `ChestShop/signs.yml`
+- `ChestShop/ui/*.yml`
+
+推荐提示词：
+
+```text
+把这份 QuickShop 需求迁移成 MatrixShop ChestShop 配置。
+要求：
+- 使用 MatrixShop 当前的 ChestShop 结构
+- 不输出 shops/*.yml
+- 保留箱子店、告示牌和展示物的行为设计
+```
+
+## 输出建议
+
+让 agent 做迁移时，建议始终要求它：
+
+1. 先给出目标文件路径
+2. 再给出完整 YAML
+3. 如果存在不支持的源功能，只写一小段差异说明
+
+这样输出最容易直接落地。
