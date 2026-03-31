@@ -7,10 +7,11 @@ description: ChestShop 的入口、GUI、告示牌与库存相关配置说明。
 
 `ChestShop` 是箱子商店模块。它和前面的菜单型商店不同，既有 GUI，也有箱子、告示牌、库存和数量档位这些线下交互逻辑。
 
+当前版本中，`ChestShop` 不使用 `shops/*.yml` 作为入口层，货币也只支持模块级配置。
+
 ## 默认文件
 
 - `ChestShop/settings.yml`
-- `ChestShop/shops/default.yml`
 - `ChestShop/signs.yml`
 - `ChestShop/ui/create.yml`
 - `ChestShop/ui/edit.yml`
@@ -40,6 +41,8 @@ Entry:
   Direct-Trade-On: []
 Stock:
   Double-Chest-Mode: expand_only
+Currency:
+  Key: vault
 ```
 
 字段解释：
@@ -54,102 +57,7 @@ Stock:
 | `Entry.Open-GUI-On` | 哪些交互动作会直接打开 GUI。 |
 | `Entry.Direct-Trade-On` | 哪些交互动作会走直接交易。默认是空列表。 |
 | `Stock.Double-Chest-Mode` | 双箱库存处理方式，示例是 `expand_only`。 |
-
-## `ChestShop/shops/default.yml`
-
-```yaml
-Bindings:
-  Commands:
-    Bindings:
-      - 'chestshop'
-      - 'cshop'
-    Register: true
-    Show-In-Help: true
-    Priority: 100
-
-Title:
-  - '&8ChestShop &7{shop-id}'
-
-layout:
-  - '#########'
-  - '#11i22S##'
-  - '#33###B##'
-  - '##I#H#M##'
-  - '#########'
-  - '####R####'
-
-icons:
-  '#':
-    material: 'STAINED_GLASS_PANE'
-    name: ' '
-  '1':
-    material: 'WOOD_BUTTON'
-    name: '&f1x'
-    lore:
-      - '&7Preview one trade bundle'
-  '2':
-    material: 'STONE_BUTTON'
-    name: '&f8x'
-    lore:
-      - '&7Preview eight trade bundles'
-  '3':
-    material: 'STONE_BUTTON'
-    name: '&f64x'
-    lore:
-      - '&7Preview sixty-four trade bundles'
-  'i':
-    material: 'AIR'
-    mode: 'preview'
-  'S':
-    material: 'HOPPER'
-    name: '&aSell To Shop'
-    lore:
-      - '&7Mode: &f{mode}'
-      - '&7Amount: &f{total-amount}'
-      - '&7Value: &e{total-buy-price}'
-  'B':
-    material: 'EMERALD'
-    name: '&6Buy From Shop'
-    lore:
-      - '&7Mode: &f{mode}'
-      - '&7Amount: &f{total-amount}'
-      - '&7Cost: &e{total-sell-price}'
-  'I':
-    material: 'CHEST'
-    name: '&fStock'
-    lore:
-      - '&7Current stock: &f{stock}'
-  'H':
-    material: 'PAPER'
-    name: '&fHistory'
-    lore:
-      - '&7View recent trades'
-  'M':
-    material: 'BOOK'
-    name: '&eManage'
-    lore:
-      - '&7Owner only'
-  'R':
-    material: 'BARRIER'
-    name: '&cClose'
-    actions:
-      left:
-        - 'close'
-```
-
-### 顶层字段解释
-
-| 字段 | 说明 |
-| --- | --- |
-| `Title` | 箱子商店标题。 |
-| `layout` | `1/2/3` 是数量档位，`i` 是预览区，`S/B` 是卖出和买入，`I/H/M` 是库存、历史、管理。 |
-| `icons.i.mode: preview` | 由模块代码渲染交易预览。 |
-| `icons.S` | 卖给商店。 |
-| `icons.B` | 从商店购买。 |
-| `icons.I` | 查看库存。 |
-| `icons.H` | 打开交易历史。 |
-| `icons.M` | 打开管理页。 |
-| `icons.R` | 关闭。 |
+| `Currency.Key` | 箱子商店统一使用的货币 key。 |
 
 ## `ChestShop/signs.yml`
 
@@ -183,6 +91,13 @@ Formats:
 
 ## 使用建议
 
-- 想改玩家打开箱店后的布局：改 `shops/default.yml`。
+- 想改玩家打开箱店后的布局：改 `ui/shop.yml`、`ui/edit.yml`、`ui/create.yml`。
 - 想改告示牌显示样式：改 `signs.yml`。
 - 想改变“右键箱子”“右键告示牌”的行为：改 `Entry.Open-GUI-On` 和 `Direct-Trade-On`。
+
+## 当前货币优先级
+
+`ChestShop` 当前不走商店级或商品级货币配置，直接使用：
+
+1. `ChestShop/settings.yml -> Currency.Key`
+2. 默认回退 `vault`
