@@ -72,6 +72,7 @@ const sidebars: SidebarsConfig = {
           ],
         },
         'matrixshop/bindings-and-ui',
+        'matrixshop/bindings-help-and-hints',
         'matrixshop/faq',
       ],
     },
