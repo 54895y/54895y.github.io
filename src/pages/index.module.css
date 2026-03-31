@@ -252,12 +252,6 @@
   stroke-width: 1.8;
 }
 
-.telemetrySummary {
-  margin: 0.7rem 0 0;
-  color: var(--site-text-muted);
-  line-height: 1.8;
-}
-
 .telemetryChart {
   margin-top: 1rem;
   padding: 0.85rem;

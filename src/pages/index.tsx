@@ -104,7 +104,6 @@ const telemetryCards = [
     title: 'MatrixShop',
     status: '已接入',
     statusTone: 'active',
-    summary: '已接入聚合级统计与遥测说明，首页只保留简要状态展示，详细范围进入文档页查看。',
     chart: 'https://bstats.org/signatures/bukkit/MatrixShop.svg',
     to: '/docs/matrixshop/bstats-and-telemetry',
     action: '查看 MatrixShop 统计',
@@ -114,7 +113,6 @@ const telemetryCards = [
     title: 'MatrixAuth',
     status: '预留位置',
     statusTone: 'pending',
-    summary: '等待插件代码和统计口径确定后接入。首页布局和卡位已经保留，后续只补内容。',
     to: '/docs/matrixauth/overview',
     action: '查看 MatrixAuth 文档',
   },
@@ -123,7 +121,6 @@ const telemetryCards = [
     title: 'MatrixCook',
     status: '预留位置',
     statusTone: 'pending',
-    summary: '等待插件代码和统计口径确定后接入。后续可以直接沿用当前首页的同一展示结构。',
     to: '/docs/matrixcook/overview',
     action: '查看 MatrixCook 文档',
   },
@@ -232,7 +229,6 @@ export default function Home(): ReactNode {
                   </span>
                   <div>
                     <h3>{card.title}</h3>
-                    <p className={styles.telemetrySummary}>{card.summary}</p>
                   </div>
                   <span
                     className={
