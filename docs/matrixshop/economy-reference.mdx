@@ -1,0 +1,266 @@
+---
+title: 货币字段参考
+description: Economy/currency.yml 的字段、动作语法和占位符说明。
+---
+
+# 货币字段参考
+
+这页只讲 `plugins/MatrixShop/Economy/currency.yml` 的字段规则。  
+如果你想直接照抄配置，请看 [经济配置实战示例](./economy-examples)。
+
+## 文件结构
+
+每个顶层 key 代表一个可引用的货币：
+
+```yml
+vault:
+  Mode: vault
+  Display-Name: "金币"
+  Symbol: "$"
+  Decimal: true
+
+playerpoints:
+  Mode: playerpoints
+  Display-Name: "点券"
+  Decimal: false
+```
+
+业务模块引用时，只需要写这个 key：
+
+```yml
+Currency:
+  Key: vault
+```
+
+## 顶层字段
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `Mode` | 是 | 货币模式。 |
+| `Display-Name` | 否 | 显示名称，不写时默认使用 key。 |
+| `Symbol` | 否 | 显示符号。 |
+| `Decimal` | 否 | 是否允许小数。 |
+| `Actions.Take` | 自定义货币建议填写 | 扣除动作。 |
+| `Actions.Give` | 自定义货币建议填写 | 发放动作。 |
+| `Actions.Deny` | 自定义货币建议填写 | 余额不足动作。 |
+
+## `Mode`
+
+当前支持三类模式：
+
+### 1. `vault`
+
+```yml
+vault:
+  Mode: vault
+```
+
+用于调用 Vault 经济提供者。
+
+### 2. `playerpoints`
+
+```yml
+playerpoints:
+  Mode: playerpoints
+  Decimal: false
+```
+
+用于调用 PlayerPoints。  
+建议把 `Decimal` 设为 `false`。
+
+### 3. PlaceholderAPI 占位符
+
+```yml
+custom_points:
+  Mode: "%custom_points%"
+```
+
+这类模式通常需要同时定义 `Actions.Take / Give / Deny`，否则只能读取余额，不能完成完整结算。
+
+## `Display-Name`
+
+用于菜单和提示中的货币名称。
+
+```yml
+Display-Name: "金币"
+```
+
+建议：
+
+- `vault` 写服内通用称呼，例如“金币”
+- `playerpoints` 写“点券”“积分”这类玩家更容易理解的名字
+
+## `Symbol`
+
+当前主要用于展示层，不直接参与结算。
+
+```yml
+Symbol: "$"
+```
+
+可写也可不写。
+
+## `Decimal`
+
+控制金额显示和归整方式。
+
+```yml
+Decimal: true
+```
+
+建议：
+
+- `vault` 一般 `true`
+- `playerpoints` 一般 `false`
+- 自定义积分通常也建议 `false`
+
+## `Actions.Take`
+
+用于从玩家身上扣除货币。
+
+```yml
+Actions:
+  Take:
+    - "console: custompoints take {player} {amount}"
+```
+
+## `Actions.Give`
+
+用于向玩家发放货币。
+
+```yml
+Actions:
+  Give:
+    - "console: custompoints give {player} {amount}"
+```
+
+## `Actions.Deny`
+
+用于余额不足时的提示。
+
+```yml
+Actions:
+  Deny:
+    - "tell:&c货币不足，需要 &e{need} &c，当前为 &e{balance}"
+```
+
+## 当前支持的动作写法
+
+### `console:`
+
+以控制台身份执行命令：
+
+```yml
+- "console: custompoints take {player} {amount}"
+```
+
+### `player:`
+
+以玩家身份执行命令：
+
+```yml
+- "player: points"
+```
+
+### `tell:`
+
+直接发送提示文本：
+
+```yml
+- "tell:&c余额不足"
+```
+
+### 兼容旧写法
+
+当前代码仍兼容一部分旧风格动作：
+
+```yml
+- "command inline \"custompoints take {player} {amount}\" as console"
+- "tell color inline \"&c余额不足\""
+```
+
+但新配置建议优先写：
+
+- `console:`
+- `player:`
+- `tell:`
+
+## 可用占位符
+
+当前经济动作里可以稳定使用这些占位符：
+
+| 占位符 | 说明 |
+| --- | --- |
+| `{player}` | 当前玩家名 |
+| `{sender}` | 当前玩家名 |
+| `{currency}` | 当前货币显示名 |
+| `{money}` | 当前交易金额 |
+| `{amount}` | 当前交易金额 |
+| `{need}` | 所需金额 |
+| `{need-money}` | 所需金额 |
+| `{balance}` | 当前余额 |
+
+业务模块还会额外补充上下文，例如：
+
+- `{buyer}`
+- `{seller}`
+- `{item}`
+- `{target}`
+
+是否存在，取决于具体结算场景。
+
+## 推荐写法
+
+### 最简单的 Vault 配置
+
+```yml
+vault:
+  Mode: vault
+  Display-Name: "金币"
+  Symbol: "$"
+  Decimal: true
+```
+
+### PlayerPoints 配置
+
+```yml
+playerpoints:
+  Mode: playerpoints
+  Display-Name: "点券"
+  Decimal: false
+```
+
+### 自定义积分配置
+
+```yml
+custom_points:
+  Mode: "%custom_points%"
+  Display-Name: "活动积分"
+  Decimal: false
+  Actions:
+    Take:
+      - "console: custompoints take {player} {amount}"
+    Give:
+      - "console: custompoints give {player} {amount}"
+    Deny:
+      - "tell:&c活动积分不足，需要 &e{need} &c，当前为 &e{balance}"
+```
+
+## 常见问题
+
+### 自定义货币为什么能显示余额，但交易失败
+
+因为你只定义了 `Mode`，没有定义：
+
+- `Actions.Take`
+- `Actions.Give`
+
+这种情况下可以读取余额，但无法真正完成扣除和发放。
+
+### 为什么点券金额被取整
+
+因为 `playerpoints` 或 `Decimal: false` 会把金额按整数处理。
+
+### 商店没写 `Currency.Key` 会怎么样
+
+会继续回退到模块级；模块级也没写时，才会回退到 `vault`。
