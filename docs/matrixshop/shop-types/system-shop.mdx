@@ -226,7 +226,10 @@ goods:
 | `material` | 商品材质。 |
 | `amount` | 每次购买给多少个。 |
 | `price` | 单次交易价格。 |
-| `currency` | 商品级货币 key。可选；未写时会继续回退到商店级和模块级。 |
+| `buy-max` | 单次购买的最大数量或上限展示值。 |
+| `name` | 商品显示名。 |
+| `lore` | 商品说明。 |
+| `currency` | 商品级货币 key。可选；只有你想覆盖默认货币时才需要写。 |
 
 ## 当前货币优先级
 
@@ -236,9 +239,6 @@ goods:
 2. 当前分类文件里的 `Currency.Key`
 3. `SystemShop/settings.yml` 里的 `Currency.Key`
 4. 默认回退 `vault`
-| `buy-max` | 单次购买的最大数量或上限展示值。 |
-| `name` | 商品显示名。 |
-| `lore` | 商品说明。 |
 
 ## 你应该怎么改
 
