@@ -70,6 +70,52 @@ const workflowSteps = [
   },
 ];
 
+const telemetryCards = [
+  {
+    title: 'MatrixShop',
+    status: '已接入',
+    statusTone: 'active',
+    summary: '首页展示当前已经接入的 bStats 统计维度，便于后续继续扩展到另外两个插件。',
+    meta: ['插件 ID 30502', '8 项聚合图表', '仅配置与模块级统计'],
+    points: [
+      'database_backend / configured_database_backend',
+      'enabled_module_count / enabled_modules',
+      'systemshop_category_count / systemshop_goods_count',
+      'economy_currency_count / economy_currency_modes',
+    ],
+    to: '/docs/matrixshop/bstats-and-telemetry',
+    action: '查看 MatrixShop 统计',
+  },
+  {
+    title: 'MatrixAuth',
+    status: '预留位置',
+    statusTone: 'pending',
+    summary: '等待插件代码和统计口径确定后接入。首页布局和卡位已经保留，后续只补内容。',
+    meta: ['待提供代码', '待确定插件 ID', '待定义图表范围'],
+    points: [
+      '预留模块启用状态统计',
+      '预留存储后端统计',
+      '预留身份模式分布统计',
+    ],
+    to: '/docs/matrixauth/overview',
+    action: '查看 MatrixAuth 文档',
+  },
+  {
+    title: 'MatrixCook',
+    status: '预留位置',
+    statusTone: 'pending',
+    summary: '等待插件代码和统计口径确定后接入。后续可以直接沿用当前首页的同一展示结构。',
+    meta: ['待提供代码', '待确定插件 ID', '待定义图表范围'],
+    points: [
+      '预留配方与锅具配置统计',
+      '预留存储后端统计',
+      '预留可选集成启用统计',
+    ],
+    to: '/docs/matrixcook/overview',
+    action: '查看 MatrixCook 文档',
+  },
+];
+
 export default function Home(): ReactNode {
   return (
     <Layout title="Matrix 官方文档" description="Matrix 系列插件官方文档站点。">
@@ -150,6 +196,47 @@ export default function Home(): ReactNode {
                 </ul>
                 <Link className={styles.cardAction} to={plugin.to}>
                   进入文档
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <p className={styles.kicker}>插件统计</p>
+            <h2>首页统计与预留位置</h2>
+            <p className={styles.sectionLead}>
+              MatrixShop 已经接入统计说明展示，MatrixAuth 和 MatrixCook 的首页卡位也已预留，后续收到代码后可直接补齐。
+            </p>
+          </div>
+          <div className={styles.telemetryGrid}>
+            {telemetryCards.map((card) => (
+              <article key={card.title} className={styles.telemetryCard}>
+                <div className={styles.telemetryHeader}>
+                  <div>
+                    <h3>{card.title}</h3>
+                    <p className={styles.telemetrySummary}>{card.summary}</p>
+                  </div>
+                  <span
+                    className={
+                      card.statusTone === 'active' ? styles.telemetryBadgeActive : styles.telemetryBadgePending
+                    }>
+                    {card.status}
+                  </span>
+                </div>
+                <div className={styles.telemetryMeta}>
+                  {card.meta.map((item) => (
+                    <span key={item}>{item}</span>
+                  ))}
+                </div>
+                <ul className={styles.telemetryList}>
+                  {card.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+                <Link className={styles.cardAction} to={card.to}>
+                  {card.action}
                 </Link>
               </article>
             ))}

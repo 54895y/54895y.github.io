@@ -19,7 +19,8 @@
 .heroCard,
 .quickCard,
 .pluginCard,
-.flowCard {
+.flowCard,
+.telemetryCard {
   border: 1px solid var(--site-panel-border);
   background: var(--site-panel-bg);
   box-shadow: var(--site-panel-shadow);
@@ -145,7 +146,8 @@
 
 .quickGrid,
 .pluginGrid,
-.flowGrid {
+.flowGrid,
+.telemetryGrid {
   display: grid;
   gap: 1rem;
 }
@@ -155,13 +157,15 @@
 }
 
 .pluginGrid,
-.flowGrid {
+.flowGrid,
+.telemetryGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .quickCard,
 .pluginCard,
-.flowCard {
+.flowCard,
+.telemetryCard {
   display: flex;
   flex-direction: column;
   padding: 1.4rem;
@@ -213,6 +217,73 @@
   font-size: 0.9rem;
 }
 
+.telemetryHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.telemetryHeader h3 {
+  margin: 0;
+  color: var(--site-text-strong);
+  font-size: 1.35rem;
+}
+
+.telemetrySummary {
+  margin: 0.7rem 0 0;
+  color: var(--site-text-muted);
+  line-height: 1.8;
+}
+
+.telemetryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.telemetryMeta span,
+.telemetryBadgeActive,
+.telemetryBadgePending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.telemetryMeta span {
+  padding: 0.36rem 0.72rem;
+  background: var(--site-badge-bg);
+  color: var(--site-badge-text);
+  font-size: 0.82rem;
+}
+
+.telemetryBadgeActive,
+.telemetryBadgePending {
+  padding: 0.32rem 0.72rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.telemetryBadgeActive {
+  background: rgba(20, 138, 58, 0.12);
+  color: #167a3f;
+}
+
+.telemetryBadgePending {
+  background: rgba(217, 119, 6, 0.12);
+  color: #b45309;
+}
+
+.telemetryList {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--site-list-color);
+  line-height: 1.9;
+}
+
 .topicList {
   margin: 1rem 0 0;
   padding-left: 1.15rem;
@@ -238,7 +309,8 @@
 @media screen and (max-width: 996px) {
   .quickGrid,
   .pluginGrid,
-  .flowGrid {
+  .flowGrid,
+  .telemetryGrid {
     grid-template-columns: 1fr;
   }
 
@@ -261,7 +333,8 @@
   .heroCard,
   .quickCard,
   .pluginCard,
-  .flowCard {
+  .flowCard,
+  .telemetryCard {
     padding: 1.2rem;
     border-radius: 20px;
   }
