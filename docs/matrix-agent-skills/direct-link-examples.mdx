@@ -1,0 +1,86 @@
+---
+title: 直接发给 Agent 的示例
+description: 如何把 MatrixAgentSkills 的 GitHub 链接或 raw 链接直接发给常见 agent。
+---
+
+# 直接发给 Agent 的示例
+
+这一页只解决一个问题：
+
+怎么把 `MatrixAgentSkills` 的链接直接发给 agent，让它立刻开始工作。
+
+## Codex / OpenAI Skills
+
+如果 agent 支持原生 skill 安装，直接发这个：
+
+```text
+Install and use this MatrixShop config skill:
+https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config
+```
+
+如果你想带上任务目标，一起发：
+
+```text
+Install and use this MatrixShop config skill:
+https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config
+
+Then generate a MatrixShop config pack for a survival server with:
+- vault as default currency
+- one SystemShop weapon category
+- one GlobalMarket entry
+- ChestShop enabled
+```
+
+## Claude / Gemini / Cline / Roo / Continue
+
+这类 agent 更适合直接吃 raw prompt。
+
+直接发这个：
+
+```text
+Use this MatrixShop config prompt pack:
+https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md
+```
+
+如果你想连需求一起发：
+
+```text
+Use this MatrixShop config prompt pack:
+https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md
+
+Generate:
+- module.yml
+- Economy/currency.yml
+- SystemShop/settings.yml
+- SystemShop/shops/weapon.yml
+```
+
+## AIChat
+
+AIChat 不建议直接投 skill，建议导入知识库。
+
+知识库链接：
+
+- [matrixshop-config-kb.md](https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/aichat/matrixshop-config-kb.md)
+
+导入后，直接问：
+
+```text
+根据我的生存服需求生成 MatrixShop 配置：
+- 默认使用 vault
+- Auction 使用点券
+- PlayerShop 开启
+- Cart 和 Record 使用默认结构
+```
+
+## 推荐做法
+
+如果你只是想让 agent 快速开始，不要解释太多背景。
+
+最有效的做法是：
+
+1. 发链接
+2. 发目标文件清单
+3. 发你的服设要求
+
+这样 agent 最容易直接产出可落地 YAML。

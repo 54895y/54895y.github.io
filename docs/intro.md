@@ -6,6 +6,7 @@ title: 插件 Wiki
 
 当前已经收录：
 
+- [MatrixAgentSkills](/docs/matrix-agent-skills/overview)
 - [MatrixAuth](/docs/matrixauth/overview)
 - [MatrixCook](/docs/matrixcook/overview)
 - [MatrixShop](/docs/matrixshop)
@@ -26,3 +27,8 @@ title: 插件 Wiki
 3. 配置结构
 4. 命令与权限
 5. 常见问题
+
+如果你想直接把 Matrix 系列配置能力交给 agent，也可以先看：
+
+- [MatrixAgentSkills 总览](/docs/matrix-agent-skills/overview)
+- [直接发给 Agent 的示例](/docs/matrix-agent-skills/direct-link-examples)

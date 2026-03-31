@@ -13,6 +13,7 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         'matrix-agent-skills/install-by-agent',
+        'matrix-agent-skills/direct-link-examples',
         'matrix-agent-skills/matrixshop-config',
         'matrix-agent-skills/aichat-knowledge-base',
       ],
