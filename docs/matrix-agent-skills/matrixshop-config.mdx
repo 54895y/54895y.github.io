@@ -1,0 +1,101 @@
+---
+title: MatrixShop Config Skill
+description: 基于当前 MatrixShop 配置模型的专用 skill 说明。
+---
+
+# MatrixShop Config Skill
+
+## Skill 入口
+
+- 原生 skill：[https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config](https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config)
+- 通用 prompt：[https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md](https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md)
+
+## 作用
+
+`matrixshop-config` 用来生成、修改、迁移和解释 MatrixShop 的 YAML 配置。
+
+重点不是写一个泛泛的“商城插件配置”，而是约束 agent 必须按 MatrixShop 当前主线结构输出。
+
+## 当前约束
+
+### 使用 `shops/*.yml` 的模块
+
+- `Menu`
+- `SystemShop`
+- `PlayerShop`
+- `GlobalMarket`
+- `Auction`
+- `Transaction`
+
+### 不使用 `shops/*.yml` 的模块
+
+- `ChestShop`
+- `Cart`
+- `Record`
+
+### Bindings 规则
+
+对使用 `shops/*.yml` 的模块：
+
+- `Bindings.Commands`
+- `Help`
+- `Help-Key`
+- `Hint-Keys`
+- `Condition`
+
+这些键应该写在对应的 shop 文件中。
+
+对不使用 `shops/*.yml` 的模块：
+
+- 这些键应写在 `settings.yml`
+
+### Economy 规则
+
+`Economy` 是核心模块，必须启用。
+
+货币优先级：
+
+1. 商品级
+2. 商店级
+3. 模块级
+4. 默认 `vault`
+
+特殊说明：
+
+- `ChestShop` 只支持模块级货币
+- `Cart` 和 `Record` 不定义业务货币
+
+### SystemShop 商品规则
+
+`SystemShop` 商品当前支持：
+
+- `material`
+- `item`
+- `amount`
+- `price`
+- `buy-max`
+- `name`
+- `lore`
+- `currency`
+
+## 参考文件
+
+这个 skill 当前拆成三份参考材料：
+
+- `references/config-model.md`
+- `references/module-rules.md`
+- `references/examples.md`
+
+它们分别负责：
+
+- 总配置结构
+- 模块边界
+- 可直接照抄的 YAML 示例
+
+## 适合的任务
+
+- 从零生成 MatrixShop 配置
+- 生成某个模块的默认配置
+- 把旧 Malkuth 配置迁移成 MatrixShop
+- 解释某个字段应该放在 `settings.yml` 还是 `shops/*.yml`
+- 生成 bindings、help、hint 相关配置

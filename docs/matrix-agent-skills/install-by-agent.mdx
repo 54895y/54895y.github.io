@@ -1,0 +1,67 @@
+---
+title: 按 Agent 安装
+description: MatrixAgentSkills 在不同 agent 中的推荐接入方式。
+---
+
+# 按 Agent 安装
+
+## Codex / OpenAI Skills
+
+如果目标 agent 支持 Codex 风格的 GitHub skill 安装，直接发这个路径：
+
+- [https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config](https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config)
+
+推荐表达：
+
+```text
+Install the MatrixShop config skill from:
+https://github.com/54895y/MatrixAgentSkills/tree/main/matrixshop-config
+```
+
+## Claude Code / Gemini CLI / Cline / Roo / Continue
+
+这类 agent 更适合导入一个稳定的 prompt / rules 文件。
+
+通用 raw 入口：
+
+- [https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md](https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/portable/matrixshop-config.md)
+
+仓库中也提供了按 agent 区分的入口文件：
+
+- `claude/matrixshop-config.md`
+- `gemini/matrixshop-config.md`
+- `cline/matrixshop-config.md`
+- `roo/matrixshop-config.md`
+- `continue/matrixshop-config.md`
+
+如果 agent 支持远程规则或远程提示文件，优先直接发 raw 链接。
+
+如果不支持远程导入，就把 `portable/matrixshop-config.md` 的内容复制到该 agent 的长期规则或项目规则中。
+
+## AIChat
+
+AIChat 不建议直接导入 Codex skill。
+
+推荐方式是导入知识库：
+
+- [https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/aichat/matrixshop-config-kb.md](https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/aichat/matrixshop-config-kb.md)
+
+导入后直接提配置需求，例如：
+
+- `根据我的生存服需求生成 MatrixShop 的 module.yml、Economy/currency.yml 和一个 SystemShop 分类`
+- `帮我生成一个拍卖模块配置，要求使用点券作为默认货币`
+- `把下面这份旧 Malkuth 配置迁移成 MatrixShop 当前格式`
+
+## 为什么分三种入口
+
+原因很直接：
+
+- Codex 类 agent 能理解原生 skill 目录
+- 其他 agent 更适合单文件规则
+- AIChat 更适合知识库，不适合过程型 skill
+
+所以这个仓库同时维护：
+
+- `SKILL.md`
+- 通用 prompt
+- 知识库文件

@@ -1,0 +1,57 @@
+---
+title: MatrixAgentSkills
+description: Matrix 系列插件的公开 skill、prompt pack 与知识库仓库。
+---
+
+# MatrixAgentSkills
+
+`MatrixAgentSkills` 是一个公开仓库，用来存放 Matrix 系列插件的技能包、提示包和知识库文件。
+
+仓库地址：
+
+- [https://github.com/54895y/MatrixAgentSkills](https://github.com/54895y/MatrixAgentSkills)
+
+当前首个可用包：
+
+- `matrixshop-config`
+
+## 目标
+
+这个仓库不是只服务一种 agent。
+
+它同时面向三类入口：
+
+1. Codex / OpenAI Skills 这类支持原生 skill 结构的 agent
+2. Claude、Gemini、Cline、Roo、Continue 这类更适合吃 prompt / rules 的 agent
+3. AIChat 这类更适合导入知识库直接生成配置的产品
+
+## 当前内容
+
+### 原生 skill
+
+- `matrixshop-config`
+
+### 通用 prompt
+
+- `portable/matrixshop-config.md`
+
+### AIChat 知识库
+
+- `aichat/matrixshop-config-kb.md`
+
+## 适用范围
+
+当前 `matrixshop-config` 主要覆盖：
+
+- MatrixShop 目录结构
+- `shops/*.yml` 与 `settings.yml` 的职责边界
+- `Bindings / Help / Help-Key / Hint-Keys / Condition`
+- 经济模块与货币优先级
+- `SystemShop / PlayerShop / GlobalMarket / Auction / ChestShop / Transaction / Cart / Record`
+- MatrixShop 当前支持的配置字段和输出约束
+
+## 推荐阅读
+
+1. [按 Agent 安装](./install-by-agent)
+2. [MatrixShop Config Skill](./matrixshop-config)
+3. [AIChat 知识库入口](./aichat-knowledge-base)

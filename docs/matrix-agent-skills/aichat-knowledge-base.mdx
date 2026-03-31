@@ -1,0 +1,52 @@
+---
+title: AIChat 知识库入口
+description: 在 AIChat 中使用 MatrixAgentSkills 的推荐方式。
+---
+
+# AIChat 知识库入口
+
+## 推荐入口
+
+AIChat 请优先导入这份知识库文件：
+
+- [https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/aichat/matrixshop-config-kb.md](https://raw.githubusercontent.com/54895y/MatrixAgentSkills/main/aichat/matrixshop-config-kb.md)
+
+不要把 Codex skill 当作 AIChat 的首要导入格式。
+
+## 原因
+
+AIChat 更适合：
+
+- 导入结构化知识库
+- 直接根据需求生成配置
+- 做配置解释和迁移
+
+而不是优先执行一个“过程驱动型 skill”。
+
+## 导入后怎么问
+
+推荐提问方式：
+
+- `根据我的生存服需求生成 MatrixShop 的 module.yml、Economy/currency.yml 和一个 SystemShop 武器商店`
+- `给我一套支持点券的 Auction、GlobalMarket 和 PlayerShop 配置`
+- `我要一个不使用 shops 目录的 ChestShop、Cart、Record 配置`
+- `把这份旧 Malkuth 配置迁移成 MatrixShop 当前格式`
+
+## 当前知识覆盖
+
+当前知识库已经覆盖：
+
+- MatrixShop 当前目录结构
+- `shops/*.yml` 与 `settings.yml` 的职责边界
+- `Bindings / Help / Help-Key / Hint-Keys / Condition`
+- `Economy` 与货币优先级
+- `SystemShop` 商品结构
+- 当前后台快速上架和快速编辑命令的边界
+
+## 输出建议
+
+如果你要 AIChat 产出可以直接落地的结果，建议要求它：
+
+1. 先给出目标文件路径
+2. 再给出完整 YAML
+3. 必要时补一小段兼容说明

@@ -6,6 +6,19 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
+      label: 'MatrixAgentSkills',
+      link: {
+        type: 'doc',
+        id: 'matrix-agent-skills/overview',
+      },
+      items: [
+        'matrix-agent-skills/install-by-agent',
+        'matrix-agent-skills/matrixshop-config',
+        'matrix-agent-skills/aichat-knowledge-base',
+      ],
+    },
+    {
+      type: 'category',
       label: 'MatrixAuth',
       link: {
         type: 'doc',
