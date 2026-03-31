@@ -1,0 +1,94 @@
+---
+title: 1.2.0 发布说明
+description: MatrixShop 1.2.0 的新增功能、管理员商品维护流程和验证结果。
+---
+
+# MatrixShop 1.2.0 发布说明
+
+发布时间：`2026-03-31`
+
+## 版本定位
+
+`1.2.0` 是在 `1.1.x` 稳定基线上继续补管理功能的功能版本。
+
+这一版的重点不是调整玩家侧业务链，而是补齐管理员对 `SystemShop` 商品的快速维护能力。
+
+## 本版本重点
+
+### 管理员快速上架
+
+管理员现在可以直接拿着主手物品，将商品快速写入 `SystemShop` 分类：
+
+```text
+/matrixshopadmin goods add <category> <price> [buy-max] [product-id]
+```
+
+这个命令会：
+
+- 读取主手物品
+- 写入 `SystemShop/shops/<category>.yml`
+- 自动生成或使用指定 `product-id`
+- 写入价格、限购、显示名和 Lore
+- 自动重载 `SystemShop`
+
+### 管理员快速编辑
+
+管理员现在也可以直接维护已存在的系统商店商品：
+
+```text
+/matrixshopadmin goods select <category> <product-id>
+/matrixshopadmin goods edit price <value>
+/matrixshopadmin goods edit buy-max <value>
+/matrixshopadmin goods edit currency <key|default>
+/matrixshopadmin goods edit name <text...>
+/matrixshopadmin goods edit item
+/matrixshopadmin goods edit remove
+```
+
+其中：
+
+- `edit item` 会使用管理员当前主手物品覆盖商品本体
+- `edit remove` 会直接移除该商品
+- `currency default` 会移除商品级货币覆盖，回退到上层配置
+
+### 菜单内选中编辑目标
+
+在系统商店分类页中，拥有管理员商品权限的玩家可以对商品执行：
+
+- `Shift + 右键`
+
+来直接把该商品设为当前编辑目标，然后继续使用后台 `goods edit ...` 系列命令。
+
+## 配置影响
+
+这一版不引入新的配置破坏性变更。
+
+但如果你要使用管理员快速维护商品，建议确认：
+
+- `matrixshop.admin.goods` 权限已正确分配
+- 管理员理解 `goods add` 与 `goods edit` 会直接写回默认配置文件
+
+## 验证
+
+本版本发布前已完成：
+
+- `bash ./gradlew build`
+- `paper-1.12.2` smoke boot
+- real-client 管理员命令回归
+
+实际验证链：
+
+1. `/give codex-bot diamond_sword 1`
+2. `/matrixshopadmin goods add weapon 777 9 codex_admin_probe_20260331`
+3. `/matrixshopadmin goods select weapon codex_admin_probe_20260331`
+4. `/matrixshopadmin goods edit price 888`
+5. `/matrixshopadmin goods edit buy-max 12`
+6. `/matrixshopadmin goods edit name Codex Admin Blade`
+7. `/matrixshopadmin goods edit remove`
+
+## 相关链接
+
+- [GitHub Releases](https://github.com/54895y/MatrixShop/releases)
+- [1.2.0 GitHub Release](https://github.com/54895y/MatrixShop/releases/tag/v1.2.0)
+- [CHANGELOG](https://github.com/54895y/MatrixShop/blob/main/CHANGELOG.md)
+- [1.1.1 发布说明](./release-notes-1-1-1)
