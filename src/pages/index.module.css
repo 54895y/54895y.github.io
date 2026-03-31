@@ -230,20 +230,34 @@
   font-size: 1.35rem;
 }
 
+.telemetryIcon {
+  display: inline-flex;
+  flex: 0 0 3.25rem;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(33, 121, 255, 0.1), rgba(33, 121, 255, 0.04));
+  color: var(--site-kicker-color);
+}
+
+.telemetryIcon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
 .telemetrySummary {
   margin: 0.7rem 0 0;
   color: var(--site-text-muted);
   line-height: 1.8;
 }
 
-.telemetryMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 1rem;
-}
-
-.telemetryMeta span,
 .telemetryBadgeActive,
 .telemetryBadgePending {
   display: inline-flex;
@@ -251,13 +265,6 @@
   justify-content: center;
   border-radius: 999px;
   font-weight: 700;
-}
-
-.telemetryMeta span {
-  padding: 0.36rem 0.72rem;
-  background: var(--site-badge-bg);
-  color: var(--site-badge-text);
-  font-size: 0.82rem;
 }
 
 .telemetryBadgeActive,
@@ -275,13 +282,6 @@
 .telemetryBadgePending {
   background: rgba(217, 119, 6, 0.12);
   color: #b45309;
-}
-
-.telemetryList {
-  margin: 1rem 0 0;
-  padding-left: 1.15rem;
-  color: var(--site-list-color);
-  line-height: 1.9;
 }
 
 .topicList {

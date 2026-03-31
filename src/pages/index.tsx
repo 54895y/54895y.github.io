@@ -70,47 +70,59 @@ const workflowSteps = [
   },
 ];
 
+function TelemetryIcon({kind}: {kind: 'shop' | 'auth' | 'cook'}): ReactNode {
+  if (kind === 'shop') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 10.5h16" />
+        <path d="M6 10.5v7.5h12v-7.5" />
+        <path d="M3.5 10.5 5 6h14l1.5 4.5" />
+        <path d="M10 18v-4h4v4" />
+      </svg>
+    );
+  }
+  if (kind === 'auth') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.5 18.5 6v5c0 4.2-2.3 7.1-6.5 9.5-4.2-2.4-6.5-5.3-6.5-9.5V6L12 3.5Z" />
+        <path d="M9.5 11.5 11 13l3.5-3.5" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 9h10l1.2 7H5.8L7 9Z" />
+      <path d="M9 9V7.8A3 3 0 0 1 12 5a3 3 0 0 1 3 2.8V9" />
+      <path d="M18 6.5c1.6.8 2.5 2.2 2.5 4.1 0 2.7-1.8 4.4-4.5 4.4" />
+    </svg>
+  );
+}
+
 const telemetryCards = [
   {
+    icon: 'shop' as const,
     title: 'MatrixShop',
     status: '已接入',
     statusTone: 'active',
-    summary: '首页展示当前已经接入的 bStats 统计维度，便于后续继续扩展到另外两个插件。',
-    meta: ['插件 ID 30502', '8 项聚合图表', '仅配置与模块级统计'],
-    points: [
-      'database_backend / configured_database_backend',
-      'enabled_module_count / enabled_modules',
-      'systemshop_category_count / systemshop_goods_count',
-      'economy_currency_count / economy_currency_modes',
-    ],
+    summary: '已接入聚合级统计与遥测说明，首页只保留简要状态展示，详细范围进入文档页查看。',
     to: '/docs/matrixshop/bstats-and-telemetry',
     action: '查看 MatrixShop 统计',
   },
   {
+    icon: 'auth' as const,
     title: 'MatrixAuth',
     status: '预留位置',
     statusTone: 'pending',
     summary: '等待插件代码和统计口径确定后接入。首页布局和卡位已经保留，后续只补内容。',
-    meta: ['待提供代码', '待确定插件 ID', '待定义图表范围'],
-    points: [
-      '预留模块启用状态统计',
-      '预留存储后端统计',
-      '预留身份模式分布统计',
-    ],
     to: '/docs/matrixauth/overview',
     action: '查看 MatrixAuth 文档',
   },
   {
+    icon: 'cook' as const,
     title: 'MatrixCook',
     status: '预留位置',
     statusTone: 'pending',
     summary: '等待插件代码和统计口径确定后接入。后续可以直接沿用当前首页的同一展示结构。',
-    meta: ['待提供代码', '待确定插件 ID', '待定义图表范围'],
-    points: [
-      '预留配方与锅具配置统计',
-      '预留存储后端统计',
-      '预留可选集成启用统计',
-    ],
     to: '/docs/matrixcook/overview',
     action: '查看 MatrixCook 文档',
   },
@@ -214,6 +226,9 @@ export default function Home(): ReactNode {
             {telemetryCards.map((card) => (
               <article key={card.title} className={styles.telemetryCard}>
                 <div className={styles.telemetryHeader}>
+                  <span className={styles.telemetryIcon} aria-hidden="true">
+                    <TelemetryIcon kind={card.icon} />
+                  </span>
                   <div>
                     <h3>{card.title}</h3>
                     <p className={styles.telemetrySummary}>{card.summary}</p>
@@ -225,16 +240,6 @@ export default function Home(): ReactNode {
                     {card.status}
                   </span>
                 </div>
-                <div className={styles.telemetryMeta}>
-                  {card.meta.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
-                </div>
-                <ul className={styles.telemetryList}>
-                  {card.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
                 <Link className={styles.cardAction} to={card.to}>
                   {card.action}
                 </Link>
