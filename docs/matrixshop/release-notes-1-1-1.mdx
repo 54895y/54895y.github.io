@@ -1,0 +1,63 @@
+---
+title: 1.1.1 发布说明
+description: MatrixShop 1.1.1 的修复内容、升级建议和验证结果。
+---
+
+# MatrixShop 1.1.1 发布说明
+
+发布时间：`2026-03-31`
+
+## 版本定位
+
+`1.1.1` 是基于 `1.1.0` 的修复版本。
+
+这一版不调整核心业务结构，重点是补齐正式发布材料，并修复当前主线里仍然存在的两处兼容问题。
+
+## 本版本内容
+
+### 发布材料收口
+
+本版本补齐了正式发布需要的仓库材料：
+
+- 新增 `CHANGELOG.md`
+- 新增 `1.1.1` 发布说明页
+- 调整 README 中的发布说明入口
+
+### 兼容问题修复
+
+本版本修复了两处与发布稳定性直接相关的问题：
+
+- 交易请求界面中的玩家头颅，不再依赖过时的 `SkullMeta.owner`
+- 玩家商店按玩家名打开时，不再依赖过时的名字式离线玩家查询
+
+当前实现会优先从：
+
+1. 在线玩家
+2. 本地离线资料
+3. 已存在的玩家商店数据
+
+中解析目标玩家。
+
+## 升级建议
+
+如果你已经部署了 `1.1.0`，升级到 `1.1.1` 时主要关注两点：
+
+- 替换插件本体 JAR
+- 若你在文档或服内说明中引用了旧版本发布页，改用 `1.1.1`
+
+这一版没有引入新的配置破坏性变更。
+
+## 验证
+
+本版本发布前已完成：
+
+- `bash ./gradlew build`
+- 文档站 `npm run build`
+- `paper-1.12.2` smoke boot
+
+## 相关链接
+
+- [GitHub Releases](https://github.com/54895y/MatrixShop/releases)
+- [1.1.1 GitHub Release](https://github.com/54895y/MatrixShop/releases/tag/v1.1.1)
+- [CHANGELOG](https://github.com/54895y/MatrixShop/blob/main/CHANGELOG.md)
+- [1.1.0 发布说明](./release-notes-1-1-0)
