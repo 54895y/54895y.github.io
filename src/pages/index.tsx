@@ -105,6 +105,7 @@ const telemetryCards = [
     status: '已接入',
     statusTone: 'active',
     summary: '已接入聚合级统计与遥测说明，首页只保留简要状态展示，详细范围进入文档页查看。',
+    chart: 'https://bstats.org/signatures/bukkit/MatrixShop.svg',
     to: '/docs/matrixshop/bstats-and-telemetry',
     action: '查看 MatrixShop 统计',
   },
@@ -240,6 +241,11 @@ export default function Home(): ReactNode {
                     {card.status}
                   </span>
                 </div>
+                {'chart' in card ? (
+                  <div className={styles.telemetryChart}>
+                    <img src={card.chart} alt={`${card.title} bStats usage chart`} loading="lazy" />
+                  </div>
+                ) : null}
                 <Link className={styles.cardAction} to={card.to}>
                   {card.action}
                 </Link>
