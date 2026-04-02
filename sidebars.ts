@@ -60,17 +60,62 @@ const sidebars: SidebarsConfig = {
         id: 'matrixshop/index',
       },
       items: [
-        'matrixshop/quick-start',
-        'matrixshop/release-notes-1-2-0',
-        'matrixshop/release-notes-1-1-1',
-        'matrixshop/release-notes-1-1-0',
-        'matrixshop/configuration-structure',
-        'matrixshop/economy',
-        'matrixshop/economy-reference',
-        'matrixshop/economy-examples',
-        'matrixshop/commands-and-permissions',
-        'matrixshop/database-and-storage',
-        'matrixshop/modules-overview',
+        {
+          type: 'category',
+          label: '开始使用',
+          link: {
+            type: 'doc',
+            id: 'matrixshop/getting-started/quick-start',
+          },
+          items: [
+            'matrixshop/getting-started/commands-and-permissions',
+            'matrixshop/getting-started/faq',
+          ],
+        },
+        {
+          type: 'category',
+          label: '配置与系统',
+          link: {
+            type: 'doc',
+            id: 'matrixshop/configuration/configuration-structure',
+          },
+          items: [
+            'matrixshop/configuration/economy',
+            'matrixshop/configuration/economy-reference',
+            'matrixshop/configuration/economy-examples',
+            'matrixshop/configuration/database-and-storage',
+            'matrixshop/configuration/bindings-and-ui',
+            'matrixshop/configuration/bindings-help-and-hints',
+            'matrixshop/configuration/system-shop',
+            'matrixshop/configuration/bstats-and-telemetry',
+          ],
+        },
+        {
+          type: 'category',
+          label: '模块与机制',
+          link: {
+            type: 'doc',
+            id: 'matrixshop/modules/modules-overview',
+          },
+          items: [
+            'matrixshop/modules/player-economy-modules',
+            'matrixshop/modules/interaction-modules',
+          ],
+        },
+        {
+          type: 'category',
+          label: '更新日志',
+          link: {
+            type: 'doc',
+            id: 'matrixshop/release-notes/index',
+          },
+          items: [
+            'matrixshop/release-notes/release-notes-1-3-0',
+            'matrixshop/release-notes/release-notes-1-2-0',
+            'matrixshop/release-notes/release-notes-1-1-1',
+            'matrixshop/release-notes/release-notes-1-1-0',
+          ],
+        },
         {
           type: 'category',
           label: '商店与模块详解',
@@ -90,9 +135,6 @@ const sidebars: SidebarsConfig = {
             'matrixshop/shop-types/record',
           ],
         },
-        'matrixshop/bindings-and-ui',
-        'matrixshop/bindings-help-and-hints',
-        'matrixshop/faq',
       ],
     },
   ],
