@@ -220,6 +220,84 @@ lore:
 
 > 兼容说明：旧版 `SystemShop/shops/*.yml` 中直接内联 `goods.<id>` 的写法仍然可读取，但新配置应优先拆到 `SystemShop/goods/*.yml`。
 
+## `SystemShop/goods/starter_weapons.yml`
+
+商品组用于把多个 goods 组合成一个可复用引用：
+
+```yaml
+id: starter_weapons
+Kind: group
+entries:
+  - wooden_sword
+  - iron_sword
+  - bow
+```
+
+商店中可直接写：
+
+```yaml
+goods:
+  - starter_weapons
+  - arrow_bundle
+```
+
+## `SystemShop/goods/weapon_refresh_pool_example.yml`
+
+随机池用于给刷新区域提供候选商品：
+
+```yaml
+id: weapon_refresh_pool_example
+Kind: pool
+entries:
+  iron_sword_offer:
+    goods: iron_sword
+    weight: 10
+    price: 99
+    buy-max: 3
+```
+
+## 刷新区域
+
+当前已经有 SystemShop 刷新基础能力，配置位置在 `icons.<char>.refresh`。
+
+最小示例：
+
+```yaml
+icons:
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+    refresh:
+      Enabled: true
+      Cron: '0 0 6 * * ?'
+      Timezone: 'Asia/Shanghai'
+      Same-For-Players-In-Group: true
+      groups:
+        default:
+          Enabled: true
+          Random-Refresh: true
+          Pick: 2
+          Pool-Ref: 'weapon_refresh_pool_example'
+```
+
+### 刷新字段解释
+
+| 字段 | 说明 |
+| --- | --- |
+| `Cron` | Quartz 风格 cron 表达式。 |
+| `Timezone` | 该刷新区域的时区。 |
+| `Same-For-Players-In-Group` | 同组是否共享同一份刷新结果。 |
+| `groups.<id>.Match-Script` | Kether 脚本，决定玩家是否命中该组。 |
+| `groups.<id>.Random-Refresh` | 是否从随机池抽取商品。 |
+| `groups.<id>.Pick` | 随机抽取数量。 |
+| `groups.<id>.Pool-Ref` | 引用 `goods` 目录中的随机池。 |
+| `groups.<id>.goods` | 非随机模式下直接引用静态商品或商品组。 |
+
+### 后台命令
+
+- `/matrixshopadmin refresh list [category]`
+- `/matrixshopadmin refresh run <category> [icon]`
+
 ## 当前货币优先级
 
 `SystemShop` 当前采用：

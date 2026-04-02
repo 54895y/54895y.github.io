@@ -72,6 +72,33 @@ name: '&f铁剑'
 - `lore`
 - `currency`
 
+`goods` 目录当前还支持两种可复用资源：
+
+- 商品组
+- 随机池
+
+示例：
+
+```yaml
+# SystemShop/goods/starter_weapons.yml
+id: starter_weapons
+Kind: group
+entries:
+  - wooden_sword
+  - iron_sword
+```
+
+```yaml
+# SystemShop/goods/weapon_refresh_pool_example.yml
+id: weapon_refresh_pool_example
+Kind: pool
+entries:
+  iron_sword_offer:
+    goods: iron_sword
+    weight: 10
+    price: 99
+```
+
 > 兼容说明：旧版 `shops/*.yml` 中直接内联 `goods.<id>` 的写法仍然可以读取，但新配置不建议继续这样写。
 
 ## 管理员维护流
@@ -88,6 +115,51 @@ name: '&f铁剑'
 - `/matrixshopadmin goods add <category> <product-id>`
 - `/matrixshopadmin goods select <category> <product-id>`
 - `/matrixshopadmin goods edit <price|buy-max|currency|name|item|remove> ...`
+
+当前还支持系统商店刷新管理命令：
+
+- `/matrixshopadmin refresh list [category]`
+- `/matrixshopadmin refresh run <category> [icon]`
+
+## 刷新区域
+
+当前已经实现一套 SystemShop 刷新基础能力，刷新规则直接挂在 `icons.<char>.refresh` 下。
+
+示例结构：
+
+```yaml
+icons:
+  'g':
+    material: 'AIR'
+    mode: 'goods'
+    refresh:
+      Enabled: true
+      Cron: '0 0 6 * * ?'
+      Timezone: 'Asia/Shanghai'
+      Same-For-Players-In-Group: true
+      groups:
+        default:
+          Enabled: true
+          Random-Refresh: true
+          Pick: 2
+          Pool-Ref: 'weapon_refresh_pool_example'
+```
+
+字段含义：
+
+- `Same-For-Players-In-Group`
+  - `true` 时，同组玩家共用一份刷新结果
+  - `false` 时，同组玩家各自独立生成结果
+- `groups.<id>.Match-Script`
+  - 使用 Kether 脚本匹配当前玩家是否命中该组
+- `groups.<id>.Pool-Ref`
+  - 引用 `goods` 目录中的 `Kind: pool` 文件
+- `groups.<id>.goods`
+  - 非随机模式下直接引用静态商品或商品组
+
+默认资源里已经带了一个关闭状态的注释示例：
+
+- `SystemShop/shops/weapon.yml`
 
 ## 菜单渲染规则
 
