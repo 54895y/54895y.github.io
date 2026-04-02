@@ -1,0 +1,124 @@
+---
+title: 1.3.0 发布说明
+description: MatrixShop 1.3.0 的 goods 仓库、定时刷新、后台维护流和验证结果。
+---
+
+# MatrixShop 1.3.0 发布说明
+
+发布时间：`2026-04-02`
+
+## 版本定位
+
+`1.3.0` 是在 `1.2.0` 管理能力基础上，继续把 `SystemShop` 的 goods 仓库、分类复用和定时刷新能力做成可部署版本的功能更新。
+
+这一版的重点不再只是“快速改商品”，而是把系统商店商品定义整理成一套可复用、可抽样、可按计划刷新的资源结构。
+
+## 本版本重点
+
+### Goods 仓库成为主流程
+
+`SystemShop` 当前推荐把商品定义集中放在：
+
+```text
+SystemShop/goods/*.yml
+```
+
+这套仓库现在支持三种资源：
+
+- `product`
+- `group`
+- `pool`
+
+它们分别用于：
+
+- 定义单个可售卖商品
+- 复用一组商品 id
+- 为刷新区域提供带权重的随机候选池
+
+分类文件 `SystemShop/shops/*.yml` 现在可以直接引用这些 goods id，而不必继续把大量商品定义内联在分类页里。
+
+### 后台维护流改成仓库式管理
+
+管理员商品维护流程当前已经拆分为：
+
+1. 先把主手物品保存到 goods 仓库
+2. 再把已保存商品挂到目标分类
+3. 需要时继续编辑价格、限购、货币或物品本体
+
+当前命令：
+
+```text
+/matrixshopadmin goods ui [page]
+/matrixshopadmin goods save <price> [buy-max] [product-id]
+/matrixshopadmin goods add <category> <product-id>
+/matrixshopadmin goods select <category> <product-id>
+/matrixshopadmin goods edit <price|buy-max|currency|name|item|remove> ...
+```
+
+默认资源也新增了三份后台 UI：
+
+- `SystemShop/ui/goods-browser.yml`
+- `SystemShop/ui/goods-editor.yml`
+- `SystemShop/ui/goods-shops.yml`
+
+### 新增定时刷新基础能力
+
+`SystemShop` 当前已经支持把刷新规则挂在：
+
+```text
+icons.<char>.refresh
+```
+
+可配置内容包括：
+
+- Quartz 风格 `Cron`
+- `Timezone`
+- `Same-For-Players-In-Group`
+- `groups.<id>.Match-Script`
+- `groups.<id>.Random-Refresh`
+- `groups.<id>.Pick`
+- `groups.<id>.Pool-Ref`
+- `groups.<id>.goods`
+
+这意味着同一个分类页中的某个 `mode: goods` 区域，可以按定时任务切换展示商品，并根据玩家匹配到的分组使用不同的商品集合或随机池。
+
+后台刷新命令：
+
+```text
+/matrixshopadmin refresh list [category]
+/matrixshopadmin refresh run <category> [icon]
+```
+
+### bStats 遥测已接入
+
+`1.3.0` 也包含了带重定位的 `bStats` 集成，用于统计基础部署信息和模块分布。
+
+当前文档页已经单独列出：
+
+- 上报的指标范围
+- 不会上报的内容
+- 关闭方式
+
+## 升级说明
+
+这一版没有引入必须执行的数据迁移步骤，但如果你从旧配置升级，建议注意：
+
+- 旧版在 `shops/*.yml` 中内联 `goods.<id>` 的写法仍可读取
+- 新配置建议把商品拆到 `SystemShop/goods/*.yml`
+- 如果要启用刷新区域，请先准备对应的 `Kind: pool` 或静态 `goods` / `group` 引用
+- 默认 `weapon` 分类已经附带一段关闭状态的刷新示例，可直接按需打开
+
+## 验证
+
+本版本发布前已完成：
+
+- `./gradlew build`
+- `paper-1.21.8` smoke boot
+- `paper-1.21.11` smoke boot
+
+## 相关链接
+
+- [GitHub Releases](https://github.com/54895y/MatrixShop/releases)
+- [1.3.0 GitHub Release](https://github.com/54895y/MatrixShop/releases/tag/v1.3.0)
+- [CHANGELOG](https://github.com/54895y/MatrixShop/blob/main/CHANGELOG.md)
+- [1.2.0 发布说明](./release-notes-1-2-0)

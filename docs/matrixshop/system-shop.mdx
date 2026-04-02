@@ -1,6 +1,6 @@
 ---
 title: SystemShop
-description: SystemShop 的分类、goods 目录配置与确认流程。
+description: SystemShop 的分类、goods 仓库、刷新配置与后台维护流程。
 ---
 
 # SystemShop
@@ -14,6 +14,9 @@ SystemShop 的主要文件是：
 - `SystemShop/shops/*.yml`
 - `SystemShop/ui/shop.yml`
 - `SystemShop/ui/confirm.yml`
+- `SystemShop/ui/goods-browser.yml`
+- `SystemShop/ui/goods-editor.yml`
+- `SystemShop/ui/goods-shops.yml`
 
 默认主分类来自顶层 `config.yml`：
 
@@ -120,6 +123,15 @@ entries:
 
 - `/matrixshopadmin refresh list [category]`
 - `/matrixshopadmin refresh run <category> [icon]`
+
+后台 UI 文件分别负责：
+
+- `goods-browser.yml`
+  - 展示 goods 仓库分页列表，并从列表进入编辑
+- `goods-editor.yml`
+  - 调整价格、限购、主手物品同步和上架入口
+- `goods-shops.yml`
+  - 选择某个 goods 当前挂载到哪些系统商店分类
 
 ## 刷新区域
 
