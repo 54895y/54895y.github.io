@@ -106,6 +106,7 @@ const config: Config = {
         {to: '/docs/matrixauth/overview', label: 'MatrixAuth', position: 'left'},
         {to: '/docs/matrixcook/overview', label: 'MatrixCook', position: 'left'},
         {to: '/docs/matrixshop', label: 'MatrixShop', position: 'left'},
+        {to: '/docs/matrixstorage', label: 'MatrixStorage', position: 'left'},
         {type: 'search', position: 'right'},
         {to: '/ai-search', label: 'AI 搜索', position: 'right'},
         {
@@ -149,6 +150,10 @@ const config: Config = {
             {
               label: 'MatrixShop',
               to: '/docs/matrixshop',
+            },
+            {
+              label: 'MatrixStorage',
+              to: '/docs/matrixstorage',
             },
           ],
         },

@@ -1,0 +1,45 @@
+---
+title: 安装与依赖
+description: MatrixStorage 的安装步骤、前置和可选依赖。
+---
+
+# 安装与依赖
+
+## 必需前置
+
+| 插件 | 说明 |
+| --- | --- |
+| `MatrixLib` | Matrix 系列统一前置，必须先加载。 |
+
+## 可选依赖
+
+| 插件 | 作用 |
+| --- | --- |
+| `Vault` | 玩家邮件金额附件领取。 |
+| `MatrixShop` | 作为外部仓库提供者，接收 `CommerceWarehouseProvider` 调用。 |
+| `CraftEngine` | 自定义方块/家具仓库放置与交互。 |
+| `ItemsAdder` | 自定义方块/家具仓库放置与交互。 |
+| `Nexo` | 自定义方块/家具仓库放置与交互。 |
+
+## 默认配置文件
+
+```text
+plugins/MatrixStorage/
+├─ config.yml
+├─ database.yml
+├─ module.yml
+├─ messages.yml
+├─ Mailbox/settings.yml
+├─ Warehouse/settings.yml
+└─ BlockWarehouse/settings.yml
+```
+
+## 启动确认
+
+启动成功后，控制台会显示：
+
+- 当前后端描述
+- 邮件数量
+- 实体仓库数量
+- `MatrixShop` 桥接状态
+

@@ -1,0 +1,38 @@
+---
+title: MatrixStorage
+description: Matrix 系列统一仓储插件总览。
+slug: /matrixstorage
+---
+
+# MatrixStorage
+
+`MatrixStorage` 是 Matrix 系列里的统一仓储插件，当前实现围绕四条主线工作：
+
+- 玩家邮箱
+- 个人仓库与待收区
+- 位置型实体仓库
+- `MatrixShop` 外部仓库 SPI 对接
+
+同时已经接入：
+
+- 原版方块仓库
+- `CraftEngine` 自定义方块与家具仓库
+- `ItemsAdder` 自定义方块与家具仓库
+- `Nexo` 自定义方块与家具仓库
+
+当前代码基线：
+
+- TabooLib 6
+- Kotlin
+- `MatrixLib` 作为硬前置插件
+- `sqlite / mysql / redis / yaml` 四后端
+
+建议阅读顺序：
+
+1. [安装与依赖](/docs/matrixstorage/installation)
+2. [命令与权限](/docs/matrixstorage/commands-and-permissions)
+3. [数据库与存储](/docs/matrixstorage/database-and-storage)
+4. [邮箱](/docs/matrixstorage/mailbox)
+5. [仓库总览](/docs/matrixstorage/warehouse-overview)
+6. [实体仓库](/docs/matrixstorage/block-warehouses)
+7. [外部接入](/docs/matrixstorage/integrations)

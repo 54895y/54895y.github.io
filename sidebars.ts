@@ -139,6 +139,24 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: 'MatrixStorage',
+      link: {
+        type: 'doc',
+        id: 'matrixstorage/index',
+      },
+      items: [
+        'matrixstorage/installation',
+        'matrixstorage/commands-and-permissions',
+        'matrixstorage/database-and-storage',
+        'matrixstorage/mailbox',
+        'matrixstorage/warehouse-overview',
+        'matrixstorage/block-warehouses',
+        'matrixstorage/integrations',
+        'matrixstorage/faq',
+      ],
+    },
   ],
 };
 

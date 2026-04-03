@@ -1,0 +1,9 @@
+{
+  "label": "MatrixStorage",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "MatrixStorage 的安装、命令、后端、邮箱、仓库与外部方块接入说明。"
+  }
+}
+

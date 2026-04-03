@@ -1,0 +1,26 @@
+---
+title: 外部接入
+description: MatrixStorage 与 MatrixShop、CraftEngine、ItemsAdder、Nexo 的对接说明。
+---
+
+# 外部接入
+
+## MatrixShop
+
+当前 `MatrixStorage` 会在运行时检测 `MatrixShop`，并通过 Bukkit `ServicesManager` 注册 `CommerceWarehouseProvider` 兼容代理。
+
+当前桥接行为：
+
+- `store()`：把物品写入待收区，把金额写成系统邮件。
+- `openWarehouse()`：直接打开目标玩家个人仓库。
+- `pendingCount()`：统计待收区非空槽位数量。
+
+## CraftEngine / ItemsAdder / Nexo
+
+三者当前都采用运行时反射注册事件监听，而不是编译期硬依赖。
+
+这样做的结果是：
+
+- 没安装对应插件时，`MatrixStorage` 仍可正常启动。
+- 安装后会自动接管对应事件。
+
