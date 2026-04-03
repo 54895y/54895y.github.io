@@ -1,0 +1,112 @@
+---
+title: 1.4.0 发布说明
+description: MatrixShop 1.4.0 的 SystemShop 折扣系统、价格对象、测试结果与升级说明。
+slug: /matrixshop/release-notes-1-4-0
+sidebar_position: 1
+---
+
+# MatrixShop 1.4.0 发布说明
+
+发布时间：`2026-04-03`
+
+## 版本定位
+
+`1.4.0` 是围绕 `SystemShop` 价格模型的一次功能版本更新。
+
+这一版的重点不是继续扩模块，而是把系统商店的价格从“固定数值”扩展成“可按玩家条件结算的价格对象”。
+
+## 本版本重点
+
+### `price` 键支持对象结构
+
+`SystemShop` 商品和刷新池条目现在都支持：
+
+```yaml
+price:
+  base: 420
+  discounts:
+    - id: vip
+      percent: 10
+      condition:
+        - "perm 'group.vip'"
+    - id: holiday
+      amount-off: 20
+    - id: night-surge
+      surcharge: 8
+```
+
+同时保持旧写法兼容：
+
+```yaml
+price: 420
+```
+
+### 支持折扣重叠与 Kether 条件
+
+当前折扣规则支持：
+
+- `percent`
+- `amount-off`
+- `surcharge`
+- `condition`
+- `whitelist`
+- `blacklist`
+
+行为规则：
+
+- 多条命中的百分比折扣按相加计算
+- 折扣率总和上限为 `100`
+- 最终成交价不会低于最小正价
+- Kether 条件失败时只跳过对应规则，不影响插件启动
+
+### 刷新池价格对象会合并商品本体折扣
+
+刷新池条目中的 `price` 如果写成对象结构：
+
+- `base` 会覆盖商品本体基础价
+- `discounts` 会与商品本体规则合并
+
+这意味着同一个 goods 可以保留通用折扣规则，而刷新池只额外附加某一批次的活动规则。
+
+### 购物车现在锁定系统商店折后价
+
+系统商店商品加入购物车时：
+
+- `snapshotPrice` 记录的是入车时折后价
+- 后续折扣规则变化不会改写该条目的成交价
+
+这使购物车行为和系统商店确认页展示保持一致。
+
+## 升级说明
+
+如果你不需要折扣系统，可以完全不改现有配置。
+
+当前兼容策略：
+
+- `price: 420` 继续可用
+- 旧 inline `goods.<id>` 结构继续可读
+- 新写法只是在 `price` 键下新增对象结构
+
+## 验证
+
+本版本发布前已完成：
+
+- `./gradlew build`
+- docs site `npm run build`
+- `paper-1.21.8` smoke boot
+- `paper-1.21.11` smoke boot
+- 在 `paper-1.21.11` 测试服中，将 inline `SystemShop` 商品的 `price` 改成对象结构，并同时使用：
+  - `percent`
+  - `amount-off`
+  - `surcharge`
+  - Kether `condition`
+  - `blacklist`
+
+该配置已验证可正常启动，未出现新的 `price-config-invalid` 或 `discount-condition-failed` 启动告警。
+
+## 相关链接
+
+- [GitHub Releases](https://github.com/54895y/MatrixShop/releases)
+- [1.4.0 GitHub Release](https://github.com/54895y/MatrixShop/releases/tag/v1.4.0)
+- [CHANGELOG](https://github.com/54895y/MatrixShop/blob/main/CHANGELOG.md)
+- [1.3.0 发布说明](./release-notes-1-3-0)

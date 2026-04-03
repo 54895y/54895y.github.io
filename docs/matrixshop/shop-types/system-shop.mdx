@@ -221,6 +221,61 @@ lore:
 | `lore` | 商品说明。 |
 | `currency` | 商品级货币 key。可选；只有你想覆盖默认货币时才需要写。 |
 
+`price` 也可以写成对象：
+
+```yaml
+price:
+  base: 420
+  discounts:
+    - id: vip
+      percent: 10
+      condition:
+        - "perm 'group.vip'"
+    - id: weekend
+      amount-off: 20
+    - id: night-surge
+      surcharge: 8
+```
+
+当前折扣规则：
+
+- 支持 `percent`、`amount-off`、`surcharge`
+- `condition` 使用 Kether 条件判断
+- 支持 `whitelist`、`blacklist` 控制折扣叠加
+- 多条命中的 `percent` 会相加
+- 最终成交价不会低于最小正价
+- `{price}` 显示最终价；`{base-price}`、`{discount-count}`、`{discount-summary}` 可用于自定义 UI
+
+黑名单示例：
+
+```yaml
+price:
+  base: 420
+  discounts:
+    - id: vip
+      percent: 10
+      condition:
+        - "perm 'group.vip'"
+    - id: svip
+      percent: 15
+      blacklist:
+        - vip
+      condition:
+        - "perm 'group.svip'"
+    - id: mvp
+      percent: 20
+      blacklist:
+        - svip
+      condition:
+        - "perm 'group.mvp'"
+```
+
+这个例子里：
+
+- `SVIP` 命中后会排斥 `VIP`
+- `MVP` 命中后会排斥 `SVIP`
+- `whitelist` 则用于反向定义“只允许与哪些折扣叠加”
+
 > 兼容说明：旧版 `SystemShop/shops/*.yml` 中直接内联 `goods.<id>` 的写法仍然可读取，但新配置应优先拆到 `SystemShop/goods/*.yml`。
 
 ## `SystemShop/goods/starter_weapons.yml`
@@ -258,6 +313,8 @@ entries:
     price: 99
     buy-max: 3
 ```
+
+刷新池条目的 `price` 同样支持对象结构，并会与商品本体的折扣规则合并。
 
 ## 刷新区域
 

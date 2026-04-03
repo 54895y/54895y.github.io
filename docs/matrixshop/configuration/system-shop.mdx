@@ -77,6 +77,77 @@ name: '&f铁剑'
 - `lore`
 - `currency`
 
+`price` 当前支持两种写法：
+
+```yaml
+price: 120
+```
+
+```yaml
+price:
+  base: 120
+  discounts:
+    - id: vip
+      percent: 10
+      condition:
+        - "perm 'group.vip'"
+    - id: event
+      amount-off: 5
+    - id: night-surge
+      surcharge: 8
+```
+
+折扣规则说明：
+
+- `percent`
+  - 百分比折扣，多个命中规则按百分比相加
+- `amount-off`
+  - 固定减免
+- `surcharge`
+  - 固定加价
+- `condition`
+  - Kether 条件列表，不写则视为始终命中
+- `whitelist`
+  - 指定当前规则只允许与哪些折扣 id 叠加
+- `blacklist`
+  - 指定当前规则不能与哪些折扣 id 叠加
+
+当前行为：
+
+- 百分比折扣总和上限为 `100`
+- 最终成交价不会低于一个最小正价
+- 商品页、确认页和实际扣费都使用折后最终价
+
+叠加控制示例：
+
+```yaml
+price:
+  base: 420
+  discounts:
+    - id: vip
+      percent: 10
+      condition:
+        - "perm 'group.vip'"
+    - id: svip
+      percent: 15
+      blacklist:
+        - vip
+      condition:
+        - "perm 'group.svip'"
+    - id: mvp
+      percent: 20
+      blacklist:
+        - svip
+      condition:
+        - "perm 'group.mvp'"
+```
+
+按上面这个例子：
+
+- `SVIP` 命中时不会再叠加 `VIP`
+- `MVP` 命中时不会再叠加 `SVIP`
+- 如果你希望某条规则只允许和特定折扣共存，可以改用 `whitelist`
+
 `goods` 目录当前还支持两种可复用资源：
 
 - 商品组
@@ -170,6 +241,8 @@ icons:
   - 引用 `goods` 目录中的 `Kind: pool` 文件
 - `groups.<id>.goods`
   - 非随机模式下直接引用静态商品或商品组
+
+刷新池条目的 `price` 同样支持对象结构，并会与商品本体中的 `discounts` 合并结算。
 
 默认资源里已经带了一个关闭状态的注释示例：
 
