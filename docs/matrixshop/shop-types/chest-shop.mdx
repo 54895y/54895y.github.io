@@ -41,6 +41,11 @@ Entry:
   Direct-Trade-On: []
 Stock:
   Double-Chest-Mode: expand_only
+Trade:
+  Tax:
+    Enabled: false
+    Mode: percent
+    Value: 3.0
 Currency:
   Key: vault
 ```
@@ -57,6 +62,7 @@ Currency:
 | `Entry.Open-GUI-On` | 哪些交互动作会直接打开 GUI。 |
 | `Entry.Direct-Trade-On` | 哪些交互动作会走直接交易。默认是空列表。 |
 | `Stock.Double-Chest-Mode` | 双箱库存处理方式，示例是 `expand_only`。 |
+| `Trade.Tax` | 箱子商店税配置。玩家购买时税从店主收入中扣除，玩家出售时税从玩家收入中扣除。 |
 | `Currency.Key` | 箱子商店统一使用的货币 key。 |
 
 ## `ChestShop/signs.yml`

@@ -66,6 +66,14 @@ Options:
       Enabled: true
       Mode: percent
       Value: 3
+      Rules:
+        vip:
+          Enabled: true
+          Priority: 100
+          Mode: percent
+          Value: 1
+          Condition:
+            - "perm 'group.vip'"
   Snipe-Protection:
     Enabled: true
     Trigger-Seconds: 30
@@ -134,6 +142,7 @@ Options:
 | `Tax.Enabled` | 是否启用交易税。 |
 | `Tax.Mode` | 税率模式。 |
 | `Tax.Value` | 税值。 |
+| `Tax.Rules.*` | 条件税规则，命中后覆盖默认税配置。 |
 | `Snipe-Protection.Enabled` | 是否启用尾秒保护。 |
 | `Trigger-Seconds` | 剩余时间少于多少秒时触发保护。 |
 | `Extend-Seconds` | 每次触发后延长多少秒。 |
@@ -141,6 +150,14 @@ Options:
 | `Cancel.Owner.Allow` | 是否允许卖家自己取消。 |
 | `Cancel.Owner.Deny-If-Has-Bid` | 已有人出价时是否禁止取消。 |
 | `Record.Write-On-*` | 各类行为是否写入记录系统。 |
+
+`Tax.Rules.*` 当前支持：
+
+- `Enabled`
+- `Priority`
+- `Mode`
+- `Value`
+- `Condition`
 
 ## `Auction/shops/default.yml`
 

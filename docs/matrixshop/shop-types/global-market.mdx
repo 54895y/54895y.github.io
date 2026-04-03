@@ -34,7 +34,18 @@ Bindings:
 
 Listing:
   Expire-Hours: 72
-  Tax-Percent: 3.0
+  Tax:
+    Enabled: true
+    Mode: percent
+    Value: 3.0
+    Rules:
+      vip:
+        Enabled: true
+        Priority: 100
+        Mode: percent
+        Value: 1.0
+        Condition:
+          - "perm 'group.vip'"
 ```
 
 字段解释：
@@ -47,7 +58,18 @@ Listing:
 | `Priority` | `market`、`gm` 的命令优先级。 |
 | `Condition` | 默认权限节点。 |
 | `Listing.Expire-Hours` | 市场上架物品的默认过期时长。 |
-| `Listing.Tax-Percent` | 市场成交税率。 |
+| `Listing.Tax.Enabled` | 是否启用市场成交税。 |
+| `Listing.Tax.Mode` | 税计算方式，当前支持 `percent` / `fixed`。 |
+| `Listing.Tax.Value` | 默认税值。 |
+| `Listing.Tax.Rules.*` | 条件税规则，按优先级选中一条命中规则。 |
+
+条件税规则支持：
+
+- `Enabled`
+- `Priority`
+- `Mode`
+- `Value`
+- `Condition`
 
 ## `GlobalMarket/shops/default.yml`
 
@@ -134,6 +156,6 @@ icons:
 ## 使用建议
 
 - 想改过期时间：改 `Listing.Expire-Hours`。
-- 想改全服税率：改 `Listing.Tax-Percent`。
+- 想改全服税率：改 `Listing.Tax`。
 - 想隐藏购物车按钮：删掉 `layout` 里的 `C` 并移除 `icons.C`。
 - 想改独立命令：改 `Bindings.Commands.Bindings` 和 `Register`。

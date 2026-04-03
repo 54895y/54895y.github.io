@@ -37,6 +37,12 @@ Unlock:
 Search:
   enable: true
   condition: "perm shop.vip"
+
+Listing:
+  Tax:
+    Enabled: false
+    Mode: percent
+    Value: 3.0
 ```
 
 字段解释：
@@ -52,6 +58,14 @@ Search:
 | `Unlock.Max` | 玩家最大可扩展到的上限。 |
 | `Search.enable` | 是否启用搜索。 |
 | `Search.condition` | 搜索功能的权限条件。 |
+| `Listing.Tax` | 玩家商店成交税配置，支持条件规则与 Kether 判断。 |
+
+`Listing.Tax.Rules.*` 支持：
+
+- `Priority`
+- `Mode`
+- `Value`
+- `Condition`
 
 ## `PlayerShop/shops/default.yml`
 
