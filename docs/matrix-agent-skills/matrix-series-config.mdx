@@ -1,0 +1,39 @@
+---
+title: Matrix Series Config
+description: 覆盖 MatrixLib、MatrixShop、MatrixStorage、MatrixAuth、MatrixCook 与 Kether 的统一配置 skill。
+---
+
+# Matrix Series Config
+
+`matrix-series-config` 是 `MatrixAgentSkills` 中的新通用 skill。
+
+它的目标不是只生成 `MatrixShop`，而是处理整个 Matrix 系列的配置工作：
+
+- `MatrixLib`
+- `MatrixShop`
+- `MatrixStorage`
+- `MatrixAuth`
+- `MatrixCook`
+
+## 能做什么
+
+- 生成或修改 Matrix 系列 YAML 配置
+- 生成共享货币文件 `MatrixLib/Economy/currency.yml`
+- 输出 `MatrixStorage` 的邮箱/仓库解锁规则
+- 输出 `MatrixShop` 的商店配置与货币 key 引用
+- 输出 `MatrixAuth` 和 `MatrixCook` 的基础配置
+- 生成可落地的 Kether 条件与动作脚本
+
+## 当前关键规则
+
+- `MatrixLib` 是共享货币定义入口
+- `MatrixShop` 与 `MatrixStorage` 只引用货币 key
+- `MatrixStorage` 支持多条件、多价格、多货币解锁
+- Kether 只在当前插件真实支持的配置区块里输出
+
+## 适合的请求
+
+- “帮我生成 MatrixLib、MatrixShop、MatrixStorage 三端同步的货币配置”
+- “帮我写 MatrixStorage 的邮箱扩容和仓库扩容规则”
+- “给我一套 Matrix 系列配置，并带上 Kether 条件”
+- “把多个 Matrix 插件的配置一起整理成当前结构”

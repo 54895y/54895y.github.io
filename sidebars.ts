@@ -14,6 +14,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'matrix-agent-skills/install-by-agent',
         'matrix-agent-skills/direct-link-examples',
+        'matrix-agent-skills/matrix-series-config',
         'matrix-agent-skills/matrixshop-config',
         'matrix-agent-skills/migrating-other-shop-plugins',
         'matrix-agent-skills/anti-inflation-prompt-templates',
@@ -110,6 +111,7 @@ const sidebars: SidebarsConfig = {
             id: 'matrixshop/release-notes/index',
           },
           items: [
+            'matrixshop/release-notes/release-notes-1-6-0',
             'matrixshop/release-notes/release-notes-1-5-0',
             'matrixshop/release-notes/release-notes-1-4-0',
             'matrixshop/release-notes/release-notes-1-3-0',

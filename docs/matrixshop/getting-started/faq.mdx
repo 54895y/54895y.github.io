@@ -9,11 +9,16 @@ sidebar_position: 3
 
 ## 现在货币应该写在哪里
 
-当前版本已经重新引入统一货币定义文件：
+当前版本已经把统一货币定义入口收敛到 `MatrixLib`：
 
 ```text
-plugins/MatrixShop/Economy/currency.yml
+plugins/MatrixLib/Economy/currency.yml
 ```
+
+运行时会同步到：
+
+- `plugins/MatrixShop/Economy/currency.yml`
+- `plugins/MatrixStorage/Economy/currency.yml`
 
 推荐写法是引用货币 key，而不是在每个业务配置里重复写整段货币逻辑。
 

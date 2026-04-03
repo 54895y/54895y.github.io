@@ -12,7 +12,7 @@ sidebar_position: 1
 1. 将 `MatrixShop.jar` 放入服务端 `plugins/` 目录。
 2. 如果你准备使用 `vault` 货币，确保服务器安装了可用的 Vault 经济提供者。
 3. 启动一次服务器，让插件生成默认资源文件。
-4. 按需修改 `module.yml`、`database.yml` 和 `Economy/currency.yml`。
+4. 按需修改 `module.yml`、`database.yml` 和 `MatrixLib/Economy/currency.yml`。
 5. 重新启动，或使用管理员命令重载。
 
 如果你关心统计或隐私说明，继续看：
@@ -21,6 +21,7 @@ sidebar_position: 1
 
 如果你正在从 `1.0.0` 升级，请先阅读：
 
+- [1.6.0 发布说明](./release-notes-1-6-0)
 - [1.5.0 发布说明](./release-notes-1-5-0)
 - [1.4.0 发布说明](./release-notes-1-4-0)
 - [1.3.0 发布说明](./release-notes-1-3-0)
@@ -105,11 +106,13 @@ modules:
 
 ### 检查经济模块
 
-默认经济定义文件在：
+默认共享货币定义文件在：
 
 ```text
-plugins/MatrixShop/Economy/currency.yml
+plugins/MatrixLib/Economy/currency.yml
 ```
+
+运行时它会同步到 `MatrixShop` 和 `MatrixStorage` 的同路径文件。
 
 建议至少确认：
 

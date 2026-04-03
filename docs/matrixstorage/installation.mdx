@@ -24,15 +24,25 @@ description: MatrixStorage 的安装步骤、前置和可选依赖。
 ## 默认配置文件
 
 ```text
+plugins/MatrixLib/
+└─ Economy/currency.yml
+
 plugins/MatrixStorage/
 ├─ config.yml
 ├─ database.yml
 ├─ module.yml
 ├─ messages.yml
+├─ Economy/currency.yml
 ├─ Mailbox/settings.yml
 ├─ Warehouse/settings.yml
 └─ BlockWarehouse/settings.yml
 ```
+
+运行时会同步这三份货币配置：
+
+- `plugins/MatrixLib/Economy/currency.yml`
+- `plugins/MatrixShop/Economy/currency.yml`
+- `plugins/MatrixStorage/Economy/currency.yml`
 
 ## 启动确认
 
@@ -42,4 +52,3 @@ plugins/MatrixStorage/
 - 邮件数量
 - 实体仓库数量
 - `MatrixShop` 桥接状态
-

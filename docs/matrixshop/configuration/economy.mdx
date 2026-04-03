@@ -7,7 +7,7 @@ sidebar_position: 2
 
 # 经济模块
 
-MatrixShop 当前已经引入独立的经济模块，用来统一管理货币定义和交易动作。
+MatrixShop 当前通过 `MatrixLib` 的共享经济模块统一管理货币定义和交易动作。
 
 它和旧版“每个商店自己随便写货币逻辑”的思路不同，当前版本采用的是：
 
@@ -18,7 +18,8 @@ MatrixShop 当前已经引入独立的经济模块，用来统一管理货币定
 ## 核心结论
 
 - `Economy` 是核心模块，始终启用，不支持关闭。
-- 默认货币定义文件是 `plugins/MatrixShop/Economy/currency.yml`
+- 默认货币定义文件是 `plugins/MatrixLib/Economy/currency.yml`
+- 运行时会同步到 `plugins/MatrixShop/Economy/currency.yml` 与 `plugins/MatrixStorage/Economy/currency.yml`
 - 支持的货币模式：
   - `vault`
   - `playerpoints`
@@ -33,7 +34,7 @@ MatrixShop 当前已经引入独立的经济模块，用来统一管理货币定
 ## 默认文件
 
 ```text
-plugins/MatrixShop/Economy/currency.yml
+plugins/MatrixLib/Economy/currency.yml
 ```
 
 默认资源示例：
@@ -237,7 +238,7 @@ Currency:
 
 推荐做法是：
 
-1. 在 `Economy/currency.yml` 里统一定义货币
+1. 在 `MatrixLib/Economy/currency.yml` 里统一定义货币
 2. 在模块、商店或商品里只写 key
 
 也就是说，优先写：
@@ -248,6 +249,16 @@ Currency:
 ```
 
 而不是在每个商店文件里重复写整段货币动作。
+
+## 三端同步
+
+当前货币配置会在运行时同步以下三个文件：
+
+- `plugins/MatrixLib/Economy/currency.yml`
+- `plugins/MatrixShop/Economy/currency.yml`
+- `plugins/MatrixStorage/Economy/currency.yml`
+
+推荐把 `MatrixLib` 视为主入口，但如果你修改了三者中的任意一份，再执行重载，也会按最新修改时间重新同步。
 
 ## 管理与排查
 

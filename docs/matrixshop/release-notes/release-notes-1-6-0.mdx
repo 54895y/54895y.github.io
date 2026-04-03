@@ -1,0 +1,47 @@
+---
+title: MatrixShop 1.6.0
+description: MatrixShop 1.6.0 的共享货币模块迁移、MatrixLib 依赖升级与测试结果。
+slug: /matrixshop/release-notes-1-6-0
+---
+
+# MatrixShop 1.6.0
+
+## 变更摘要
+
+- 货币模块正式迁移到 `MatrixLib`
+- `MatrixShop` 现在通过共享经济 API 读取货币配置
+- 货币定义主入口改为 `plugins/MatrixLib/Economy/currency.yml`
+- 运行时会与 `MatrixStorage` 同步 `Economy/currency.yml`
+- 依赖 `MatrixLib` 升级到 `1.1.0`
+
+## 配置影响
+
+业务配置里的货币 key 引用规则不变：
+
+- 商品级 `currency`
+- 商店级 `Currency.Key`
+- 模块级 `Currency.Key`
+
+变化点只在于：
+
+- 货币定义不再以 `MatrixShop` 为主入口
+- 不建议继续把整段货币动作逻辑写进商店业务配置
+
+## 测试结果
+
+本次版本已完成：
+
+- `./gradlew build`
+- `Paper 1.21.11` smoke boot 通过
+
+额外验证：
+
+- 共享货币文件已在 `MatrixLib / MatrixShop / MatrixStorage` 三端生成并保持一致
+
+## 升级建议
+
+升级到 `1.6.0` 后，优先检查：
+
+1. `MatrixLib` 是否已升级到 `1.1.0`
+2. `plugins/MatrixLib/Economy/currency.yml` 是否为你想要的最新货币定义
+3. `/matrixshopadmin status` 中的经济提供者状态是否正常
