@@ -1,0 +1,31 @@
+---
+title: MatrixLib 1.3.0 发布说明
+description: MatrixLib 1.3.0 telemetry 基线与下游依赖升级说明。
+---
+
+# MatrixLib 1.3.0 发布说明
+
+发布日期：`2026-04-05`
+
+## 本次更新
+
+- 新增共享 `MatrixBStats` API。
+- `MatrixLib` 统一 shaded `bStats` 依赖并对下游插件暴露注册入口。
+- MatrixAuth、MatrixCook、MatrixShop、MatrixStorage 全部切到共享 telemetry API。
+- README、文档站和 release 材料同步补齐。
+
+## 下游升级要求
+
+下游插件现在统一引用：
+
+```kotlin
+compileOnly("com.y54895.matrixlib:matrixlib-api:1.3.0")
+```
+
+## 验证记录
+
+- `MatrixLib`: `bash ./gradlew build`
+- `MatrixAuth`: `bash ./gradlew build`
+- `MatrixCook`: `bash ./gradlew build`
+- `MatrixShop`: `bash ./gradlew build`
+- `MatrixStorage`: `bash ./gradlew build`

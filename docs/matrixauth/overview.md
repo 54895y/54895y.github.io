@@ -14,6 +14,13 @@ MatrixAuth 是一个基于 TabooLib 6 的混合登录与档案管理插件，目
 - 支持玩家向导、点击聊天操作、基岩版纯指令提醒。
 - 支持管理员通过 `/matrixauth admin ...` 强制维护其他玩家档案。
 
+## 当前发布
+
+- 当前版本：`1.0.1`
+- 前置版本：`MatrixLib 1.3.0`
+- 发布说明：[1.0.1 发布说明](./release-notes-1-0-1)
+- 遥测说明：[bStats 与遥测](./bstats-and-telemetry)
+
 ## 当前定位
 
 MatrixAuth 现在已经不再把玩家档案存到 EasyBot 侧。档案数据只保存在插件自己的数据库中，EasyBot 只负责查询和展示。

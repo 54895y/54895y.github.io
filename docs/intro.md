@@ -6,10 +6,12 @@ title: 插件 Wiki
 
 当前已经收录：
 
+- [MatrixLib](/docs/matrixlib)
 - [MatrixAgentSkills](/docs/matrix-agent-skills/overview)
 - [MatrixAuth](/docs/matrixauth/overview)
 - [MatrixCook](/docs/matrixcook/overview)
 - [MatrixShop](/docs/matrixshop)
+- [MatrixStorage](/docs/matrixstorage)
 
 ## 文档约定
 

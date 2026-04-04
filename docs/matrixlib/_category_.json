@@ -1,0 +1,8 @@
+{
+  "label": "MatrixLib",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "MatrixLib 的共享前置、发布说明与 telemetry 文档。"
+  }
+}

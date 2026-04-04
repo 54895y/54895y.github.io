@@ -1,0 +1,25 @@
+---
+title: MatrixLib bStats 与遥测
+description: MatrixLib 当前承接的 bStats 图表与预留指标位。
+---
+
+# MatrixLib bStats 与遥测
+
+- Plugin ID: `30557`
+- 注册入口：`com.y54895.matrixlib.api.metrics.MatrixBStats`
+
+## 当前图表
+
+| Chart ID | 类型 | 含义 |
+| --- | --- | --- |
+| `configured_currency_count` | SingleLineChart | 当前已配置货币数量 |
+| `currency_modes` | AdvancedPie | 货币模式分布 |
+| `currency_setup` | SimplePie | 单货币 / 多货币部署类型 |
+
+## 预留图表位
+
+| 预留 Chart ID | 计划用途 |
+| --- | --- |
+| `downstream_plugin_count` | 统计当前安装的 Matrix 系列下游插件数量 |
+| `resource_sync_targets` | 统计共享资源同步目标分布 |
+| `compat_bridge_modes` | 统计兼容桥接启用情况 |

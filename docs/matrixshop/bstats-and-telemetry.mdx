@@ -1,0 +1,30 @@
+---
+title: MatrixShop bStats 与遥测
+description: MatrixShop 当前 bStats 图表与预留指标位。
+---
+
+# MatrixShop bStats 与遥测
+
+- Plugin ID: `30502`
+- 注册入口：`MatrixLib` `MatrixBStats`
+
+## 当前图表
+
+| Chart ID | 类型 | 含义 |
+| --- | --- | --- |
+| `database_backend` | SimplePie | 当前运行后端 |
+| `configured_database_backend` | SimplePie | 当前配置后端 |
+| `enabled_module_count` | SingleLineChart | 已启用模块数量 |
+| `enabled_modules` | AdvancedPie | 已启用模块分布 |
+| `systemshop_category_count` | SingleLineChart | SystemShop 分类数量 |
+| `systemshop_goods_count` | SingleLineChart | SystemShop 商品数量 |
+| `economy_currency_count` | SingleLineChart | 当前经济货币数量 |
+| `economy_currency_modes` | AdvancedPie | 经济货币模式分布 |
+
+## 预留图表位
+
+| 预留 Chart ID | 计划用途 |
+| --- | --- |
+| `refresh_area_count` | 统计定时刷新区域数量 |
+| `tax_rule_count` | 统计条件税规则数量 |
+| `warehouse_delivery_mode` | 统计仓库投递策略分布 |

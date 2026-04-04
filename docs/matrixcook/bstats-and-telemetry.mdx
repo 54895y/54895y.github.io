@@ -1,0 +1,29 @@
+---
+title: MatrixCook bStats 与遥测
+description: MatrixCook 当前 bStats 图表与预留指标位。
+---
+
+# MatrixCook bStats 与遥测
+
+- Plugin ID: `30558`
+- 注册入口：`MatrixLib` `MatrixBStats`
+
+## 当前图表
+
+| Chart ID | 类型 | 含义 |
+| --- | --- | --- |
+| `storage_backend` | SimplePie | 当前锅具状态存储后端 |
+| `cooker_count` | SingleLineChart | 已加载锅具数量 |
+| `recipe_count` | SingleLineChart | 已加载配方数量 |
+| `fuel_count` | SingleLineChart | 已加载燃料数量 |
+| `category_count` | SingleLineChart | 已加载分类数量 |
+| `placed_cooker_count` | SingleLineChart | 已放置锅具数量 |
+| `placed_cooker_states` | AdvancedPie | 已放置锅具状态分布 |
+
+## 预留图表位
+
+| 预留 Chart ID | 计划用途 |
+| --- | --- |
+| `hologram_provider` | 统计全息提供者分布 |
+| `placed_sources` | 统计原版 / CraftEngine / ItemsAdder 放置来源 |
+| `batch_cooking_usage` | 统计批量烹饪启用率 |

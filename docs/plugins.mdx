@@ -26,6 +26,17 @@ MatrixAgentSkills 是 Matrix 系列插件的公开 skill、prompt pack 与知识
 
 - [直接发给 Agent 的示例](/docs/matrix-agent-skills/direct-link-examples)
 
+## MatrixLib
+
+MatrixLib 是 Matrix 系列的共享前置与运行时基础层，当前负责：
+
+- 统一 `branding / console / text / yaml / menu / compat / action / economy`
+- 共享货币配置与同步
+- 共享 `bStats` API `MatrixBStats`
+- 为 MatrixAuth / MatrixCook / MatrixShop / MatrixStorage 承接 shaded 遥测依赖
+
+[进入 MatrixLib 文档](/docs/matrixlib)
+
 ## MatrixAuth
 
 MatrixAuth 是混合登录与账号档案管理插件，围绕 `PREMIUM`、`OFFLINE`、`BEDROCK` 三种身份模式工作，支持：
@@ -70,11 +81,12 @@ MatrixShop 是模块化交易插件。当前代码已经实现以下模块，并
 
 MatrixStorage 是 Matrix 系列的统一仓储插件，围绕邮箱、个人仓库、位置型实体仓库与外部仓库投递工作，当前代码已经提供：
 
-- 玩家互寄邮箱
-- 系统投递与待收区
-- 个人仓库与总览中心
-- 原版方块、CraftEngine、ItemsAdder、Nexo 的方块/家具仓库接入
-- MatrixShop 外部仓库提供者桥接
+- 玩家邮箱
+- 个人仓库与待收区
+- 仓库 / 邮箱扩容
+- 实体仓库
+- MatrixShop 外部仓库投递
+- 原版方块、CraftEngine、ItemsAdder、Nexo 的方块 / 家具接入
 - SQLite / MySQL / Redis / YAML 四后端
 
 [进入 MatrixStorage 文档](/docs/matrixstorage)
