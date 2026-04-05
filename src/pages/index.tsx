@@ -247,9 +247,11 @@ export default function Home(): ReactNode {
             <h2>插件列表</h2>
             <p className={styles.sectionLead}>首页现已补全 Matrix 系列全部插件入口，并覆盖文档、发布与开发者 API。</p>
           </div>
-          <div className={styles.pluginGrid}>
-            {pluginDocs.map((plugin) => (
-              <article key={plugin.title} className={styles.pluginCard}>
+          <p className={styles.bannerNote}>左右滑动可浏览全部插件入口。</p>
+          <div className={styles.pluginBanner}>
+            <div className={styles.pluginStrip}>
+              {pluginDocs.map((plugin) => (
+              <article key={plugin.title} className={`${styles.pluginCard} ${styles.pluginCardBanner}`}>
                 <div className={styles.pluginHeader}>
                   <div>
                     <h3>{plugin.title}</h3>
@@ -267,7 +269,8 @@ export default function Home(): ReactNode {
                   进入文档
                 </Link>
               </article>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 

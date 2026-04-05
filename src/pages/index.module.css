@@ -179,6 +179,39 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.bannerNote {
+  max-width: 1200px;
+  margin: 0 auto 0.75rem;
+  color: var(--site-text-muted);
+  font-size: 0.92rem;
+}
+
+.pluginBanner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.2rem 0 0.85rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.pluginBanner::-webkit-scrollbar {
+  height: 10px;
+}
+
+.pluginBanner::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(33, 121, 255, 0.22);
+}
+
+.pluginStrip {
+  display: flex;
+  gap: 1rem;
+  min-width: max-content;
+  padding-right: 1rem;
+}
+
 .quickCard,
 .pluginCard,
 .flowCard,
@@ -187,6 +220,11 @@
   flex-direction: column;
   padding: 1.4rem;
   border-radius: 24px;
+}
+
+.pluginCardBanner {
+  width: min(320px, 82vw);
+  scroll-snap-align: start;
 }
 
 .quickTitle,
