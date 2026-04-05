@@ -1,0 +1,104 @@
+---
+title: MatrixLib 开发者 API
+description: MatrixLib 面向开发者的公开 API 范围与 Javadoc 生成方式。
+---
+
+# MatrixLib 开发者 API
+
+MatrixLib 当前公开的开发者 API 主要集中在这些包：
+
+- `com.y54895.matrixlib.api.action`
+- `com.y54895.matrixlib.api.brand`
+- `com.y54895.matrixlib.api.compat`
+- `com.y54895.matrixlib.api.console`
+- `com.y54895.matrixlib.api.economy`
+- `com.y54895.matrixlib.api.hologram`
+- `com.y54895.matrixlib.api.menu`
+- `com.y54895.matrixlib.api.metrics`
+- `com.y54895.matrixlib.api.resource`
+- `com.y54895.matrixlib.api.text`
+- `com.y54895.matrixlib.api.update`
+
+## 代码树
+
+当前 `MatrixLib` 代码树里，面向开发者的入口和内部支撑层大致是这样：
+
+```text
+src/main/kotlin/com/y54895/matrixlib/
+├─ MatrixLib.kt
+├─ api/
+│  ├─ action/
+│  │  └─ ActionApi.kt
+│  ├─ brand/
+│  │  └─ MatrixBranding.kt
+│  ├─ compat/
+│  │  └─ CompatApi.kt
+│  ├─ console/
+│  │  └─ MatrixConsoleVisuals.kt
+│  ├─ economy/
+│  │  └─ MatrixEconomy.kt
+│  ├─ hologram/
+│  │  ├─ MatrixHologramRequest.kt
+│  │  ├─ MatrixHolograms.kt
+│  │  └─ internal/
+│  │     ├─ CMIHologramsAdapter.kt
+│  │     ├─ DecentHologramsAdapter.kt
+│  │     ├─ FancyHologramsAdapter.kt
+│  │     └─ MatrixHologramAdapter.kt
+│  ├─ menu/
+│  │  └─ MenuApi.kt
+│  ├─ metrics/
+│  │  └─ MatrixBStats.kt
+│  ├─ resource/
+│  │  └─ MatrixResourceFiles.kt
+│  ├─ text/
+│  │  ├─ MatrixText.kt
+│  │  └─ MatrixYamlBundle.kt
+│  └─ update/
+│     └─ MatrixPluginUpdates.kt
+├─ command/
+│  └─ MatrixLibCommands.kt
+└─ metrics/
+   └─ BStatsMetrics.kt
+```
+
+推荐约定：
+
+- 业务插件开发时优先使用 `api/` 下的类型。
+- `api/hologram/internal/` 视为提供者桥接内部层，不建议下游直接依赖。
+- `command/` 和 `metrics/` 目录主要是 MatrixLib 自身运行时接入，不作为稳定业务 API。
+
+## 生成 Javadoc
+
+MatrixLib 使用 `Dokka Javadoc` 生成 Kotlin API 文档。
+
+本地命令：
+
+```bash
+cd /www/codex-work/MatrixLib
+bash ./gradlew generateJavadoc
+```
+
+输出目录：
+
+```text
+build/dokka/javadoc/
+```
+
+构建产物：
+
+```text
+build/libs/MatrixLib-<version>-javadoc.jar
+```
+
+## 推荐阅读入口
+
+- `MatrixBranding`
+- `MatrixText`
+- `MatrixYamlBundle`
+- `MenuLoader`
+- `MenuRenderer`
+- `MatrixEconomy`
+- `MatrixHolograms`
+- `MatrixBStats`
+- `MatrixPluginUpdates`
