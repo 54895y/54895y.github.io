@@ -211,9 +211,6 @@ export default function Home(): ReactNode {
                   GitHub
                 </Link>
               </div>
-              <figure className={styles.heroVisual}>
-                <img src="/img/screenshots/matrix-plugin-hub-combined.webp" alt="Matrix 系列插件入口合并预览图" loading="lazy" />
-              </figure>
             </div>
           </div>
         </section>
@@ -245,9 +242,8 @@ export default function Home(): ReactNode {
           <div className={styles.sectionHeader}>
             <p className={styles.kicker}>插件列表</p>
             <h2>插件列表</h2>
-            <p className={styles.sectionLead}>首页现已补全 Matrix 系列全部插件入口，并覆盖文档、发布与开发者 API。</p>
+            <p className={styles.sectionLead}>集中提供 Matrix 系列插件的统一入口，覆盖文档、发布说明、开发者 API 与统计面板。</p>
           </div>
-          <p className={styles.bannerNote}>左右滑动可浏览全部插件入口。</p>
           <div className={styles.pluginBanner}>
             <div className={styles.pluginStrip}>
               {pluginDocs.map((plugin) => (
