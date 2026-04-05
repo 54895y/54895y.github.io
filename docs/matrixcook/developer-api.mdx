@@ -5,10 +5,17 @@ description: MatrixCook 当前开发者入口、公开 API 包与 Javadoc 生成
 
 # MatrixCook 开发者 API
 
-MatrixCook 当前公开 API 主要集中在 `dev.lensocraft.cookly.api` 命名空间。
+MatrixCook 当前稳定公开层：
+
+- `dev.lensocraft.cookly.api`
+- `dev.lensocraft.cookly.api.data`
+- `dev.lensocraft.cookly.api.event`
+- `dev.lensocraft.cookly.api.hook`
+- `dev.lensocraft.cookly.api.runtime`
 
 推荐入口：
 
+- `MatrixCookApi`
 - `NameManager`
 - `CookerConfig`
 - `RecipeConfig`
@@ -26,7 +33,8 @@ src/main/kotlin/dev/lensocraft/cookly/
 │  ├─ NameManager.kt
 │  ├─ data/
 │  ├─ event/
-│  └─ hook/
+│  ├─ hook/
+│  └─ runtime/
 ├─ command/
 ├─ listener/
 ├─ manager/
