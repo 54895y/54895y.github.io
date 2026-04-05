@@ -260,18 +260,6 @@ html[data-theme='dark'] .matrix-hub-hero {
   font-size: 1.05rem;
 }
 
-.matrix-hub-visual {
-  margin: 1.5rem 0 0;
-}
-
-.matrix-hub-visual img {
-  display: block;
-  width: 100%;
-  border-radius: 24px;
-  border: 1px solid var(--site-panel-border);
-  box-shadow: 0 24px 48px rgba(22, 64, 136, 0.12);
-}
-
 .matrix-quick-links {
   display: flex;
   flex-wrap: wrap;
@@ -309,12 +297,6 @@ html[data-theme='dark'] .matrix-quick-link {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1rem;
   margin: 1.25rem 0 2rem;
-}
-
-.matrix-banner-note {
-  margin: 0 0 0.75rem;
-  color: var(--site-text-muted);
-  font-size: 0.92rem;
 }
 
 .matrix-plugin-banner {

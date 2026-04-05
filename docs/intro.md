@@ -8,9 +8,6 @@ title: 插件 Wiki
   <p class="matrix-hub-lead">
     这里是 Matrix 系列插件的统一文档站点。当前首页已经覆盖共享前置、认证、烹饪、交易与仓储五条主线，并把发布说明、开发者 API 和 bStats 入口集中到一个面板里。
   </p>
-  <figure class="matrix-hub-visual">
-    <img src="/img/screenshots/matrix-plugin-hub-combined.webp" alt="Matrix 系列插件入口合并预览图" />
-  </figure>
 </section>
 
 ## 当前已收录
@@ -25,8 +22,6 @@ title: 插件 Wiki
 </div>
 
 ## 插件面板
-
-<div class="matrix-banner-note">左右滑动可查看全部插件入口。</div>
 
 <div class="matrix-plugin-banner">
   <div class="matrix-plugin-strip">
