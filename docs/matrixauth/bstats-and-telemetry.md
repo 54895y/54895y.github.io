@@ -8,6 +8,15 @@ description: MatrixAuth 当前 bStats 图表与预留指标位。
 - Plugin ID: `30578`
 - 注册入口：`MatrixLib` `MatrixBStats`
 
+## 当前签名图
+
+[![MatrixAuth bStats](https://bstats.org/signatures/bukkit/MatrixAuth.svg)](https://bstats.org/plugin/bukkit/MatrixAuth)
+
+## 图表总览
+
+- 当前图表数量：`8`
+- 当前预留图表位：`3`
+
 ## 当前图表
 
 | Chart ID | 类型 | 含义 |
@@ -28,3 +37,8 @@ description: MatrixAuth 当前 bStats 图表与预留指标位。
 | `profile_storage_mode` | 统计未来档案存储分层策略 |
 | `active_account_types` | 统计档案当前激活账号类型分布 |
 | `guide_delivery_mode` | 统计引导提示的文本 / 点击 / 指令分发模式 |
+
+## 相关入口
+
+- [MatrixAuth 发布说明](/docs/matrixauth/release-notes-1-1-0)
+- [MatrixAuth 开发者 API](/docs/matrixauth/developer-api)
