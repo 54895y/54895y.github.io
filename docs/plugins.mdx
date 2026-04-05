@@ -8,15 +8,110 @@ description: Matrix 系列插件统一文档入口
 
 这里汇总当前站点已经维护的 Matrix 插件与相关技能文档。所有说明都以当前源码和默认资源文件为准，而不是旧版交接稿或历史目录结构。
 
-## 快速入口
+<section className="matrix-hub-hero">
+  <p className="matrix-hub-kicker">Plugin Directory</p>
+  <h1>插件列表</h1>
+  <p className="matrix-hub-lead">
+    这里集中展示 Matrix 系列插件的最新版本、稳定 API、bStats 面板和发布说明。你可以把它当作整个系列的总览控制台。
+  </p>
+</section>
 
-| 插件 | 概览 | 最新发布 | 开发者 API | bStats |
-| --- | --- | --- | --- | --- |
-| MatrixLib | [文档](/docs/matrixlib) | [1.5.0](/docs/matrixlib/release-notes-1-5-0) | [API](/docs/matrixlib/developer-api) | [图表](/docs/matrixlib/bstats-and-telemetry) |
-| MatrixAuth | [文档](/docs/matrixauth/overview) | [1.1.0](/docs/matrixauth/release-notes-1-1-0) | [API](/docs/matrixauth/developer-api) | [图表](/docs/matrixauth/bstats-and-telemetry) |
-| MatrixCook | [文档](/docs/matrixcook/overview) | [1.2.0](/docs/matrixcook/release-notes-1-2-0) | [API](/docs/matrixcook/developer-api) | [图表](/docs/matrixcook/bstats-and-telemetry) |
-| MatrixShop | [文档](/docs/matrixshop) | [1.7.0](/docs/matrixshop/release-notes-1-7-0) | [API](/docs/matrixshop/developer-api) | [图表](/docs/matrixshop/bstats-and-telemetry) |
-| MatrixStorage | [文档](/docs/matrixstorage) | [1.1.0](/docs/matrixstorage/release-notes-1-1-0) | [API](/docs/matrixstorage/developer-api) | [图表](/docs/matrixstorage/bstats-and-telemetry) |
+<div className="matrix-plugin-grid">
+  <article className="matrix-plugin-card">
+    <div className="matrix-plugin-topline">
+      <span className="matrix-plugin-name">MatrixLib</span>
+      <span className="matrix-plugin-badge">v1.5.0</span>
+    </div>
+    <p className="matrix-plugin-summary">共享前置、稳定 API 基线、更新器和全系列遥测入口。</p>
+    <div className="matrix-plugin-tags">
+      <span className="matrix-plugin-tag">Shared Runtime</span>
+      <span className="matrix-plugin-tag">Stable API</span>
+      <span className="matrix-plugin-tag">Updater</span>
+    </div>
+    <div className="matrix-plugin-actions">
+      <a className="matrix-plugin-action primary" href="/docs/matrixlib">概览</a>
+      <a className="matrix-plugin-action" href="/docs/matrixlib/release-notes-1-5-0">发布</a>
+      <a className="matrix-plugin-action" href="/docs/matrixlib/developer-api">API</a>
+      <a className="matrix-plugin-action" href="/docs/matrixlib/bstats-and-telemetry">bStats</a>
+    </div>
+  </article>
+
+  <article className="matrix-plugin-card">
+    <div className="matrix-plugin-topline">
+      <span className="matrix-plugin-name">MatrixAuth</span>
+      <span className="matrix-plugin-badge">v1.1.0</span>
+    </div>
+    <p className="matrix-plugin-summary">账号档案、挂钩状态、稳定 snapshot 和 facade。</p>
+    <div className="matrix-plugin-tags">
+      <span className="matrix-plugin-tag">Profiles</span>
+      <span className="matrix-plugin-tag">Hooks</span>
+      <span className="matrix-plugin-tag">Stable API</span>
+    </div>
+    <div className="matrix-plugin-actions">
+      <a className="matrix-plugin-action primary" href="/docs/matrixauth/overview">概览</a>
+      <a className="matrix-plugin-action" href="/docs/matrixauth/release-notes-1-1-0">发布</a>
+      <a className="matrix-plugin-action" href="/docs/matrixauth/developer-api">API</a>
+      <a className="matrix-plugin-action" href="/docs/matrixauth/bstats-and-telemetry">bStats</a>
+    </div>
+  </article>
+
+  <article className="matrix-plugin-card">
+    <div className="matrix-plugin-topline">
+      <span className="matrix-plugin-name">MatrixCook</span>
+      <span className="matrix-plugin-badge">v1.2.0</span>
+    </div>
+    <p className="matrix-plugin-summary">锅具、配方、运行态快照与稳定命名空间。</p>
+    <div className="matrix-plugin-tags">
+      <span className="matrix-plugin-tag">Cookers</span>
+      <span className="matrix-plugin-tag">Recipes</span>
+      <span className="matrix-plugin-tag">Snapshots</span>
+    </div>
+    <div className="matrix-plugin-actions">
+      <a className="matrix-plugin-action primary" href="/docs/matrixcook/overview">概览</a>
+      <a className="matrix-plugin-action" href="/docs/matrixcook/release-notes-1-2-0">发布</a>
+      <a className="matrix-plugin-action" href="/docs/matrixcook/developer-api">API</a>
+      <a className="matrix-plugin-action" href="/docs/matrixcook/bstats-and-telemetry">bStats</a>
+    </div>
+  </article>
+
+  <article className="matrix-plugin-card">
+    <div className="matrix-plugin-topline">
+      <span className="matrix-plugin-name">MatrixShop</span>
+      <span className="matrix-plugin-badge">v1.7.0</span>
+    </div>
+    <p className="matrix-plugin-summary">交易模块、仓库 SPI、模块快照与稳定 facade。</p>
+    <div className="matrix-plugin-tags">
+      <span className="matrix-plugin-tag">Commerce</span>
+      <span className="matrix-plugin-tag">Warehouse SPI</span>
+      <span className="matrix-plugin-tag">Stable API</span>
+    </div>
+    <div className="matrix-plugin-actions">
+      <a className="matrix-plugin-action primary" href="/docs/matrixshop">概览</a>
+      <a className="matrix-plugin-action" href="/docs/matrixshop/release-notes-1-7-0">发布</a>
+      <a className="matrix-plugin-action" href="/docs/matrixshop/developer-api">API</a>
+      <a className="matrix-plugin-action" href="/docs/matrixshop/bstats-and-telemetry">bStats</a>
+    </div>
+  </article>
+
+  <article className="matrix-plugin-card">
+    <div className="matrix-plugin-topline">
+      <span className="matrix-plugin-name">MatrixStorage</span>
+      <span className="matrix-plugin-badge">v1.1.0</span>
+    </div>
+    <p className="matrix-plugin-summary">仓储状态、桥接、块仓库快照与稳定公开命名空间。</p>
+    <div className="matrix-plugin-tags">
+      <span className="matrix-plugin-tag">Mailbox</span>
+      <span className="matrix-plugin-tag">Warehouse</span>
+      <span className="matrix-plugin-tag">Snapshots</span>
+    </div>
+    <div className="matrix-plugin-actions">
+      <a className="matrix-plugin-action primary" href="/docs/matrixstorage">概览</a>
+      <a className="matrix-plugin-action" href="/docs/matrixstorage/release-notes-1-1-0">发布</a>
+      <a className="matrix-plugin-action" href="/docs/matrixstorage/developer-api">API</a>
+      <a className="matrix-plugin-action" href="/docs/matrixstorage/bstats-and-telemetry">bStats</a>
+    </div>
+  </article>
+</div>
 
 ## MatrixAgentSkills
 
