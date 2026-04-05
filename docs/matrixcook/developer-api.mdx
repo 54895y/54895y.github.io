@@ -1,0 +1,51 @@
+---
+title: MatrixCook 开发者 API
+description: MatrixCook 当前开发者入口、公开 API 包与 Javadoc 生成方式。
+---
+
+# MatrixCook 开发者 API
+
+MatrixCook 当前公开 API 主要集中在 `dev.lensocraft.cookly.api` 命名空间。
+
+推荐入口：
+
+- `NameManager`
+- `CookerConfig`
+- `RecipeConfig`
+- `FuelConfig`
+- `PlacedCookerData`
+- `CooklyEvents`
+- `PlaceholderExpansion`
+
+## 代码树
+
+```text
+src/main/kotlin/dev/lensocraft/cookly/
+├─ Cookly.kt
+├─ api/
+│  ├─ NameManager.kt
+│  ├─ data/
+│  ├─ event/
+│  └─ hook/
+├─ command/
+├─ listener/
+├─ manager/
+├─ metrics/
+├─ storage/
+├─ ui/
+└─ util/
+```
+
+## 生成 Javadoc
+
+```bash
+cd /www/codex-work/MatrixCook
+bash ./gradlew generateJavadoc
+```
+
+输出目录：
+
+```text
+build/dokka/javadoc/
+build/libs/MatrixCook-<version>-javadoc.jar
+```

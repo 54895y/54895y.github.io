@@ -20,6 +20,7 @@ MatrixAuth 是一个基于 TabooLib 6 的混合登录与档案管理插件，目
 - 前置版本：`MatrixLib 1.4.0`
 - 发布说明：[1.0.2 发布说明](./release-notes-1-0-2)
 - 遥测说明：[bStats 与遥测](./bstats-and-telemetry)
+- 开发者 API：[开发者 API](./developer-api)
 
 ## 自动更新
 

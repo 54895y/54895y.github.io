@@ -1,0 +1,64 @@
+---
+title: MatrixShop 开发者 API
+description: MatrixShop 当前开发者入口、代码树与 Javadoc 生成方式。
+---
+
+# MatrixShop 开发者 API
+
+MatrixShop 当前没有单独拆分稳定 `api/` 包，开发者文档应优先参考这些分层：
+
+- `MatrixShop`
+- `core/command`
+- `core/config`
+- `core/database`
+- `core/economy`
+- `core/menu`
+- `core/module`
+- `core/warehouse`
+- `module/*`
+
+## 代码树
+
+```text
+src/main/kotlin/com/y54895/matrixshop/
+├─ MatrixShop.kt
+├─ core/
+│  ├─ action/
+│  ├─ command/
+│  ├─ config/
+│  ├─ database/
+│  ├─ economy/
+│  ├─ menu/
+│  ├─ metrics/
+│  ├─ module/
+│  ├─ permission/
+│  ├─ record/
+│  ├─ text/
+│  ├─ util/
+│  └─ warehouse/
+└─ module/
+   ├─ auction/
+   ├─ cart/
+   ├─ chestshop/
+   ├─ globalmarket/
+   ├─ menu/
+   ├─ playershop/
+   ├─ record/
+   ├─ stub/
+   ├─ systemshop/
+   └─ transaction/
+```
+
+## 生成 Javadoc
+
+```bash
+cd /www/codex-work/MatrixShop
+bash ./gradlew generateJavadoc
+```
+
+输出目录：
+
+```text
+build/dokka/javadoc/
+build/libs/MatrixShop-<version>-javadoc.jar
+```
