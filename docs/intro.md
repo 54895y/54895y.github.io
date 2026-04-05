@@ -26,8 +26,11 @@ title: 插件 Wiki
 
 ## 插件面板
 
-<div class="matrix-plugin-grid">
-  <article class="matrix-plugin-card">
+<div class="matrix-banner-note">左右滑动可查看全部插件入口。</div>
+
+<div class="matrix-plugin-banner">
+  <div class="matrix-plugin-strip">
+    <article class="matrix-plugin-card matrix-plugin-card-banner">
     <div class="matrix-plugin-topline">
       <span class="matrix-plugin-name">MatrixLib</span>
       <span class="matrix-plugin-badge">v1.5.0</span>
@@ -44,9 +47,9 @@ title: 插件 Wiki
       <a class="matrix-plugin-action" href="/docs/matrixlib/developer-api">API</a>
       <a class="matrix-plugin-action" href="/docs/matrixlib/bstats-and-telemetry">bStats</a>
     </div>
-  </article>
+    </article>
 
-  <article class="matrix-plugin-card">
+    <article class="matrix-plugin-card matrix-plugin-card-banner">
     <div class="matrix-plugin-topline">
       <span class="matrix-plugin-name">MatrixAuth</span>
       <span class="matrix-plugin-badge">v1.1.0</span>
@@ -63,9 +66,9 @@ title: 插件 Wiki
       <a class="matrix-plugin-action" href="/docs/matrixauth/developer-api">API</a>
       <a class="matrix-plugin-action" href="/docs/matrixauth/bstats-and-telemetry">bStats</a>
     </div>
-  </article>
+    </article>
 
-  <article class="matrix-plugin-card">
+    <article class="matrix-plugin-card matrix-plugin-card-banner">
     <div class="matrix-plugin-topline">
       <span class="matrix-plugin-name">MatrixCook</span>
       <span class="matrix-plugin-badge">v1.2.0</span>
@@ -82,9 +85,9 @@ title: 插件 Wiki
       <a class="matrix-plugin-action" href="/docs/matrixcook/developer-api">API</a>
       <a class="matrix-plugin-action" href="/docs/matrixcook/bstats-and-telemetry">bStats</a>
     </div>
-  </article>
+    </article>
 
-  <article class="matrix-plugin-card">
+    <article class="matrix-plugin-card matrix-plugin-card-banner">
     <div class="matrix-plugin-topline">
       <span class="matrix-plugin-name">MatrixShop</span>
       <span class="matrix-plugin-badge">v1.7.0</span>
@@ -101,9 +104,9 @@ title: 插件 Wiki
       <a class="matrix-plugin-action" href="/docs/matrixshop/developer-api">API</a>
       <a class="matrix-plugin-action" href="/docs/matrixshop/bstats-and-telemetry">bStats</a>
     </div>
-  </article>
+    </article>
 
-  <article class="matrix-plugin-card">
+    <article class="matrix-plugin-card matrix-plugin-card-banner">
     <div class="matrix-plugin-topline">
       <span class="matrix-plugin-name">MatrixStorage</span>
       <span class="matrix-plugin-badge">v1.1.0</span>
@@ -120,7 +123,8 @@ title: 插件 Wiki
       <a class="matrix-plugin-action" href="/docs/matrixstorage/developer-api">API</a>
       <a class="matrix-plugin-action" href="/docs/matrixstorage/bstats-and-telemetry">bStats</a>
     </div>
-  </article>
+    </article>
+  </div>
 </div>
 
 ## 当前插件覆盖
