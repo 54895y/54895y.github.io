@@ -33,25 +33,39 @@ const quickLinks = [
 
 const pluginDocs = [
   {
+    title: 'MatrixLib',
+    summary: 'Matrix 系列共享前置、稳定 API 基线、更新器与遥测封装。',
+    topics: ['共享运行时', '开发者 API', '自动更新与审批'],
+    detail: '共享前置与基础能力',
+    to: '/docs/matrixlib',
+  },
+  {
     title: 'MatrixAuth',
-    summary: '认证、登录、档案绑定与兼容接入文档。',
-    topics: ['安装与部署', '配置说明', '命令与占位符'],
-    detail: '8 篇核心文档',
+    summary: '认证、登录、档案绑定、挂钩状态与稳定 API 文档。',
+    topics: ['安装与部署', '配置说明', '开发者 API'],
+    detail: '认证与档案系统',
     to: '/docs/matrixauth/overview',
   },
   {
     title: 'MatrixCook',
-    summary: '锅具、配方、燃料、分类与存储说明。',
-    topics: ['安装与配置', '锅具与配方', '命令与 PAPI'],
-    detail: '5 篇核心文档',
+    summary: '锅具、配方、燃料、运行态快照与稳定 API 文档。',
+    topics: ['安装与配置', '锅具与配方', '开发者 API'],
+    detail: '烹饪与锅具系统',
     to: '/docs/matrixcook/overview',
   },
   {
     title: 'MatrixShop',
-    summary: '模块化商店系统的结构、命令、配置与运行边界。',
-    topics: ['快速开始', '模块总览', '详细配置解读'],
-    detail: '20+ 篇专题文档',
+    summary: '模块化交易系统、仓库 SPI、运行态快照与稳定 API 文档。',
+    topics: ['快速开始', '模块总览', '开发者 API'],
+    detail: '交易与商业系统',
     to: '/docs/matrixshop',
+  },
+  {
+    title: 'MatrixStorage',
+    summary: '邮箱、仓库、桥接状态、块仓库快照与稳定 API 文档。',
+    topics: ['安装与依赖', '仓储能力', '开发者 API'],
+    detail: '仓储与桥接系统',
+    to: '/docs/matrixstorage',
   },
 ];
 
@@ -70,7 +84,17 @@ const workflowSteps = [
   },
 ];
 
-function TelemetryIcon({kind}: {kind: 'shop' | 'auth' | 'cook'}): ReactNode {
+function TelemetryIcon({kind}: {kind: 'shop' | 'auth' | 'cook' | 'lib' | 'storage'}): ReactNode {
+  if (kind === 'lib') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 6.5h14" />
+        <path d="M5 12h14" />
+        <path d="M5 17.5h9" />
+        <path d="M18 17.5h1.5" />
+      </svg>
+    );
+  }
   if (kind === 'shop') {
     return (
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -89,6 +113,16 @@ function TelemetryIcon({kind}: {kind: 'shop' | 'auth' | 'cook'}): ReactNode {
       </svg>
     );
   }
+  if (kind === 'storage') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4.5 7.5h15v9h-15z" />
+        <path d="M8 11h8" />
+        <path d="M8 14h5" />
+        <path d="M7 7.5V5.5h10v2" />
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M7 9h10l1.2 7H5.8L7 9Z" />
@@ -99,6 +133,15 @@ function TelemetryIcon({kind}: {kind: 'shop' | 'auth' | 'cook'}): ReactNode {
 }
 
 const telemetryCards = [
+  {
+    icon: 'lib' as const,
+    title: 'MatrixLib',
+    status: '已接入',
+    statusTone: 'active',
+    chart: 'https://bstats.org/signatures/bukkit/MatrixLib.svg',
+    to: '/docs/matrixlib/bstats-and-telemetry',
+    action: '查看 MatrixLib 统计',
+  },
   {
     icon: 'shop' as const,
     title: 'MatrixShop',
@@ -111,18 +154,29 @@ const telemetryCards = [
   {
     icon: 'auth' as const,
     title: 'MatrixAuth',
-    status: '预留位置',
-    statusTone: 'pending',
-    to: '/docs/matrixauth/overview',
-    action: '查看 MatrixAuth 文档',
+    status: '已接入',
+    statusTone: 'active',
+    chart: 'https://bstats.org/signatures/bukkit/MatrixAuth.svg',
+    to: '/docs/matrixauth/bstats-and-telemetry',
+    action: '查看 MatrixAuth 统计',
   },
   {
     icon: 'cook' as const,
     title: 'MatrixCook',
-    status: '预留位置',
-    statusTone: 'pending',
-    to: '/docs/matrixcook/overview',
-    action: '查看 MatrixCook 文档',
+    status: '已接入',
+    statusTone: 'active',
+    chart: 'https://bstats.org/signatures/bukkit/MatrixCook.svg',
+    to: '/docs/matrixcook/bstats-and-telemetry',
+    action: '查看 MatrixCook 统计',
+  },
+  {
+    icon: 'storage' as const,
+    title: 'MatrixStorage',
+    status: '已接入',
+    statusTone: 'active',
+    chart: 'https://bstats.org/signatures/bukkit/MatrixStorage.svg',
+    to: '/docs/matrixstorage/bstats-and-telemetry',
+    action: '查看 MatrixStorage 统计',
   },
 ];
 
@@ -136,11 +190,13 @@ export default function Home(): ReactNode {
               <p className={styles.kicker}>官方文档</p>
               <h1 className={styles.heroTitle}>Matrix 官方文档</h1>
               <p className={styles.heroDescription}>
-                集中维护 MatrixAuth、MatrixCook 和 MatrixShop 的使用、部署、配置与排障文档。
-                站点提供插件索引、本地全文搜索与 AI 搜索入口，方便从概览一路进入到具体字段和命令级别。
+                集中维护 MatrixLib、MatrixAuth、MatrixCook、MatrixShop 与 MatrixStorage 的使用、部署、
+                配置、稳定 API 与运维文档。站点提供统一插件入口、本地全文搜索与 AI 搜索能力，
+                便于从概览进入到发布说明、开发者 API 和具体字段说明。
               </p>
               <div className={styles.heroMeta}>
-                <span>3 个插件文档入口</span>
+                <span>5 个插件文档入口</span>
+                <span>稳定 API 命名空间</span>
                 <span>本地全文搜索</span>
                 <span>AI 辅助检索</span>
               </div>
@@ -155,6 +211,9 @@ export default function Home(): ReactNode {
                   GitHub
                 </Link>
               </div>
+              <figure className={styles.heroVisual}>
+                <img src="/img/screenshots/matrix-plugin-hub-combined.webp" alt="Matrix 系列插件入口合并预览图" loading="lazy" />
+              </figure>
             </div>
           </div>
         </section>
@@ -186,7 +245,7 @@ export default function Home(): ReactNode {
           <div className={styles.sectionHeader}>
             <p className={styles.kicker}>插件列表</p>
             <h2>插件列表</h2>
-            <p className={styles.sectionLead}>每个插件都按概览、安装、配置、命令和 FAQ 等主题拆分维护。</p>
+            <p className={styles.sectionLead}>首页现已补全 Matrix 系列全部插件入口，并覆盖文档、发布与开发者 API。</p>
           </div>
           <div className={styles.pluginGrid}>
             {pluginDocs.map((plugin) => (
@@ -215,9 +274,9 @@ export default function Home(): ReactNode {
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <p className={styles.kicker}>插件统计</p>
-            <h2>首页统计与预留位置</h2>
+            <h2>bStats 统计总览</h2>
             <p className={styles.sectionLead}>
-              MatrixShop 已经接入统计说明展示，MatrixAuth 和 MatrixCook 的首页卡位也已预留，后续收到代码后可直接补齐。
+              全系列插件当前都已经补齐 bStats 页面，首页这里同步提供统一统计入口与签名图预览。
             </p>
           </div>
           <div className={styles.telemetryGrid}>
