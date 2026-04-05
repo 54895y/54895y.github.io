@@ -88,7 +88,7 @@ const sidebars: SidebarsConfig = {
             'matrixshop/configuration/bindings-and-ui',
             'matrixshop/configuration/bindings-help-and-hints',
             'matrixshop/configuration/system-shop',
-            'matrixshop/configuration/bstats-and-telemetry',
+            'matrixshop/bstats-and-telemetry',
           ],
         },
         {

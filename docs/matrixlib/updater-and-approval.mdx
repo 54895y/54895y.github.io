@@ -1,0 +1,30 @@
+---
+title: MatrixLib 自动更新与审批
+description: MatrixLib 当前的 GitHub Releases 检查、审批下载与 plugins/update 工作流。
+---
+
+# MatrixLib 自动更新与审批
+
+当前方案：
+
+1. 通过 GitHub Releases latest API 检查新版本。
+2. 默认只通知控制台和在线管理员。
+3. 管理员审批后，下载新 jar 到 `plugins/update/`。
+4. 服务器重启时，由 Bukkit / Spigot 更新目录机制替换旧插件。
+
+## 管理命令
+
+```text
+/matrixlib update list
+/matrixlib update check [all|插件名]
+/matrixlib update notes <插件名>
+/matrixlib update approve <插件名|all>
+```
+
+## 覆盖的插件
+
+- MatrixLib
+- MatrixAuth
+- MatrixCook
+- MatrixShop
+- MatrixStorage

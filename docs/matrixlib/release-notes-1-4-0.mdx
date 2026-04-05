@@ -1,0 +1,40 @@
+---
+title: MatrixLib 1.4.0 发布说明
+description: MatrixLib 1.4.0 共享更新器与 GitHub Releases 自动更新说明。
+---
+
+# MatrixLib 1.4.0 发布说明
+
+发布日期：`2026-04-05`
+
+## 本次更新
+
+- 新增共享 GitHub Releases 更新器。
+- 支持 Matrix 系列插件统一检查最新 release。
+- 支持管理员审批后下载到 `plugins/update/`。
+- 支持下次重启由 Bukkit / Spigot 更新目录机制自动替换插件。
+
+## 管理入口
+
+```text
+/matrixlib update list
+/matrixlib update check [all|插件名]
+/matrixlib update notes <插件名>
+/matrixlib update approve <插件名|all>
+```
+
+## 默认配置
+
+```text
+plugins/MatrixLib/Update/config.yml
+```
+
+关键项：
+
+- `enabled`
+- `check-on-startup`
+- `notify-console`
+- `notify-ops-on-join`
+- `require-approval`
+- `check-interval-minutes`
+- `github.token`
