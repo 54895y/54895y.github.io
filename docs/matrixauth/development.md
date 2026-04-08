@@ -58,8 +58,8 @@ GitHub 侧的 MatrixAuth 仓库当前约定：
 
 当前站点按 GitHub Pages 用户站点配置：
 
-- 仓库：[54895y/54895y.github.io](https://github.com/54895y/54895y.github.io.git)
-- `url = https://54895y.github.io`
+- 仓库：[MatrixPlugin/matrixplugin.github.io](https://github.com/MatrixPlugin/matrixplugin.github.io.git)
+- `url = https://matrixplugin.github.io`
 - `baseUrl = /`
 
 ## 本地构建

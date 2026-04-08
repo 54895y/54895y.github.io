@@ -9,10 +9,10 @@ const config: Config = {
   future: {
     v4: true,
   },
-  url: 'https://54895y.github.io',
+  url: 'https://matrixplugin.github.io',
   baseUrl: '/',
-  organizationName: '54895y',
-  projectName: '54895y.github.io',
+  organizationName: 'MatrixPlugin',
+  projectName: 'matrixplugin.github.io',
   deploymentBranch: 'main',
   onBrokenLinks: 'throw',
   i18n: {
@@ -33,7 +33,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/54895y/54895y.github.io/tree/main/',
+          editUrl: 'https://github.com/MatrixPlugin/matrixplugin.github.io/tree/main/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           exclude: ['**/tutorial-basics/**', '**/tutorial-extras/**'],
@@ -110,7 +110,7 @@ const config: Config = {
         {type: 'search', position: 'right'},
         {to: '/ai-search', label: 'AI 搜索', position: 'right'},
         {
-          href: 'https://github.com/54895y/54895y.github.io',
+          href: 'https://github.com/MatrixPlugin/matrixplugin.github.io',
           label: 'GitHub',
           position: 'right',
         },
@@ -161,8 +161,8 @@ const config: Config = {
           title: '仓库',
           items: [
             {
-              label: '54895y.github.io',
-              href: 'https://github.com/54895y/54895y.github.io',
+              label: 'matrixplugin.github.io',
+              href: 'https://github.com/MatrixPlugin/matrixplugin.github.io',
             },
           ],
         },

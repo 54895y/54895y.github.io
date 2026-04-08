@@ -1,6 +1,6 @@
 # Matrix Docs
 
-`54895y.github.io` 是 Matrix 系列插件的统一 Docusaurus 文档站。
+`matrixplugin.github.io` 是 Matrix 系列插件的统一 Docusaurus 文档站。
 
 当前已收录：
 
@@ -24,11 +24,11 @@
 
 当前站点发布到：
 
-- [54895y/54895y.github.io](https://github.com/54895y/54895y.github.io.git)
+- [MatrixPlugin/matrixplugin.github.io](https://github.com/MatrixPlugin/matrixplugin.github.io.git)
 
 默认配置：
 
-- `url = https://54895y.github.io`
+- `url = https://matrixplugin.github.io`
 - `baseUrl = /`
 - `deploymentBranch = main`
 
@@ -40,7 +40,7 @@
 ## 本地开发
 
 ```bash
-cd /www/codex-work/54895y.github.io
+cd /www/codex-work/matrixplugin.github.io
 npm install
 npm start
 ```
@@ -48,7 +48,7 @@ npm start
 ## 构建
 
 ```bash
-cd /www/codex-work/54895y.github.io
+cd /www/codex-work/matrixplugin.github.io
 npm run build
 ```
 

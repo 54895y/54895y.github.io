@@ -23,7 +23,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://54895y.github.io
+      url: https://matrixplugin.github.io
     steps:
       - name: Checkout
         uses: actions/checkout@v4

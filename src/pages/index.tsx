@@ -27,7 +27,7 @@ const quickLinks = [
     title: 'GitHub 仓库',
     summary: '直接进入源码与文档仓库，提交问题、补充内容或追踪站点改动。',
     label: '前往 GitHub',
-    href: 'https://github.com/54895y/54895y.github.io',
+    href: 'https://github.com/MatrixPlugin/matrixplugin.github.io',
   },
 ];
 
@@ -207,7 +207,7 @@ export default function Home(): ReactNode {
                 <Link className={styles.secondaryAction} to="/ai-search">
                   AI 搜索
                 </Link>
-                <Link className={styles.secondaryAction} href="https://github.com/54895y/54895y.github.io">
+                <Link className={styles.secondaryAction} href="https://github.com/MatrixPlugin/matrixplugin.github.io">
                   GitHub
                 </Link>
               </div>
