@@ -1,0 +1,124 @@
+---
+title: MatrixShop 1.8.0 发布说明
+description: MatrixShop 1.8.0 的命令绑定、Kether、配置清理与文档更新说明。
+---
+
+# MatrixShop 1.8.0 发布说明
+
+发布日期：`2026-04-12`
+
+## 中文摘要
+
+MatrixShop 1.8.0 重点完成了三件事：
+
+- 将命令绑定方式调整为更接近 TrMenu 的直接配置风格，不再依赖 `lang.commands.routes.xxx`
+- 将菜单动作从“借命令中转”推进为“直接业务 Kether 动作”
+- 清理旧版配置来源，把绑定、默认系统商店分类和基础消息回退统一收口到更稳定的代码与语言文件逻辑
+
+## 主要变更
+
+### 1. 命令绑定改为直接文本配置
+
+`Bindings.Commands` 现在可以直接写命令文本，例如：
+
+```yml
+Bindings:
+  Commands:
+    - "trade"
+    - "tm"
+```
+
+不再需要先在 `Lang/*.yml` 里定义 `commands.routes.xxx` 再引用。
+
+### 2. 绑定支持同级语言覆盖
+
+`Bindings` 现在支持 `Lang` 配置块，可按语言覆盖帮助说明、提示键和多行帮助文本：
+
+```yml
+Bindings:
+  Commands:
+    - "trade"
+  Help:
+    - "&7Open the trade center."
+  Lang:
+    zh_CN:
+      Help:
+        - "&7打开交易中心。"
+    en_US:
+      Help:
+        - "&7Open the trade center."
+```
+
+回退顺序为：
+
+1. `Bindings.Lang.<sender-locale>`
+2. 归一化语言（如 `en_gb -> en_US`）
+3. 普通 `Help-Key` / `Hint-Keys` / `Help`
+4. 全局 `Lang/*.yml`
+
+### 3. 菜单动作支持直接业务 Kether
+
+菜单里的 `kether:` 不再需要通过 `command "..." by player` 兜一层。
+
+现在可以直接写：
+
+```text
+kether: matrixshop system open weapon
+kether: matrixshop transaction open default
+kether: matrixshop system confirm action
+```
+
+这些动作会直接调用模块业务，而不是先转到命令层。
+
+### 4. 配置结构进一步精简
+
+`config.yml` 已移除以下内容：
+
+- `Bindings`
+- `system-shop`
+- `messages`
+
+当前 `config.yml` 只保留：
+
+- `debug`
+- `language`
+- `Scripts`
+
+默认系统商店分类现在由代码内置回退为 `weapon`，权限/仅玩家提示统一回退到 `Lang/*.yml`。
+
+### 5. 文档与默认配置同步更新
+
+本次发布同步更新了：
+
+- MatrixShop README
+- 绑定与帮助文档
+- 默认 `shops/*.yml` / `settings.yml` 示例
+- `1.8.0` 文档发布说明
+
+## 升级注意事项
+
+- 如果你之前通过 `commands.routes.xxx` 间接维护绑定命令，建议迁移到 `Bindings.Commands` 的直接列表写法
+- 如果你有自定义帮助文本，需要的话可以迁移到 `Bindings.Lang`
+- 旧数据目录中的 `config.yml` 冗余字段会在启动时自动清理，但仍建议手动检查一次
+
+## English Summary
+
+MatrixShop 1.8.0 focuses on three areas:
+
+- command bindings now follow a more direct TrMenu-style configuration model
+- menu actions now support direct business-oriented Kether actions instead of command indirection
+- legacy configuration sources have been cleaned up and folded into code defaults plus `Lang/*.yml`
+
+## Highlights
+
+- `Bindings.Commands` now accepts literal command names directly
+- `Bindings.Lang.<locale>` is supported for localized binding help and hints
+- `kether: matrixshop ...` now calls module behavior directly
+- `config.yml` no longer stores root bindings, default SystemShop category, or message fallbacks
+- docs and default configs were updated to match the new behavior
+
+## Recommended Upgrade Path
+
+1. Move any route-key-based bindings to literal command lists
+2. Add `Bindings.Lang` only where you need per-binding custom locale text
+3. Review your `config.yml` and remove any obsolete sections that are no longer used

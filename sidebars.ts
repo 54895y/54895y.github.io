@@ -114,6 +114,7 @@ const sidebars: SidebarsConfig = {
             id: 'matrixshop/release-notes/index',
           },
           items: [
+            'matrixshop/release-notes-1-8-0',
             'matrixshop/release-notes-1-7-0',
             'matrixshop/release-notes-1-6-2',
             'matrixshop/release-notes/release-notes-1-6-0',

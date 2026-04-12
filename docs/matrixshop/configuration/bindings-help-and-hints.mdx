@@ -1,218 +1,128 @@
 ---
-title: Help、Help-Key 与 Hint-Keys
-description: MatrixShop 中绑定命令的多行帮助、描述键和提示键的配置规则。
+title: Help、Hint 与 Bindings.Lang
+description: MatrixShop 的绑定帮助文本、提示键与多语言覆盖规则。
 slug: /matrixshop/bindings-help-and-hints
 sidebar_position: 7
 ---
 
-# Help、Help-Key 与 Hint-Keys
+# Help、Hint 与 Bindings.Lang
 
-MatrixShop 当前的命令帮助有三层：
+## 绑定帮助的三层结构
 
-1. 固定命令列表
-2. `Help-Key`
+MatrixShop 当前命令帮助和绑定提示可以来自三类字段：
+
+1. `Help-Key`
+2. `Hint-Keys`
 3. `Help`
 
 其中：
 
-- `Help-Key` 负责“主入口一句话描述”
-- `Help` 负责“多行补充说明”
-- `Hint-Keys` 负责“某个子动作的提示键”
+- `Help-Key` 适合一行描述，通常引用全局语言键
+- `Hint-Keys` 适合给特定动作提供说明键，例如 `open`、`amount`
+- `Help` 适合多行补充说明
 
-## 这三个字段写在哪里
+## `Bindings.Lang`
 
-### 模块级
-
-适用于没有 `shops/*.yml` 的模块，例如：
-
-- `SystemShop`
-- `ChestShop`
-- `Cart`
-- `Record`
-
-写在：
+从 `1.8.0` 开始，`Bindings` 支持同级 `Lang` 语言覆盖：
 
 ```yml
 Bindings:
   Commands:
-    ...
+    - "trade"
+  Help:
+    - "&7Open the trade center."
+  Lang:
+    zh_CN:
+      Help:
+        - "&7打开交易中心。"
+    en_US:
+      Help:
+        - "&7Open the trade center."
 ```
 
-### 商店级
-
-适用于带 `shops/*.yml` 的模块，例如：
-
-- `PlayerShop`
-- `GlobalMarket`
-- `Auction`
-- `Transaction`
-
-也写在：
+也支持 route 级覆盖：
 
 ```yml
-Bindings:
-  Commands:
-    ...
+Routes:
+  open:
+    Action: transaction.open
+    Bindings:
+      - "open"
+    Lang:
+      zh_CN:
+        Help-Key: "@commands.help.desc.transaction-open"
+      en_US:
+        Help:
+          - "&7Open the trade view."
 ```
 
-只是位置在 `shops/*.yml` 里。
+## 解析优先级
 
-## `Help-Key`
+当 MatrixShop 生成帮助或提示时，优先级固定为：
 
-这是一个 i18n key，对应主帮助列表中的一句描述。
-
-例如：
-
-```yml
-Help-Key: '@commands.bindings.auction'
-```
-
-这会影响：
-
-- `/ms help`
-- `/auction help`
-- `/ms auction help`
-
-## `Help`
-
-这是多行帮助文本，会在模块帮助页里优先显示。
-
-支持两种写法。
-
-### 写法 1：列表
-
-```yml
-Help:
-  - '&7拍卖模块支持英式拍卖与荷兰式拍卖。'
-  - '&7打开大厅: &f{command} open'
-  - '&7上架物品: &f{command} upload <english|dutch> <起拍价> [一口价|结束价] [时长]'
-```
-
-### 写法 2：多行字符串
-
-```yml
-Help: |-
-  &7交易记录用于查看成交、退款和统计信息。
-  &7打开记录页: &f{command} open [关键字]
-  &7查看详情: &f{command} detail <记录ID>
-```
-
-当前实现两种都支持。
-
-## `Hint-Keys`
-
-`Hint-Keys` 用于某个子动作的提示文案。
-
-例如：
-
-```yml
-Hint-Keys:
-  open: '@commands.bindings.auction'
-  bid: '@commands.hints.auction-bid'
-  upload-english: '@commands.hints.auction-upload-english'
-```
-
-模块代码在需要时会按 key 读取：
-
-- `open`
-- `bid`
-- `upload`
-- `request`
-- `money`
-- `exp`
-- `amount`
-
-具体支持哪些 key，取决于模块本身。
-
-## 可用占位符
-
-在 `Help` 文本里当前可以稳定使用：
-
-| 占位符 | 说明 |
-| --- | --- |
-| `{command}` | 当前实际使用的命令前缀 |
-| `{binding}` | 当前绑定命令，不含 `/` |
-| `{shop-id}` | 当前商店 id |
-| `{shop}` | 当前商店 id |
+1. `Bindings.Lang.<sender-locale>`
+2. 归一化后的 locale，例如 `en_gb -> en_US`
+3. 普通 `Help-Key` / `Hint-Keys` / `Help`
+4. 全局 `Lang/*.yml`
 
 这意味着：
 
-- `/auction help` 会显示 `/auction ...`
-- `/ah help` 会显示 `/ah ...`
-- `/cart help` 会显示 `/cart ...`
+- 没有 `Bindings.Lang` 时，旧行为不变
+- 只给某个语言补覆盖也没问题
+- 覆盖值既可以写纯文本，也可以继续写 `@lang-key`
 
-## 一个完整示例
+## `Help-Key`
 
-### `Auction/shops/default.yml`
-
-```yml
-Bindings:
-  Commands:
-    Bindings:
-      - 'auction'
-      - 'ah'
-    Register: true
-    Show-In-Help: true
-    Priority: 100
-    Help-Key: '@commands.bindings.auction'
-    Hint-Keys:
-      open: '@commands.bindings.auction'
-      bid: '@commands.hints.auction-bid'
-      upload-english: '@commands.hints.auction-upload-english'
-      upload-dutch: '@commands.hints.auction-upload-dutch'
-    Help:
-      - '&7拍卖模块支持英式拍卖与荷兰式拍卖。'
-      - '&7打开大厅: &f{command} open'
-      - '&7上架物品: &f{command} upload <english|dutch> <起拍价> [一口价|结束价] [时长]'
-      - '&7出价: &f{command} bid <id> [价格]'
-      - '&7管理自己的拍卖: &f{command} manage'
-```
-
-### `Cart/settings.yml`
+示例：
 
 ```yml
-Bindings:
-  Commands:
-    Bindings:
-      - 'cart'
-    Register: true
-    Show-In-Help: true
-    Priority: 40
-    Help-Key: '@commands.bindings.cart'
-    Hint-Keys:
-      open: '@commands.bindings.cart'
-      amount: '@commands.hints.cart-amount'
-    Help:
-      - '&7购物车会汇总可结算的条目。'
-      - '&7打开购物车: &f{command} open'
-      - '&7打开结算预览: &f{command} checkout [valid_only]'
-      - '&7确认结算: &f{command} checkout confirm [valid_only]'
-      - '&7调整数量: &f{command} amount <槽位> <数量>'
+Help-Key: "@commands.bindings.cart"
 ```
 
-## 当前表现
+适用于：
 
-现在默认模块的帮助行为是：
+- `/ms help`
+- `/cart help`
+- 模块帮助中的一行描述
 
-- 先输出 `Help` 多行说明
-- 再输出固定命令列表
+## `Hint-Keys`
 
-如果没有 `Help`：
+示例：
 
-- 就只显示固定命令列表
+```yml
+Hint-Keys:
+  open: "@commands.bindings.cart"
+  amount: "@commands.hints.cart-amount"
+```
 
-## 重载与生效
+不同模块会按需要读取不同动作键，例如：
 
-`Help`、`Help-Key`、`Hint-Keys` 都属于配置内容。
+- `open`
+- `amount`
+- `request`
+- `money`
+- `exp`
 
-当前行为：
+## `Help`
 
-- `/matrixshopadmin reload` 后即可更新
-- 不需要重启服务器
+多行帮助支持列表或块字符串：
 
-唯一例外仍然是：
+```yml
+Help:
+  - "&7Open the cart."
+  - "&7Adjust amount with the cart amount action."
+```
 
-- 独立命令关键字本身
-- `Register`
+或：
 
-这两类改动仍建议重启后验证。
+```yml
+Help: |-
+  &7Open the cart.
+  &7Adjust amount with the cart amount action.
+```
+
+## 推荐实践
+
+- 通用说明优先写在普通 `Help` / `Help-Key`
+- 只有在某个绑定需要特别的本地化文案时，再增加 `Bindings.Lang`
+- 不要把普通菜单标题、按钮名、物品 lore 混进 `Bindings.Lang`；它只负责绑定相关文案

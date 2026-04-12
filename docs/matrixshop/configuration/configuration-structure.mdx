@@ -1,13 +1,13 @@
 ---
 title: 配置结构
-description: MatrixShop 顶层配置、模块目录和入口文件的详细结构说明。
+description: MatrixShop 的顶层配置、模块目录与 shops / settings 分工说明。
 slug: /matrixshop/configuration-structure
 sidebar_position: 1
 ---
 
 # 配置结构
 
-当前 MatrixShop 的配置不是“一个总配置文件解决所有问题”，而是四层：
+MatrixShop 当前配置结构可以分为四层：
 
 1. 顶层全局文件
 2. 统一经济定义
@@ -18,151 +18,67 @@ sidebar_position: 1
 
 ### `config.yml`
 
-```yaml
+从 `1.8.0` 开始，`config.yml` 已被精简为：
+
+```yml
 debug: false
 
-system-shop:
-  default-category: weapon
+language:
+  default: zh_CN
+  fallback: zh_CN
 
-messages:
-  no-permission: '&c你没有权限执行这个操作。'
-  player-only: '&c该命令只能由玩家执行。'
+Scripts:
+  Export-Hook-Plugin: true
+  Binding-Map:
+    MatrixShopApi: "com.y54895.matrixshop.api.MatrixShopApi"
 ```
 
-字段解释：
+说明：
 
-| 字段 | 说明 |
-| --- | --- |
-| `debug` | 是否输出调试信息。生产服通常保持 `false`。 |
-| `system-shop.default-category` | 系统商店直接打开时默认进入的分类。这里的值要和 `SystemShop/shops/<file-name>.yml` 对应。 |
-| `messages.no-permission` | 无权限时的提示。 |
-| `messages.player-only` | 非玩家执行命令时的提示。 |
+- `debug`：是否输出调试信息
+- `language`：默认语言与回退语言
+- `Scripts`：脚本绑定与导出配置
+
+以下内容已不再由 `config.yml` 管理：
+
+- 根级 `Bindings`
+- `system-shop.default-category`
+- `messages.no-permission`
+- `messages.player-only`
+
+这些行为现在分别由：
+
+- 代码内置默认值
+- `Lang/*.yml`
+- 模块 / shop 级绑定配置
 
 ### `module.yml`
 
-```yaml
-modules:
-  menu: true
-  system-shop: true
-  player-shop: true
-  global-market: true
-  auction: true
-  chestshop: true
-  transaction: true
-  cart: true
-  record: true
-```
+`module.yml` 仍负责模块总开关，例如：
 
-字段解释：
-
-| 字段 | 说明 |
-| --- | --- |
-| `modules.menu` | 是否启用导航菜单模块。 |
-| `modules.system-shop` | 是否启用系统商店。 |
-| `modules.player-shop` | 是否启用玩家商店。 |
-| `modules.global-market` | 是否启用全球市场。 |
-| `modules.auction` | 是否启用拍卖行。 |
-| `modules.chestshop` | 是否启用箱子商店。 |
-| `modules.transaction` | 是否启用面对面交易。 |
-| `modules.cart` | 是否启用购物车。 |
-| `modules.record` | 是否启用账本记录。 |
-
-最实用的理解方式是：这里控制的是“模块总开关”。如果你把某个模块关掉，即使该模块目录里的配置还在，入口也不会正常工作。
+- `menu`
+- `system-shop`
+- `player-shop`
+- `global-market`
+- `auction`
+- `chestshop`
+- `transaction`
+- `cart`
+- `record`
 
 ### `database.yml`
 
-```yaml
-Database:
-  Type: SQLITE
+`database.yml` 负责数据库后端与连接信息。
 
-  SQLite:
-    File: 'Data/data.db'
+当前主要后端仍是：
 
-  MySQL:
-    Host: '127.0.0.1'
-    Port: 3306
-    Database: 'matrixshop'
-    Username: 'root'
-    Password: 'password'
-    Maximum-Pool-Size: 10
-
-  Redis:
-    Enabled: false
-    Host: '127.0.0.1'
-    Port: 6379
-    Password: ''
-    Channels:
-      Invalidate: 'matrixshop:invalidate'
-      Sync: 'matrixshop:sync'
-```
-
-字段解释：
-
-| 字段 | 说明 |
-| --- | --- |
-| `Database.Type` | 当前想使用的后端类型。默认是 `SQLITE`。 |
-| `SQLite.File` | SQLite 数据文件路径。 |
-| `MySQL.*` | MySQL 连接参数。 |
-| `Maximum-Pool-Size` | 连接池大小。 |
-| `Redis.Enabled` | 当前配置层可见，但实际实现里更偏预留字段。 |
-| `Redis.Channels.*` | Redis 频道名称，仍建议视为预留配置。 |
-
-> 当前文档仍建议把 `SQLITE` 和 `MYSQL` 作为主要选项来理解，Redis 不要当作稳定主存储来写运营说明。
-
-### `Economy/currency.yml`
-
-这是 Matrix 系列当前的共享货币定义文件，主入口位于：
-
-```text
-plugins/MatrixLib/Economy/currency.yml
-```
-
-运行时会同步到 `MatrixShop` 与 `MatrixStorage` 的同路径文件。
-
-```yaml
-vault:
-  Mode: vault
-  Display-Name: '金币'
-  Symbol: '$'
-  Decimal: true
-
-playerpoints:
-  Mode: playerpoints
-  Display-Name: '点券'
-  Decimal: false
-```
-
-字段解释：
-
-| 字段 | 说明 |
-| --- | --- |
-| `Mode` | 货币模式，可写 `vault`、`playerpoints` 或 PlaceholderAPI 占位符。 |
-| `Display-Name` | 菜单和提示中显示的货币名。 |
-| `Symbol` | 可选符号。 |
-| `Decimal` | 是否允许小数。 |
-| `Actions.Take / Give / Deny` | 自定义货币的结算与余额不足动作。 |
-
-## 货币优先级
-
-当前版本的货币 key 解析顺序是：
-
-1. 商品级
-2. 商店级
-3. 模块级
-4. 默认回退 `vault`
-
-具体表现：
-
-- `SystemShop`：商品级 `currency` > 商店级 `Currency.Key` > 模块级 `SystemShop/settings.yml`
-- `PlayerShop / GlobalMarket / Auction / Transaction`：商店级 `Currency.Key` > 模块级 `settings.yml`
-- `ChestShop`：模块级 `settings.yml`
-- `Cart / Record`：不配置经济
+- `SQLITE`
+- `MYSQL`
 
 ## 模块目录
 
-默认资源目录如下：
+主要目录包括：
 
-- `Economy/`
 - `Menu/`
 - `SystemShop/`
 - `PlayerShop/`
@@ -173,89 +89,71 @@ playerpoints:
 - `Cart/`
 - `Record/`
 
-大多数模块目录包含：
+## `settings.yml` 与 `shops/*.yml` 的分工
 
-- `settings.yml`
-- `shops/*.yml`
-- `ui/*.yml`
+### 由 `shops/*.yml` 主导的模块
 
-`SystemShop` 还额外包含：
+- `Menu`
+- `SystemShop`
+- `PlayerShop`
+- `GlobalMarket`
+- `Auction`
+- `Transaction`
 
-- `goods/*.yml`
+这些模块的入口命令绑定、帮助文本和 shop 入口定义主要写在 `shops/*.yml`。
 
-个别模块还带有额外文件：
-
-- `ChestShop/signs.yml`
-- `Record/retention.yml`
-
-并且有三个模块已经不再使用 `shops/*.yml`：
+### 仍由 `settings.yml` 主导的模块
 
 - `ChestShop`
 - `Cart`
 - `Record`
 
-## `settings.yml` 和 `shops/*.yml` 的分工
+这三个模块当前仍保留模块级命令配置和帮助提示。
 
-### `settings.yml`
+## 绑定结构
 
-负责模块级控制，例如：
+当前绑定采用类似 TrMenu 的直接写法：
 
-- 命令候选关键字
-- 模块开关
-- 模块级货币 key
-- 权限条件
-- 运行参数
+```yml
+Bindings:
+  Commands:
+    - "trade"
+    - "tm"
+  Register: true
+  Show-In-Help: true
+  Priority: 100
+```
 
-### `shops/*.yml`
+如需绑定相关多语言覆盖，可继续在同级写：
 
-负责入口页或主视图，例如：
+```yml
+Bindings:
+  Commands:
+    - "trade"
+  Lang:
+    zh_CN:
+      Help:
+        - "&7打开交易中心。"
+    en_US:
+      Help:
+        - "&7Open the trade center."
+```
 
-- 标题
-- 菜单布局
-- 静态按钮
-- 动态槽位
-- 商品模板
-- 对 `SystemShop/goods/*.yml` 的商品引用
+## `shopId` 规则
 
-同时，**当前实现里 `shopId` 以文件名为准**。
+大多数多入口模块中，`shopId` 默认来自文件名：
+
+```text
+shops/<file-name>.yml
+```
 
 例如：
 
-- `PlayerShop/shops/default.yml` -> `default`
-- `GlobalMarket/shops/default.yml` -> `default`
-- `Auction/shops/default.yml` -> `default`
+- `Menu/shops/main.yml` -> `main`
 - `Transaction/shops/default.yml` -> `default`
 
-### 不使用 `shops/*.yml` 的模块
+## 推荐阅读
 
-这三个模块当前采用“模块级入口 + UI 文件”的结构：
-
-- `ChestShop`
-- `Cart`
-- `Record`
-
-它们的入口命令、帮助文本和行为控制主要来自：
-
-- `settings.yml`
-- `ui/*.yml`
-- 以及模块自身的运行时上下文
-
-## 从哪里继续读
-
-如果你正在处理货币、点券或自定义积分，请直接继续看：
-
-- [经济模块](./economy)
-
-## 从哪里继续读
-
-如果你要改具体模块，请直接进入新的详细页：
-
-- [Menu](./shop-types/menu)
-- [SystemShop](./shop-types/system-shop)
-- [PlayerShop](./shop-types/player-shop)
-- [GlobalMarket](./shop-types/global-market)
-- [Auction](./shop-types/auction)
-- [ChestShop](./shop-types/chest-shop)
-- [Transaction](./shop-types/transaction)
-- [Cart](./shop-types/cart)
-- [Record](./shop-types/record)
+- [绑定与 UI](./bindings-and-ui)
+- [Help、Hint 与 Bindings.Lang](./bindings-help-and-hints)
+- [命令与权限](../getting-started/commands-and-permissions)

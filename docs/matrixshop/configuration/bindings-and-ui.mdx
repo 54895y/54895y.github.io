@@ -1,56 +1,125 @@
 ---
 title: 绑定与 UI
-description: MatrixShop 的命令绑定、菜单布局与动作执行规则。
+description: MatrixShop 的绑定配置、菜单结构和动作执行模型。
 slug: /matrixshop/bindings-and-ui
 sidebar_position: 6
 ---
 
 # 绑定与 UI
 
-## 命令绑定来源
+## 绑定来源
 
-MatrixShop 的命令不只来自固定代码，还来自配置：
+MatrixShop 当前的命令绑定主要来自两类配置：
 
 1. 模块级 `settings.yml`
 2. 入口级 `shops/*.yml`
 
-模块级绑定由 `ModuleBindings` 读取，入口级绑定由 `ShopMenuLoader` 读取。
+其中：
 
-## 绑定字段
+- `ChestShop / Cart / Record` 仍主要由 `settings.yml` 驱动
+- `Menu / SystemShop / PlayerShop / GlobalMarket / Auction / Transaction` 主要由 `shops/*.yml` 驱动
 
-这组字段在模块和入口里通用：
+## 当前绑定写法
 
-```yaml
+MatrixShop 1.8.0 开始，绑定方式改成类似 TrMenu 的直接文本风格：
+
+```yml
 Bindings:
   Commands:
-    Bindings:
-      - 'market'
-      - 'gm'
-    Register: true
-    Show-In-Help: true
-    Priority: 100
+    - "trade"
+    - "tm"
+  Register: true
+  Show-In-Help: true
+  Priority: 100
 ```
 
-含义：
+这表示：
 
-- `Bindings`：命令关键字列表
+- `Commands`：直接写绑定命令列表
 - `Register`：是否注册为独立命令
-- `Show-In-Help`：是否出现在 `/ms help`
+- `Show-In-Help`：是否在帮助里显示
 - `Priority`：冲突时优先级
 
-如果你需要：
+不再需要先去 `Lang/*.yml` 里维护 `commands.routes.xxx` 再间接引用。
 
-- 自定义多行帮助
-- 自定义帮助描述键
-- 自定义子命令提示键
+## 路由级写法
 
-请继续看：
+子命令路由也支持直接写文本：
 
-- [Help、Help-Key 与 Hint-Keys](./bindings-help-and-hints)
+```yml
+Routes:
+  open:
+    Action: transaction.open
+    Bindings:
+      - "open"
+```
 
-## `shopId` 规则
+这类配置主要用于 `/trade open`、`/cart checkout` 这样的模块内路由。
 
-当前实现里，`shopId` 不再依赖 YAML 内部的 `id` 字段，而是直接取：
+## 菜单结构
+
+典型菜单文件仍然由这些字段组成：
+
+```yml
+Title:
+  - "&8Global Market &7{page}/{max-page}"
+
+layout:
+  - "#########"
+  - "#ggggggg#"
+
+icons:
+  "#":
+    material: "STAINED_GLASS_PANE"
+    name: " "
+  "g":
+    material: "AIR"
+    mode: "goods"
+```
+
+关键规则：
+
+- `layout` 每行 9 格
+- `icons` 的字符与布局字符一一对应
+- 带 `mode` 的槽位通常由模块代码动态填充
+- 不带 `mode` 的槽位由菜单系统静态渲染
+
+## 动作执行
+
+当前 `ActionExecutor` 支持：
+
+- `close`
+- `back`
+- `tell:...`
+- `sound:...`
+- `player:...`
+- `console:...`
+- `js:...`
+- `kether: ...`
+
+推荐优先使用 `kether:` 写业务动作。
+
+### 推荐写法
+
+```yml
+actions:
+  left:
+    - "kether: matrixshop system open weapon"
+```
+
+### 不推荐写法
+
+```yml
+actions:
+  left:
+    - "kether: command \"weapon\" by player"
+```
+
+后者虽然旧版可工作，但已经不是 1.8.0 推荐路径。
+
+## shopId 规则
+
+当前实现里，`shopId` 默认取自文件名，而不是依赖 YAML 内部 `id` 字段：
 
 ```text
 shops/<file-name>.yml
@@ -61,66 +130,6 @@ shops/<file-name>.yml
 - `PlayerShop/shops/default.yml` -> `default`
 - `Menu/shops/main.yml` -> `main`
 
-这条规则非常重要，因为它会影响：
+## 重载与重启
 
-- `/ms open <shop-id>`
-- `/ms open <type:id>`
-- 多商店模块的数据作用域
-
-## 菜单结构
-
-菜单文件的核心字段如下：
-
-```yaml
-Title:
-  - '&8Global Market &7{page}/{max-page}'
-
-layout:
-  - '#########'
-  - '#ggggggg#'
-
-icons:
-  '#':
-    material: 'STAINED_GLASS_PANE'
-    name: ' '
-  'g':
-    material: 'AIR'
-    mode: 'goods'
-```
-
-### 关键规则
-
-- `layout` 每行 9 格
-- `icons` 里每个字符都对应一种图标定义
-- 带 `mode:` 的格子会交给模块代码渲染动态内容
-- 没有 `mode:` 的格子会按静态图标直接渲染
-
-## 动作语法
-
-`ActionExecutor` 当前支持这些动作：
-
-- `close`
-- `back`
-- `tell:消息`
-- `sound:SOUND-VOLUME-PITCH`
-- 其他任意字符串：作为玩家命令执行
-
-例如：
-
-```yaml
-actions:
-  left:
-    - 'matrixshop open systemshop:weapon'
-    - 'sound:ui_button_click-1-1'
-```
-
-这意味着大多数按钮跳转其实都是“把一条命令当动作执行”，而不是写死在 UI 系统里。
-
-## 重载与重启的区别
-
-`/matrixshopadmin reload` 会重新加载配置和模块，但有一个边界要注意：
-
-- `/ms` 这种主入口绑定可以随重载更新
-- 独立命令注册只发生在插件启动时
-
-所以如果你改了 `Bindings.Commands.Register` 或独立命令关键字，最好完整重启服务器。
+`/matrixshopadmin reload` 可以刷新大部分配置，但对于“独立命令注册”本身，仍建议完整重启服务器后再验证。
